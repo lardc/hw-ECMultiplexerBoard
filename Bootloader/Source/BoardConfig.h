@@ -5,7 +5,6 @@
 #ifndef __BOARD_CONFIG_H
 #define __BOARD_CONFIG_H
 
-
 // Board includes
 //
 #include "ZwRCC.h"
@@ -16,12 +15,10 @@
 #include "ZwIWDG.h"
 #include "ZwNFLASH.h"
 
-
 // Definitions
 //
 // Blinking LED settings
 #define LED_BLINK_PORT		GPIOB
-#define LED_BLINK_PIN		Pin_4
-
+#define LED_BLINK_PIN		Pin_15
 
 #endif // __BOARD_CONFIG_H

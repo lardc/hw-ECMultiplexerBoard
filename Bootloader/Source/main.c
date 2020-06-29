@@ -8,12 +8,12 @@
 
 // Forward functions
 //
-void SysClk_Config();
-void IO_Config();
-void CAN_Config();
-void UART_Config();
-void Timer2_Config();
-void WatchDog_Config();
+void ConfigSysClk();
+void ConfigGPIO();
+void ConfigCAN();
+void ConfigUART();
+void ConfigTimer2();
+void ConfigWatchDog();
 
 // Functions
 //
@@ -24,12 +24,12 @@ int main()
 		WaitForFWUpload = TRUE;
 	
 	// Init peripherals
-	SysClk_Config();
-	IO_Config();
-	CAN_Config();
-	UART_Config();
-	Timer2_Config();
-	WatchDog_Config();
+	ConfigSysClk();
+	ConfigGPIO();
+	ConfigCAN();
+	ConfigUART();
+	ConfigTimer2();
+	ConfigWatchDog();
 	
 	// Init controller
 	CONTROL_Init();
@@ -42,13 +42,13 @@ int main()
 }
 //--------------------------------------------
 
-void SysClk_Config()
+void ConfigSysClk()
 {
 	RCC_PLL_HSE_Config(QUARTZ_FREQUENCY, PREDIV_4, PLL_14);
 }
 //--------------------------------------------
 
-void IO_Config()
+void ConfigGPIO()
 {
 	// Включение тактирования портов
 	RCC_GPIO_Clk_EN(PORTA);
@@ -73,7 +73,7 @@ void IO_Config()
 }
 //--------------------------------------------
 
-void CAN_Config()
+void ConfigCAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);
 	NCAN_Init(SYSCLK, CAN_BAUDRATE, FALSE);
@@ -82,14 +82,14 @@ void CAN_Config()
 }
 //--------------------------------------------
 
-void UART_Config()
+void ConfigUART()
 {
 	USART_Init(USART1, SYSCLK, USART_BAUDRATE);
 	USART_Recieve_Interupt(USART1, 0, true);
 }
 //--------------------------------------------
 
-void Timer2_Config()
+void ConfigTimer2()
 {
 	TIM_Clock_En(TIM_2);
 	TIM_Config(TIM2, SYSCLK, TIMER2_uS);
@@ -98,7 +98,7 @@ void Timer2_Config()
 }
 //--------------------------------------------
 
-void WatchDog_Config()
+void ConfigWatchDog()
 {
 	IWDG_Config();
 	IWDG_ConfigureFastUpdate();
