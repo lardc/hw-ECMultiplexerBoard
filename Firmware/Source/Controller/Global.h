@@ -10,11 +10,5 @@
 
 // Временные параметры
 #define TIME_LED_BLINK			500		// Мигание светодиодом (в мс)
-#define TIME_EXT_LED_BLINK		500		// Время загорания внешнего светодиода (в мс)
-
-// Параметры АЦП
-#define BAT_ADC1_CH				4		// Номер канала АЦП батареи
-#define ADC_REF_VOLTAGE			3300.0f	// Опорное напряжение (в мВ)
-#define ADC_RESOLUTION			4095	// Разрешение АЦП
 
 #endif //  __GLOBAL_H

@@ -9,12 +9,12 @@
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 {
-	{0, INT16U_MAX, 0},															// 0
-	{GAIN_COEFFICIENT_MIN, GAIN_COEFFICIENT_MAX, GAIN_VOLTAGE_DEF},				// 1
-	{VOLTAGE_ERROR_MIN, VOLTAGE_ERROR_MAX, VOLTAGE_ERROR_DEF},					// 2
-	{CHARGE_TIMEOUT_MIN, CHARGE_TIMEOUT_MAX, CHARGE_TIMEOUT_DEF},				// 3
-	{FAN_OPERATE_MIN, FAN_OPERATE_MAX, FAN_OPERATE_DEF},						// 4
-	{FAN_OPERATE_MIN, FAN_OPERATE_MAX, FAN_OPERATE_DEF},						// 5
+	{0, 0, 0},																	// 0
+	{0, 0, 0},																	// 1
+	{0, 0, 0},																	// 2
+	{0, 0, 0},																	// 3
+	{0, 0, 0},																	// 4
+	{0, 0, 0},																	// 5
 	{0, 0, 0},																	// 6
 	{0, 0, 0},																	// 7
 	{0, 0, 0},																	// 8
@@ -141,8 +141,8 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] =
 {
-	{BAT_VOLTAGE_MIN, BAT_VOLTAGE_MAX, BAT_VOLTAGE_DEF},						// 128
-	{0, INT16U_MAX, 0},															// 129
+	{0, 0, 0},																	// 128
+	{0, 0, 0},																	// 129
 	{0, 0, 0},																	// 130
 	{0, 0, 0},																	// 131
 	{0, 0, 0},																	// 132

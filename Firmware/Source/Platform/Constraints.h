@@ -7,6 +7,7 @@
 #include "Global.h"
 
 //Definitions
+/*
 #define BAT_VOLTAGE_MIN			400		// в В
 #define BAT_VOLTAGE_MAX			1500	// в В
 #define BAT_VOLTAGE_DEF			500		// в В
@@ -27,6 +28,7 @@
 #define FAN_OPERATE_MIN			10		// в сек
 #define FAN_OPERATE_MAX			300		// в сек
 #define FAN_OPERATE_DEF			60		// в сек
+*/
 
 // Types
 typedef struct __TableItemConstraint

@@ -12,47 +12,17 @@ void LL_ToggleBoardLED()
 }
 //-----------------------------
 
-void LL_Fan(bool State)
+void LL_LedGreen(bool State)
 {
-	GPIO_SetState(GPIO_FAN, State);
+	GPIO_SetState(GPIO_LED_EXT_GREEN, State);
 }
 //-----------------------------
 
-void LL_BatteryDischarge(bool State)
+void LL_LedRed(bool State)
 {
-	// Разряд происходит при низком уровне на пине
-	GPIO_SetState(GPIO_BAT_CHARGE, !State);
+	GPIO_SetState(GPIO_LED_EXT_RED, State);
 }
-//-----------------------------
 
-void LL_ExternalLED(bool State)
-{
-	GPIO_SetState(GPIO_LED_EXT, State);
-}
-//-----------------------------
-
-void LL_MeanWellRelay(bool State)
-{
-	GPIO_SetState(GPIO_MW_CTRL, State);
-}
-//-----------------------------
-
-void LL_PSBoardOutput(bool State)
-{
-	GPIO_SetState(GPIO_HVPS_CTRL, State);
-}
-//-----------------------------
-
-void LL_SoftSpiSRCK(bool State)
-{
-	GPIO_SetState(GPIO_SRCK, State);
-}
-//-----------------------------
-
-void LL_SoftSpiRCK(bool State)
-{
-	GPIO_SetState(GPIO_RCK, State);
-}
 //-----------------------------
 
 void LL_SoftSpiData(bool State)
@@ -61,33 +31,28 @@ void LL_SoftSpiData(bool State)
 }
 //-----------------------------
 
-void LL_WriteToGateRegister(uint16_t Data)
-{
-	for(uint8_t i = 0; i < 16; ++i)
-	{
-		LL_SoftSpiData((Data >> i) & 0x1);
-		DELAY_US(1);
-		LL_SoftSpiSRCK(TRUE);
-		DELAY_US(1);
-		LL_SoftSpiSRCK(FALSE);
-	}
-
-	LL_SoftSpiRCK(TRUE);
-	DELAY_US(1);
-	LL_SoftSpiRCK(FALSE);
-	LL_SoftSpiData(FALSE);
-}
-//-----------------------------
-
-void LL_ForceSYNC(bool State)
+void LL_SetSync1State(bool State)
 {
 	// Синхронизация происходит при низком уровне на пине
-	GPIO_SetState(GPIO_SYNC, !State);
+	GPIO_SetState(GPIO_CTRL_SYNC_1, !State);
 }
 //-----------------------------
 
-bool LL_GetSYNCState()
+void LL_SetSync2State(bool State)
 {
-	return GPIO_GetState(GPIO_SYNC);
+	// Синхронизация происходит при низком уровне на пине
+	GPIO_SetState(GPIO_CTRL_SYNC_2, !State);
+}
+//-----------------------------
+
+bool LL_GetSync1State()
+{
+	return GPIO_GetState(GPIO_SYNC_1);
+}
+//-----------------------------
+
+bool LL_GetSync2State()
+{
+	return GPIO_GetState(GPIO_SYNC_2);
 }
 //-----------------------------
