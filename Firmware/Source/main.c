@@ -14,6 +14,9 @@ int main()
 	// Настройка портов
 	INITCONFIG_IO();
 	
+	// Настройка SPI
+	INITCONFIG_SPI();
+
 	// Настройка внешних прерываний
 	INITCONFIG_InterruptEnable();
 	

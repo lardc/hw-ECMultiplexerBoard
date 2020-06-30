@@ -8,6 +8,7 @@
 Boolean INITCONFIG_SysClk();
 void INITCONFIG_InterruptEnable();
 void INITCONFIG_IO();
+void INITCONFIG_SPI();
 void INITCONFIG_CAN();
 void INITCONFIG_UART();
 void INITCONFIG_Timer7();

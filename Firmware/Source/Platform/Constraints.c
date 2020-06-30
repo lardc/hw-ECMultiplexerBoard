@@ -9,7 +9,7 @@
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 {
-	{FALSE, TRUE, FALSE},														// 0
+	{0, 1, 0},																	// 0
 	{0, 0, 0},																	// 1
 	{0, 0, 0},																	// 2
 	{0, 0, 0},																	// 3
@@ -136,19 +136,19 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 	{0, 0, 0},																	// 124
 	{0, 0, 0},																	// 125
 	{0, 0, 0},																	// 126
-	{0, 1, 1}																	// 127
+	{0, 0, 0}																	// 127
 };
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] =
 {
-	{0, INT8U_MAX, 0},																// 128
-	{0, INT8U_MAX, 0},																// 129
-	{0, INT8U_MAX, 0},																// 130
-	{0, INT8U_MAX, 0},																// 131
-	{0, INT8U_MAX, 0},																// 132
-	{0, 0, 0},																	// 133
-	{0, 0, 0},																	// 134
-	{0, 0, 0},																	// 135
+	{0, INT8U_MAX, 0},															// 128
+	{0, INT8U_MAX, 0},															// 129
+	{0, INT8U_MAX, 0},															// 130
+	{0, INT8U_MAX, 0},															// 131
+	{0, INT8U_MAX, 0},															// 132
+	{0, INT8U_MAX, 0},															// 133
+	{0, INT8U_MAX, 0},															// 134
+	{0, INT8U_MAX, 0},															// 135
 	{0, 0, 0},																	// 136
 	{0, 0, 0},																	// 137
 	{0, 0, 0},																	// 138

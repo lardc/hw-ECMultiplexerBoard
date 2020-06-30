@@ -10,6 +10,7 @@
 #include "Global.h"
 #include "LowLevel.h"
 #include "SysConfig.h"
+#include "DebugActions.h"
 
 // Types
 //
@@ -22,6 +23,8 @@ static Boolean CycleActive = false;
 
 volatile Int64U CONTROL_TimeCounter = 0;
 
+volatile Int8U RelayByte[11];
+
 // Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
@@ -31,27 +34,21 @@ void Delay_mS(uint32_t Delay);
 void CONTROL_WatchDogUpdate();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
-
+void CONTROL_UpdateRegisterByteRelay();
+void CONTROL_SetRelay(Boolean ResetPolarizedRelay);
+void CONTROL_FullSetRelay();
 // Functions
 //
 void CONTROL_Init()
 {
-	// Переменные для конфигурации EndPoint
-	Int16U EPIndexes[EP_COUNT];
-	Int16U EPSized[EP_COUNT];
-	pInt16U EPCounters[EP_COUNT];
-	pInt16U EPDatas[EP_COUNT];
-	
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
 	DT_Init(EPROMService, false);
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
-	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
 	// Сброс значений
 	DEVPROFILE_ResetControlSection();
-	
 	CONTROL_ResetToDefaultState();
 }
 //------------------------------------------
@@ -81,7 +78,6 @@ void CONTROL_ResetHardware()
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
-	
 	CONTROL_WatchDogUpdate();
 }
 //------------------------------------------
@@ -95,9 +91,13 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_ENABLE_POWER:
 			{
 				if(CONTROL_State == DS_None)
+				{
 					CONTROL_SetDeviceState(DS_Enabled);
+				}
 				else if(CONTROL_State != DS_Enabled)
+				{
 					*pUserError = ERR_DEVICE_NOT_READY;
+				}
 				break;
 			}
 
@@ -112,10 +112,55 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_DBG_LED_RED_IMPULSE:
 			{
-//				DEBAGACTIONS_ChekLedRed();
+				DEBAGACTIONS_GenerateImpulseLedRed();
 			}
 			break;
 
+		case ACT_DBG_LED_GREEN_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLedGreen();
+			}
+			break;
+
+		case ACT_DBG_SYNC_1_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineSync1();
+			}
+			break;
+
+		case ACT_DBG_SYNC_2_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineSync2();
+			}
+			break;
+
+		case ACT_DBG_LOCK_1_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineLock1();
+			}
+			break;
+
+		case ACT_DBG_LOCK_2_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineLock1();
+			}
+		case ACT_DBG_RESET_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineReset();
+			}
+			break;
+
+		case ACT_DBG_OE_IMPULSE:
+			{
+				DEBAGACTIONS_GenerateImpulseLineOE();
+			}
+			break;
+
+		case ACT_DBG_SET_RELLAY:
+			{
+				DEBAGACTIONS_SetRelay();
+			}
+			break;
 		default:
 			return false;
 
@@ -152,5 +197,46 @@ void CONTROL_WatchDogUpdate()
 {
 	if(BOOT_LOADER_VARIABLE != BOOT_LOADER_REQUEST)
 		IWDG_Refresh();
+}
+//------------------------------------------
+
+void CONTROL_UpdateRegisterByteRelay()
+{
+	Int8U i = 0;
+	Int8U ii = 0;
+	for(i = REG_DBG_RELLAY_POT_PLUS; i < REG_DBG_RELLAY_CTRLPOT + 1; ++i)
+	{
+		RelayByte[ii] = DataTable[i];
+		ii++;
+	}
+}
+//------------------------------------------
+
+void CONTROL_SetRelay(Boolean ResetPolarizedRelay)
+{
+	for(Int8U i = 0; i < 11 + 1; ++i)
+	{
+		if((ResetPolarizedRelay) && ((i == 3) || (i == 4) || (i == 5) || (i == 6)))
+		{
+			SPI_WriteByte(SPI1, 0);
+		}
+		else
+		{
+			SPI_WriteByte(SPI1, RelayByte[i]);
+		}
+	}
+}
+//------------------------------------------
+
+void CONTROL_FullSetRelay()
+{
+	CONTROL_UpdateRegisterByteRelay();
+	//Step One - config polarity relay
+	CONTROL_SetRelay(FALSE);
+
+	Delay_mS(10); // Время уточнить
+
+	//Step two - confgi other relay (polarity relay is 0, but not reset)
+	CONTROL_SetRelay(TRUE);
 }
 //------------------------------------------

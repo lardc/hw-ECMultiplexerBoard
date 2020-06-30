@@ -17,7 +17,6 @@
 #define ACT_DBG_OE_IMPULSE				17	// Одиночный импусль цепи OE
 #define ACT_DBG_SET_RELLAY				18	// Коммутация релле
 
-
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию
@@ -30,12 +29,16 @@
 #define REG_DBG_STATE					0	// Регистр режима Отладка
 
 // Несохраняемы регистры чтения-записи
-#define REG_DBG_RELLAY_POT				128	// Регистр установки реле группы POT
-#define REG_DBG_RELLAY_POW				129	// Регистр группы POW
-#define REG_DBG_RELLAY_POWHV			130	// Регистр группы POWHV
-#define REG_DBG_RELLAY_CTRL				131	// Регистр группы CTRL
-#define REG_DBG_RELLAY_CTRLPOT			132	// Регистр группы CTRLPOT
+#define REG_DBG_RELLAY_POT_PLUS				128	// Регистр установки реле группы POT
+#define REG_DBG_RELLAY_POT_MINUS			129
+#define REG_DBG_RELLAY_POT_OUT				130
 
+#define REG_DBG_RELLAY_POW_PLUS				131	// Регистр группы POW
+#define REG_DBG_RELLAY_POW_MINUS			132
+#define REG_DBG_RELLAY_POW_HV				133
+
+#define REG_DBG_RELLAY_CTRL					134	// Регистр группы CTRL
+#define REG_DBG_RELLAY_CTRLPOT				135	// Регистр группы CTRLPOT
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

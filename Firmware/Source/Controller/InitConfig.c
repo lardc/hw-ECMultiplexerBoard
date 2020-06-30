@@ -43,7 +43,12 @@ void INITCONFIG_IO()
 	GPIO_InitAltFunction(GPIO_ALT_UART_TX, AltFn_7);
 }
 //------------------------------------------------
+void INITCONFIG_SPI()
+{
+	SPI_Init(SPI1, SPI_CR1_BR, FALSE);
+}
 
+//------------------------------------------------
 void INITCONFIG_CAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);

@@ -14,6 +14,7 @@
 #include "ZwSCI.h"
 #include "ZwIWDG.h"
 #include "ZwNFLASH.h"
+#include "ZwSPI.h"
 
 // Определения для выходных портов
 GPIO_PortPinSettingMacro GPIO_LED_EXT_RED	= {GPIOA, Pin_0};

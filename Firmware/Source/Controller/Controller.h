@@ -23,4 +23,6 @@ void CONTROL_Init();
 void CONTROL_Idle();
 void Delay_mS(uint32_t Delay);
 
+void CONTROL_FullSetRelay();
+
 #endif // __CONTROLLER_H

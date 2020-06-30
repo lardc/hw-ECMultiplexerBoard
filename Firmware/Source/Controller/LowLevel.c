@@ -54,3 +54,27 @@ bool LL_GetSync2State()
 	return GPIO_GetState(GPIO_SYNC_2);
 }
 //-----------------------------
+
+void LL_SetStateLock1(bool State)
+{
+	GPIO_SetState(GPIO_LOCK_1, !State);
+}
+//-----------------------------
+
+void LL_SetStateLock2(bool State)
+{
+	GPIO_SetState(GPIO_LOCK_2, !State);
+}
+//-----------------------------
+
+void LL_SetStateReset(bool State)
+{
+	GPIO_SetState(GPIO_RESET, !State);
+}
+//-----------------------------
+
+void LL_SetStateOE(bool State)
+{
+	GPIO_SetState(GPIO_OE, !State);
+}
+//-----------------------------
