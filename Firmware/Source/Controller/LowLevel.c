@@ -33,14 +33,12 @@ void LL_SoftSpiData(bool State)
 
 void LL_SetSync1State(bool State)
 {
-	// Синхронизация происходит при низком уровне на пине
 	GPIO_SetState(GPIO_CTRL_SYNC_1, !State);
 }
 //-----------------------------
 
 void LL_SetSync2State(bool State)
 {
-	// Синхронизация происходит при низком уровне на пине
 	GPIO_SetState(GPIO_CTRL_SYNC_2, !State);
 }
 //-----------------------------

@@ -7,14 +7,12 @@
 // Functions
 //
 void LL_ToggleBoardLED();
-
-void LL_ExternalLED(bool State);
-
-void LL_SoftSpiSRCK(bool State);
-void LL_SoftSpiRCK(bool State);
+void LL_LedGreen(bool State);
+void LL_LedRed(bool State);
 void LL_SoftSpiData(bool State);
-void LL_WriteToGateRegister(uint16_t Data);
-void LL_SetSyncState(bool State);
-bool LL_GetSyncState();
+void LL_SetSync1State(bool State);
+void LL_SetSync2State(bool State);
+bool LL_GetSync1State();
+bool LL_GetSync2State();
 
 #endif //__LOWLEVEL_H
