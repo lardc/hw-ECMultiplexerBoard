@@ -21,7 +21,6 @@ volatile DeviceState CONTROL_State = DS_None;
 static Boolean CycleActive = false;
 
 volatile Int64U CONTROL_TimeCounter = 0;
-Int64U CONTROL_ChargeTimeout = 0, CONTROL_LEDTimeout = 0;
 
 // Forward functions
 //
