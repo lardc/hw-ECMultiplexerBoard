@@ -10,7 +10,6 @@
 #include "Global.h"
 #include "LowLevel.h"
 #include "SysConfig.h"
-#include "DebugActions.h"
 
 // Types
 //
@@ -30,7 +29,6 @@ void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
 void Delay_mS(uint32_t Delay);
 void CONTROL_WatchDogUpdate();
-void CONTROL_HandleLEDLogic();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
 
@@ -84,8 +82,6 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	
-	CONTROL_HandleLEDLogic();
-	
 	CONTROL_WatchDogUpdate();
 }
 //------------------------------------------
@@ -125,16 +121,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 	}
 	return true;
-}
-//-----------------------------------------------
-
-void CONTROL_HandleLEDLogic()
-{
-	if(CONTROL_LEDTimeout && (CONTROL_TimeCounter > CONTROL_LEDTimeout))
-	{
-		CONTROL_LEDTimeout = 0;
-		//	LL_ExternalLED(false);
-	}
 }
 //-----------------------------------------------
 
