@@ -10,7 +10,7 @@ typedef enum __DeviceState
 	DS_None = 0,
 	DS_Fault = 1,
 	DS_Disabled = 2,
-	DS_Ready = 3,
+	DS_Enabled = 3,
 	DS_InProcess = 4
 } DeviceState;
 
@@ -21,5 +21,6 @@ extern Int64U CONTROL_LEDTimeout;
 // Functions
 void CONTROL_Init();
 void CONTROL_Idle();
+void Delay_mS(uint32_t Delay);
 
 #endif // __CONTROLLER_H

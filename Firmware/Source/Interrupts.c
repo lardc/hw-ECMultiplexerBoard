@@ -11,18 +11,6 @@
 
 // Functions
 //
-void EXTI3_IRQnHandler()
-{
-	DataTable[REG_OP_RESULT] = OPRESULT_OK;
-
-	CONTROL_HandleFanLogic(true);
-
-	LL_ExternalLED(true);
-//	CONTROL_LEDTimeout = CONTROL_TimeCounter + TIME_EXT_LED_BLINK;
-
-	EXTI_FlagReset(EXTI_3);
-}
-//-----------------------------------------
 
 void USART1_IRQHandler()
 {
@@ -50,8 +38,6 @@ void TIM7_IRQHandler()
 
 	if(TIM_StatusCheck(TIM7))
 	{
-		CONTROL_HandleFanLogic(false);
-
 		CONTROL_TimeCounter++;
 		if(++LED_BlinkTimeCounter > TIME_LED_BLINK)
 		{

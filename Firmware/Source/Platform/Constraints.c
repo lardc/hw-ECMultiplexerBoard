@@ -9,7 +9,7 @@
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 {
-	{0, 0, 0},																	// 0
+	{FALSE, TRUE, FALSE},														// 0
 	{0, 0, 0},																	// 1
 	{0, 0, 0},																	// 2
 	{0, 0, 0},																	// 3
@@ -141,11 +141,11 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] =
 
 const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START] =
 {
-	{0, 0, 0},																	// 128
-	{0, 0, 0},																	// 129
-	{0, 0, 0},																	// 130
-	{0, 0, 0},																	// 131
-	{0, 0, 0},																	// 132
+	{0, INT8U_MAX, 0},																// 128
+	{0, INT8U_MAX, 0},																// 129
+	{0, INT8U_MAX, 0},																// 130
+	{0, INT8U_MAX, 0},																// 131
+	{0, INT8U_MAX, 0},																// 132
 	{0, 0, 0},																	// 133
 	{0, 0, 0},																	// 134
 	{0, 0, 0},																	// 135

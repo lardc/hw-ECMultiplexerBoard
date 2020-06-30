@@ -7,6 +7,17 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
+#define ACT_DBG_LED_RED_IMPULSE			10	// Одиночный импусль цепи красного индикатора
+#define ACT_DBG_LED_GREEN_IMPULSE		11	// Одиночный импусль цепи зелёного индикатора
+#define ACT_DBG_SYNC_1_IMPULSE			12	// Одиночный импусль цепи SYNC_1
+#define ACT_DBG_SYNC_2_IMPULSE			13	// Одиночный импусль цепи SYNC_2
+#define ACT_DBG_LOCK_1_IMPULSE			14	// Одиночный импусль цепи LOCK1
+#define ACT_DBG_LOCK_2_IMPULSE			15	// Одиночный импусль цепи LOCK2
+#define ACT_DBG_RESET_IMPULSE			16	// Одиночный импусль цепи RESET
+#define ACT_DBG_OE_IMPULSE				17	// Одиночный импусль цепи OE
+#define ACT_DBG_SET_RELLAY				18	// Коммутация релле
+
+
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию
@@ -16,9 +27,15 @@
 
 // Регистры
 // Сохраняемые регистры
-
+#define REG_DBG_STATE					0	// Регистр режима Отладка
 
 // Несохраняемы регистры чтения-записи
+#define REG_DBG_RELLAY_POT				128	// Регистр установки реле группы POT
+#define REG_DBG_RELLAY_POW				129	// Регистр группы POW
+#define REG_DBG_RELLAY_POWHV			130	// Регистр группы POWHV
+#define REG_DBG_RELLAY_CTRL				131	// Регистр группы CTRL
+#define REG_DBG_RELLAY_CTRLPOT			132	// Регистр группы CTRLPOT
+
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния
