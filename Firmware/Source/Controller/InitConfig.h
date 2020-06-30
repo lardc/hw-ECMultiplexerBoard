@@ -5,12 +5,12 @@
 
 //Functions
 //
-Boolean SysClk_Config();
-void EI_Config();
-void IO_Config();
-void CAN_Config();
-void UART_Config();
-void Timer7_Config();
-void WatchDog_Config();
+Boolean INITCONFIG_SysClk();
+void INITCONFIG_InterruptEnable();
+void INITCONFIG_IO();
+void INITCONFIG_CAN();
+void INITCONFIG_UART();
+void INITCONFIG_Timer7();
+void INITCONFIG_WatchDog();
 
 #endif //__INITCONFIG_H

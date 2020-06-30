@@ -36,7 +36,7 @@ GPIO_PortPinSettingMacro GPIO_ALT_CAN_TX	= {GPIOA, Pin_12};
 GPIO_PortPinSettingMacro GPIO_ALT_UART_RX	= {GPIOA, Pin_10};
 GPIO_PortPinSettingMacro GPIO_ALT_UART_TX	= {GPIOA, Pin_9};
 
-// Линия синхронизации
+// Ввходы
 GPIO_PortPinSettingMacro GPIO_SYNC_1		= {GPIOB, Pin_4};
 GPIO_PortPinSettingMacro GPIO_SYNC_2		= {GPIOB, Pin_5};
 GPIO_PortPinSettingMacro GPIO_SFTY_1		= {GPIOB, Pin_6};

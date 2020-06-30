@@ -4,20 +4,20 @@
 
 // Functions
 //
-Boolean SysClk_Config()
+Boolean INITCONFIG_SysClk()
 {
 	return RCC_PLL_HSE_Config(QUARTZ_FREQUENCY, PREDIV_4, PLL_14);
 }
 //------------------------------------------------
 
-void EI_Config()
+void INITCONFIG_InterruptEnable()
 {
 	EXTI_Config(EXTI_PA, EXTI_8, RISE_TRIG, 0);
 	EXTI_EnableInterrupt(EXTI3_IRQn, 0, true);
 }
 //------------------------------------------------
 
-void IO_Config()
+void INITCONFIG_IO()
 {
 	// Включение тактирования портов
 	RCC_GPIO_Clk_EN(PORTA);
@@ -44,7 +44,7 @@ void IO_Config()
 }
 //------------------------------------------------
 
-void CAN_Config()
+void INITCONFIG_CAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);
 	NCAN_Init(SYSCLK, CAN_BAUDRATE, FALSE);
@@ -53,14 +53,14 @@ void CAN_Config()
 }
 //------------------------------------------------
 
-void UART_Config()
+void INITCONFIG_UART()
 {
 	USART_Init(USART1, SYSCLK, USART_BAUDRATE);
 	USART_Recieve_Interupt(USART1, 0, true);
 }
 //------------------------------------------------
 
-void Timer7_Config()
+void INITCONFIG_Timer7()
 {
 	TIM_Clock_En(TIM_7);
 	TIM_Config(TIM7, SYSCLK, TIMER7_uS);
@@ -69,7 +69,7 @@ void Timer7_Config()
 }
 //------------------------------------------------
 
-void WatchDog_Config()
+void INITCONFIG_WatchDog()
 {
 	IWDG_Config();
 	IWDG_ConfigureFastUpdate();
