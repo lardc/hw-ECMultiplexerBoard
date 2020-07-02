@@ -112,53 +112,53 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_DBG_LED_RED_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLedRed();
+				DBGACT_GenerateImpulseLedRed();
 			}
 			break;
 
 		case ACT_DBG_LED_GREEN_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLedGreen();
+				DBGACT_GenerateImpulseLedGreen();
 			}
 			break;
 
 		case ACT_DBG_SYNC_1_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineSync1();
+				DBGACT_GenerateImpulseLineSync1();
 			}
 			break;
 
 		case ACT_DBG_SYNC_2_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineSync2();
+				DBGACT_GenerateImpulseLineSync2();
 			}
 			break;
 
 		case ACT_DBG_LOCK_1_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineLock1();
+				DBGACT_GenerateImpulseLineLock1();
 			}
 			break;
 
 		case ACT_DBG_LOCK_2_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineLock1();
+				DBGACT_GenerateImpulseLineLock1();
 			}
 		case ACT_DBG_RESET_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineReset();
+				DBGACT_GenerateImpulseLineReset();
 			}
 			break;
 
 		case ACT_DBG_OE_IMPULSE:
 			{
-				DEBAGACTIONS_GenerateImpulseLineOE();
+				DBGACT_GenerateImpulseLineOE();
 			}
 			break;
 
 		case ACT_DBG_SET_RELLAY:
 			{
-				DEBAGACTIONS_SetRelay();
+				DBGACT_SetRelay();
 			}
 			break;
 		default:

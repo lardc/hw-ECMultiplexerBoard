@@ -10,7 +10,7 @@
 
 // Functions
 //
-void DEBAGACTIONS_GenerateImpulseLedRed()
+void DBGACT_GenerateImpulseLedRed()
 {
 	LL_LedRed(TRUE);
 	Control_DelayMs(10);
@@ -18,7 +18,7 @@ void DEBAGACTIONS_GenerateImpulseLedRed()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLedGreen()
+void DBGACT_GenerateImpulseLedGreen()
 {
 	LL_LedGreen(TRUE);
 	Control_DelayMs(10);
@@ -26,7 +26,7 @@ void DEBAGACTIONS_GenerateImpulseLedGreen()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineSync1()
+void DBGACT_GenerateImpulseLineSync1()
 {
 	LL_SetSync1State(TRUE);
 	Control_DelayMs(10);
@@ -34,7 +34,7 @@ void DEBAGACTIONS_GenerateImpulseLineSync1()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineSync2()
+void DBGACT_GenerateImpulseLineSync2()
 {
 	LL_SetSync2State(TRUE);
 	Control_DelayMs(10);
@@ -42,7 +42,7 @@ void DEBAGACTIONS_GenerateImpulseLineSync2()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineLock1()
+void DBGACT_GenerateImpulseLineLock1()
 {
 	LL_SetStateLock1(TRUE);
 	Control_DelayMs(10);
@@ -58,7 +58,7 @@ void DEBAGACTIONS_GenerateImpulseLineLock2()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineReset()
+void DBGACT_GenerateImpulseLineReset()
 {
 	LL_SetStateReset(TRUE);
 	Control_DelayMs(10);
@@ -66,7 +66,7 @@ void DEBAGACTIONS_GenerateImpulseLineReset()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineOE()
+void DBGACT_GenerateImpulseLineOE()
 {
 	LL_SetStateOE(TRUE);
 	Control_DelayMs(10);
@@ -74,7 +74,7 @@ void DEBAGACTIONS_GenerateImpulseLineOE()
 }
 //-----------------------------
 
-void DEBAGACTIONS_SetRelay()
+void DBGACT_SetRelay()
 {
 	CONTROL_FullSetRelay();
 }

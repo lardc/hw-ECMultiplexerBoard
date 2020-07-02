@@ -1,13 +1,13 @@
 #ifndef __DEBUGACTIONS_H
 #define __DEBUGACTIONS_H
 
-void DEBAGACTIONS_GenerateImpulseLedRed();
-void DEBAGACTIONS_GenerateImpulseLedGreen();
-void DEBAGACTIONS_GenerateImpulseLineSync1();
-void DEBAGACTIONS_GenerateImpulseLineSync2();
-void DEBAGACTIONS_GenerateImpulseLineLock1();
+void DBGACT_GenerateImpulseLedRed();
+void DBGACT_GenerateImpulseLedGreen();
+void DBGACT_GenerateImpulseLineSync1();
+void DBGACT_GenerateImpulseLineSync2();
+void DBGACT_GenerateImpulseLineLock1();
 void DEBAGACTIONS_GenerateImpulseLineLock2();
-void DEBAGACTIONS_GenerateImpulseLineReset();
-void DEBAGACTIONS_GenerateImpulseLineOE();
-void DEBAGACTIONS_SetRelay();
+void DBGACT_GenerateImpulseLineReset();
+void DBGACT_GenerateImpulseLineOE();
+void DBGACT_SetRelay();
 #endif //__DEBUGACTIONS_H
