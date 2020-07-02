@@ -29,16 +29,16 @@
 #define REG_DBG_STATE					0	// Регистр режима Отладка
 
 // Несохраняемы регистры чтения-записи
-#define REG_DBG_RELLAY_POT_PLUS				128	// Регистр установки реле группы POT
-#define REG_DBG_RELLAY_POT_MINUS			129
-#define REG_DBG_RELLAY_POT_OUT				130
+#define REG_DBG_RELLAY_POT_PLUS			128	// Регистр установки реле группы POT
+#define REG_DBG_RELLAY_POT_MINUS		129
+#define REG_DBG_RELLAY_POT_OUT			130
 
-#define REG_DBG_RELLAY_POW_PLUS				131	// Регистр группы POW
-#define REG_DBG_RELLAY_POW_MINUS			132
-#define REG_DBG_RELLAY_POW_HV				133
+#define REG_DBG_RELLAY_POW_PLUS			131	// Регистр группы POW
+#define REG_DBG_RELLAY_POW_MINUS		132
+#define REG_DBG_RELLAY_POW_HV			133
 
-#define REG_DBG_RELLAY_CTRL					134	// Регистр группы CTRL
-#define REG_DBG_RELLAY_CTRLPOT				135	// Регистр группы CTRLPOT
+#define REG_DBG_RELLAY_CTRL				134	// Регистр группы CTRL
+#define REG_DBG_RELLAY_CTRLPOT			135	// Регистр группы CTRLPOT
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния
@@ -58,7 +58,6 @@
 
 //  Fault and disable codes
 #define DF_NONE							0
-//#define DF_BATTERY						1	// Проблема заряда батареи
 
 // Problem
 #define PROBLEM_NONE					0
