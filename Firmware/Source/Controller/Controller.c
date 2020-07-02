@@ -31,7 +31,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
 void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
-void CONTROL_WatchDogUpdate();
+void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
 void CONTROL_UpdateRegisterByteRelay();
@@ -78,7 +78,7 @@ void CONTROL_ResetHardware()
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
-	CONTROL_WatchDogUpdate();
+	CONTROL_UpdateWatchDog();
 }
 //------------------------------------------
 
@@ -189,11 +189,11 @@ void CONTROL_DelayMs(uint32_t Delay)
 {
 	uint64_t Counter = (uint64_t)CONTROL_TimeCounter + Delay;
 	while(Counter > CONTROL_TimeCounter)
-		CONTROL_WatchDogUpdate();
+		CONTROL_UpdateWatchDog();
 }
 //------------------------------------------
 
-void CONTROL_WatchDogUpdate()
+void CONTROL_UpdateWatchDog()
 {
 	if(BOOT_LOADER_VARIABLE != BOOT_LOADER_REQUEST)
 		IWDG_Refresh();
