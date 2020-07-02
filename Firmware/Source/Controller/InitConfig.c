@@ -74,7 +74,7 @@ void INITCFG_ÑonfigTimer7()
 }
 //------------------------------------------------
 
-void INITCONFIG_WatchDog()
+void INITCFG_ConfigWatchDog()
 {
 	IWDG_Config();
 	IWDG_ConfigureFastUpdate();

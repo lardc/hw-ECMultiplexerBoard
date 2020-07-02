@@ -30,7 +30,7 @@ int main()
 	INITCFG_СonfigTimer7();
 	
 	// Настройка сторожевого таймера
-	INITCONFIG_WatchDog();
+	INITCFG_ConfigWatchDog();
 	
 	// Инициализация логики контроллера
 	CONTROL_Init();
