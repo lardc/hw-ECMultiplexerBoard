@@ -10,7 +10,7 @@ Boolean INITCFG_ConfigSystemClock()
 }
 //------------------------------------------------
 
-void INITCONFIG_InterruptEnable()
+void INITCFG_ConfigInterrupt()
 {
 	EXTI_Config(EXTI_PA, EXTI_8, RISE_TRIG, 0);
 	EXTI_EnableInterrupt(EXTI3_IRQn, 0, true);
