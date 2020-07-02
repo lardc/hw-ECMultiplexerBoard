@@ -49,7 +49,7 @@ void INITCFG_ConfigSPI()
 }
 
 //------------------------------------------------
-void INITCONFIG_CAN()
+void INITCFG_ConfigCAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);
 	NCAN_Init(SYSCLK, CAN_BAUDRATE, FALSE);

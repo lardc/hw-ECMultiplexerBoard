@@ -21,7 +21,7 @@ int main()
 	INITCFG_ConfigInterrupt();
 	
 	// Настройка CAN
-	INITCONFIG_CAN();
+	INITCFG_ConfigCAN();
 	
 	// Настройка UART
 	INITCONFIG_UART();
