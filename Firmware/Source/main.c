@@ -24,7 +24,7 @@ int main()
 	INITCFG_ConfigCAN();
 	
 	// Настройка UART
-	INITCONFIG_UART();
+	INITCFG_ConfigUART();
 	
 	// Настройка системного счетчика
 	INITCONFIG_Timer7();

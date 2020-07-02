@@ -10,7 +10,7 @@ void INITCFG_ConfigInterrupt();
 void INITCFG_ConfigIO();
 void INITCFG_ConfigSPI();
 void INITCFG_ConfigCAN();
-void INITCONFIG_UART();
+void INITCFG_ConfigUART();
 void INITCONFIG_Timer7();
 void INITCONFIG_WatchDog();
 

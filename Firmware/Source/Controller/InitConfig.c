@@ -58,7 +58,7 @@ void INITCFG_ConfigCAN()
 }
 //------------------------------------------------
 
-void INITCONFIG_UART()
+void INITCFG_ConfigUART()
 {
 	USART_Init(USART1, SYSCLK, USART_BAUDRATE);
 	USART_Recieve_Interupt(USART1, 0, true);
