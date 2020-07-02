@@ -9,7 +9,7 @@ int main()
 	__enable_irq();
 	
 	// Настройка системной частоты тактирования
-	INITCONFIG_SysClk();
+	INITCFG_ConfigSystemClock();
 	
 	// Настройка портов
 	INITCONFIG_IO();

@@ -4,7 +4,7 @@
 
 // Functions
 //
-Boolean INITCONFIG_SysClk()
+Boolean INITCFG_ConfigSystemClock()
 {
 	return RCC_PLL_HSE_Config(QUARTZ_FREQUENCY, PREDIV_4, PLL_14);
 }

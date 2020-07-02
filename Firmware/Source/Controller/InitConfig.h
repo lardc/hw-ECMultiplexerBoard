@@ -5,7 +5,7 @@
 
 //Functions
 //
-Boolean INITCONFIG_SysClk();
+Boolean INITCFG_ConfigSystemClock();
 void INITCONFIG_InterruptEnable();
 void INITCONFIG_IO();
 void INITCONFIG_SPI();
