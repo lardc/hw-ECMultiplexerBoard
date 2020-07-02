@@ -50,7 +50,7 @@ void DBGACT_GenerateImpulseLineLock1()
 }
 //-----------------------------
 
-void DEBAGACTIONS_GenerateImpulseLineLock2()
+void DBGACT_GenerateImpulseLineLock2()
 {
 	LL_SetStateLock2(TRUE);
 	CONTROL_DelayMs(10);

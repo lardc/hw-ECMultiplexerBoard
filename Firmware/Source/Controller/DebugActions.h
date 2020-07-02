@@ -6,7 +6,7 @@ void DBGACT_GenerateImpulseLedGreen();
 void DBGACT_GenerateImpulseLineSync1();
 void DBGACT_GenerateImpulseLineSync2();
 void DBGACT_GenerateImpulseLineLock1();
-void DEBAGACTIONS_GenerateImpulseLineLock2();
+void DBGACT_GenerateImpulseLineLock2();
 void DBGACT_GenerateImpulseLineReset();
 void DBGACT_GenerateImpulseLineOE();
 void DBGACT_SetRelay();
