@@ -142,7 +142,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_DBG_LOCK_2_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineLock1();
+				DBGACT_GenerateImpulseLineLock2();
 			}
 		case ACT_DBG_RESET_IMPULSE:
 			{
