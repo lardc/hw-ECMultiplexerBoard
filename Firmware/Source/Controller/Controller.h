@@ -21,7 +21,7 @@ extern Int64U CONTROL_LEDTimeout;
 // Functions
 void CONTROL_Init();
 void CONTROL_Idle();
-void Delay_mS(uint32_t Delay);
+void Control_DelayMs(uint32_t Delay);
 
 void CONTROL_FullSetRelay();
 

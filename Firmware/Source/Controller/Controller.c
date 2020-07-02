@@ -30,7 +30,7 @@ volatile Int8U RelayByte[11];
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
 void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
-void Delay_mS(uint32_t Delay);
+void Control_DelayMs(uint32_t Delay);
 void CONTROL_WatchDogUpdate();
 void CONTROL_ResetToDefaultState();
 void CONTROL_ResetHardware();
@@ -185,7 +185,7 @@ void CONTROL_SetDeviceState(DeviceState NewState)
 }
 //------------------------------------------
 
-void Delay_mS(uint32_t Delay)
+void Control_DelayMs(uint32_t Delay)
 {
 	uint64_t Counter = (uint64_t)CONTROL_TimeCounter + Delay;
 	while(Counter > CONTROL_TimeCounter)
@@ -234,7 +234,7 @@ void CONTROL_FullSetRelay()
 	//Step One - config polarity relay
 	CONTROL_SetRelay(FALSE);
 
-	Delay_mS(10); // Время уточнить
+	Control_DelayMs(10); // Время уточнить
 
 	//Step two - confgi other relay (polarity relay is 0, but not reset)
 	CONTROL_SetRelay(TRUE);
