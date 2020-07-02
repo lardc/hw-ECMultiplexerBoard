@@ -33,7 +33,7 @@
 #define REG_DBG_RELLAY_POT_MINUS		129
 #define REG_DBG_RELLAY_POT_OUT			130
 
-#define REG_DBG_RELLAY_POW_PLUS			131	// Регистр группы POW
+#define REG_DBG_RELLAY_POW_PLUS				131	// Регистр группы POW
 #define REG_DBG_RELLAY_POW_MINUS		132
 #define REG_DBG_RELLAY_POW_HV			133
 
