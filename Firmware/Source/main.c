@@ -12,7 +12,7 @@ int main()
 	INITCFG_ConfigSystemClock();
 	
 	// Настройка портов
-	INITCONFIG_IO();
+	INITCFG_ConfigIO();
 	
 	// Настройка SPI
 	INITCONFIG_SPI();

@@ -17,7 +17,7 @@ void INITCONFIG_InterruptEnable()
 }
 //------------------------------------------------
 
-void INITCONFIG_IO()
+void INITCFG_ConfigIO()
 {
 	// Включение тактирования портов
 	RCC_GPIO_Clk_EN(PORTA);

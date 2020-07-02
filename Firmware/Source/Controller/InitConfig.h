@@ -7,7 +7,7 @@
 //
 Boolean INITCFG_ConfigSystemClock();
 void INITCONFIG_InterruptEnable();
-void INITCONFIG_IO();
+void INITCFG_ConfigIO();
 void INITCONFIG_SPI();
 void INITCONFIG_CAN();
 void INITCONFIG_UART();
