@@ -2,12 +2,59 @@
 #include "Commutation.h"
 
 #include "CommutationTable.h"
+#include "Global.h"
+#include "DataTable.h"
 
 static Int8U COMM_NewOutputValues[SUM_OF_ALL_BYTE_REGISTERS];
 static Int8U COMM_CurrentOutputValues[SUM_OF_ALL_BYTE_REGISTERS];
 static Int8U COMM_TransferOutputValues[SUM_OF_ALL_BYTE_REGISTERS];
 
 // Function
+void COMM_ConnectGroup(Int8U Group)
+{
+	switch (Group)
+	{
+		case COMM_CONNECT_GROUP_1:
+			{
+				COMM_DisconnectAllRelay();
+				COMM_OutputValuesCompose(BUSLV_MINUS_TO_POW_2_CON, TRUE);
+				COMM_OutputValuesCompose(BUSLV_PLUS_TO_POW_1_CON, TRUE);
+
+				COMM_OutputValuesCompose(POT_CTRL_PLUS_TO_C1P, TRUE);
+				COMM_OutputValuesCompose(POT_CTRL_MINUS_TO_C2P, TRUE);
+
+				COMM_OutputValuesCompose(CTRL_1_TO_CTRL1, TRUE);
+				COMM_OutputValuesCompose(CTRL_2_TO_CTRL2, TRUE);
+
+				COMM_OutputValuesCompose(POT_PLUS_TO_OUTRELAY1, TRUE);
+				COMM_OutputValuesCompose(POT_MINUS_TO_OUTRELAY2, TRUE);
+
+				COMM_OutputValuesCompose(OUTRELAY1_TO_POT_1, TRUE);
+				COMM_OutputValuesCompose(OUTRELAY2_TO_POT_2, TRUE);
+
+				COMM_SetRelayInMode(COMM_NORMAL_MODE);
+			}
+			break;
+		case COMM_CONNECT_GROUP_2:
+			{
+				COMM_DisconnectAllRelay();
+				COMM_OutputValuesCompose(BUSHV_PLUS_TO_HVPOW_1, TRUE);
+				COMM_OutputValuesCompose(BUSHV_MINUS_TO_HVPOW_2, TRUE);
+				COMM_SetRelayInMode(COMM_NORMAL_MODE);
+			}
+			break;
+
+		default:
+			break;
+	}
+}
+void COMM_TransferDataRawToNewOutputValues()
+{
+	for(Int8U i = REG_RAW_RELAY_BUS_MINUS_CO; i < REG_RAW_RELAY_OUTRELAY; i++)
+	{
+		COMM_NewOutputValues[i - REG_RAW_RELAY_BUS_MINUS_CO] = DataTable[i];
+	}
+}
 void COMM_OutputValuesCompose(Int8U TableID, Boolean State)
 {
 	if(State)
@@ -48,6 +95,14 @@ void COMM_DisableBipolarRelay()
 	COMM_TransferOutputValues[TAB_BIPOLAR_RELAY_BUS_MINUS_DISCONNECT] = 0;
 }
 
+void COMM_TernOffBipolarRelay()
+{
+	COMM_TransferOutputValues[TAB_BIPOLAR_RELAY_BUS_PLUS_CONNECT] = 0xFF;
+	COMM_TransferOutputValues[TAB_BIPOLAR_RELAY_BUS_PLUS_DISCONNECT] = 0xFF;
+	COMM_TransferOutputValues[TAB_BIPOLAR_RELAY_BUS_MINUS_CONNECT] = 0xFF;
+	COMM_TransferOutputValues[TAB_BIPOLAR_RELAY_BUS_MINUS_DISCONNECT] = 0xFF;
+}
+
 // ----------------------------------------
 void COMM_SendStateToRelay(Boolean IsNormalRelay)
 {
@@ -82,7 +137,7 @@ Int8U COMM_FaindChangeRelay(Int16U Table)
 }
 // ----------------------------------------
 
-void COMM_CorrectBipolarRelay(Int8U ConnectTable,Int8U DisconnectTable)
+void COMM_CorrectBipolarRelay(Int8U ConnectTable, Int8U DisconnectTable)
 {
 	Int16U MaskChangeRelayState = COMM_FaindChangeRelay(ConnectTable);
 	for(Int8U i = 0; i < 8; i++)
@@ -115,9 +170,9 @@ Boolean COMM_ChekNeedChangeStateRelay()
 }
 // ----------------------------------------
 
-void COMM_SetRelay(Boolean Force)
+void COMM_SetRelayInMode(Boolean Mode)
 {
-	if(COMM_ChekNeedChangeStateRelay() || Force)
+	if(COMM_ChekNeedChangeStateRelay() || Mode)
 	{
 		COMM_SendStateToRelay(TYPE_RELAY_BISTABLE); // Atention! Bistable relay need disable(!) after use (connect or disconnect).
 		COMM_SendStateToRelay(TYPE_RELAY_NORMAL);
@@ -132,9 +187,10 @@ void COMM_RegisterReset()
 }
 // ----------------------------------------
 
-void COMM_CommutateNone()
+void COMM_DisconnectAllRelay()
 {
 	COMM_RegisterReset();
-	COMM_SetRelay(TRUE);
+	COMM_TernOffBipolarRelay();
+	COMM_SetRelayInMode(COMM_FORCE_MODE);
 }
 // ----------------------------------------

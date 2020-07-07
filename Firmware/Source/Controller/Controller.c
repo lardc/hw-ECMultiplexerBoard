@@ -4,13 +4,14 @@
 // Includes
 #include "Board.h"
 #include "Delay.h"
-#include "DataTable.h"
 #include "DeviceProfile.h"
 #include "Interrupts.h"
 #include "Global.h"
 #include "LowLevel.h"
 #include "SysConfig.h"
 #include "DebugActions.h"
+#include "CommutationTable.h"
+#include "Commutation.h"
 
 // Types
 //
@@ -156,11 +157,36 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 
-		case ACT_DBG_SET_RELLAY:
+		case ACT_SET_RELAY:
 			{
-				DBGACT_SetRelay();
+				COMM_SetRelayInMode(COMM_NORMAL_MODE);
 			}
 			break;
+
+		case ACT_SET_RELAY_NONE:
+			{
+				COMM_DisconnectAllRelay();
+			}
+			break;
+
+		case ACT_SET_RELAY_GROUP_1:
+			{
+				COMM_ConnectGroup(COMM_CONNECT_GROUP_1);
+			}
+			break;
+
+		case ACT_SET_RELAY_GROUP_2:
+			{
+				COMM_ConnectGroup(COMM_CONNECT_GROUP_2);
+			}
+			break;
+
+		case ACT_SET_RELAY_RAW:
+			{
+				COMM_TransferDataRawToNewOutputValues();
+			}
+			break;
+
 		default:
 			return false;
 
@@ -200,43 +226,3 @@ void CONTROL_UpdateWatchDog()
 }
 //------------------------------------------
 
-void CONTROL_UpdateRegisterByteRelay()
-{
-	Int8U i = 0;
-	Int8U ii = 0;
-	for(i = REG_DBG_RELLAY_POT_PLUS; i < REG_DBG_RELLAY_CTRLPOT + 1; ++i)
-	{
-		RelayByte[ii] = DataTable[i];
-		ii++;
-	}
-}
-//------------------------------------------
-
-void CONTROL_SetRelay(Boolean ResetPolarizedRelay)
-{
-	for(Int8U i = 0; i < 11 + 1; ++i)
-	{
-		if((ResetPolarizedRelay) && ((i == 3) || (i == 4) || (i == 5) || (i == 6)))
-		{
-			SPI_WriteByte(SPI1, 0);
-		}
-		else
-		{
-			SPI_WriteByte(SPI1, RelayByte[i]);
-		}
-	}
-}
-//------------------------------------------
-
-void CONTROL_FullSetRelay()
-{
-	CONTROL_UpdateRegisterByteRelay();
-	//Step One - config polarity relay
-	CONTROL_SetRelay(FALSE);
-
-	CONTROL_DelayMs(10); // Время уточнить
-
-	//Step two - confgi other relay (polarity relay is 0, but not reset)
-	CONTROL_SetRelay(TRUE);
-}
-//------------------------------------------

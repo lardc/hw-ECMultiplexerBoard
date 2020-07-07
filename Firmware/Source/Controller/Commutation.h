@@ -14,10 +14,13 @@
 
 void COMM_OutputValuesCompose(Int8U TableID, Boolean State);
 void COMM_RegisterReset();
-void COMM_CommutateNone();
+void COMM_DisconnectAllRelay();
+void COMM_SetRelayInMode(Boolean Mode);
 void COMM_OutputValuesReset();
-void COMM_CorrectBipolarRelay(Int8U ConnectTable,Int8U DisconnectTable);
+void COMM_CorrectBipolarRelay(Int8U ConnectTable, Int8U DisconnectTable);
 void COMM_SendStateToRelay(Boolean TypeRelay);
 void COMM_PrepareDataForBistableRelay();
+void COMM_ConnectGroup(Int8U Group);
+void COMM_TransferDataRawToNewOutputValues();
 
 #endif // __COMMUTATOR_H

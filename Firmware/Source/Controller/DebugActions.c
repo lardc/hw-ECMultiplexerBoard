@@ -74,9 +74,3 @@ void DBGACT_GenerateImpulseLineOE()
 }
 //-----------------------------
 
-void DBGACT_SetRelay()
-{
-	CONTROL_FullSetRelay();
-}
-//-----------------------------
-

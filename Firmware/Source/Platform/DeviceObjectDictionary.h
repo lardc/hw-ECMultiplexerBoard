@@ -7,15 +7,21 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_DBG_LED_RED_IMPULSE			10	// Одиночный импусль цепи красного индикатора
-#define ACT_DBG_LED_GREEN_IMPULSE		11	// Одиночный импусль цепи зелёного индикатора
-#define ACT_DBG_SYNC_1_IMPULSE			12	// Одиночный импусль цепи SYNC_1
-#define ACT_DBG_SYNC_2_IMPULSE			13	// Одиночный импусль цепи SYNC_2
-#define ACT_DBG_LOCK_1_IMPULSE			14	// Одиночный импусль цепи LOCK1
-#define ACT_DBG_LOCK_2_IMPULSE			15	// Одиночный импусль цепи LOCK2
-#define ACT_DBG_RESET_IMPULSE			16	// Одиночный импусль цепи RESET
-#define ACT_DBG_OE_IMPULSE				17	// Одиночный импусль цепи OE
-#define ACT_DBG_SET_RELLAY				18	// Коммутация релле
+#define ACT_SET_RELAY					10	// Коммутация релле
+#define ACT_SET_RELAY_NONE				20 	// Отключить все релле
+#define ACT_SET_RELAY_GROUP_1			21 	// Подключить релле группы 1
+#define ACT_SET_RELAY_GROUP_2			22 	// Подключить релле группы 2
+
+#define ACT_SET_RELAY_RAW				30 	// Подкючить реле в вручную (REG_RAW)
+
+#define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
+#define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
+#define ACT_DBG_SYNC_1_IMPULSE			52	// Одиночный импусль цепи SYNC_1
+#define ACT_DBG_SYNC_2_IMPULSE			53	// Одиночный импусль цепи SYNC_2
+#define ACT_DBG_LOCK_1_IMPULSE			54	// Одиночный импусль цепи LOCK1
+#define ACT_DBG_LOCK_2_IMPULSE			55	// Одиночный импусль цепи LOCK2
+#define ACT_DBG_RESET_IMPULSE			56	// Одиночный импусль цепи RESET
+#define ACT_DBG_OE_IMPULSE				57	// Одиночный импусль цепи OE
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -26,19 +32,20 @@
 
 // Регистры
 // Сохраняемые регистры
-#define REG_DBG_STATE					0	// Регистр режима Отладка
 
 // Несохраняемы регистры чтения-записи
-#define REG_DBG_RELLAY_POT_PLUS			128	// Регистр установки реле группы POT
-#define REG_DBG_RELLAY_POT_MINUS		129
-#define REG_DBG_RELLAY_POT_OUT			130
-
-#define REG_DBG_RELLAY_POW_PLUS			131	// Регистр группы POW
-#define REG_DBG_RELLAY_POW_MINUS		132
-#define REG_DBG_RELLAY_POW_HV			133
-
-#define REG_DBG_RELLAY_CTRL				134	// Регистр группы CTRL
-#define REG_DBG_RELLAY_CTRLPOT			135	// Регистр группы CTRLPOT
+#define REG_DBG_STATE					128	// Регистр режима Отладки
+#define REG_RAW_RELAY_BUS_MINUS_CO		130	// Регистр установки реле группы BUSLV- (Connect)
+#define REG_RAW_RELAY_BUS_MINUS_DISCO	131	// Регистр установки реле группы BUSLV- (Disconnect)
+#define REG_RAW_RELAY_BUS_PLUS_CO		132	// Регистр установки реле группы BUSLV+ (Connect)
+#define REG_RAW_RELAY_BUS_PLUS_DISCO	133	// Регистр установки реле группы BUSLV+ (Disconnect)
+#define REG_RAW_RELAY_POT_CTRL			134	// Регистр установки реле группы POT CTR
+#define REG_RAW_RELAY_CTRL				135	// Регистр установки реле группы CTRL
+#define REG_RAW_RELAY_BUSHV_MINUS		136	// Регистр установки реле группы BUSHV-
+#define REG_RAW_RELAY_BUSHV_PLUS		137	// Регистр установки реле группы BUSHV+
+#define REG_RAW_RELAY_POT_PLUS			138	// Регистр установки реле группы POT+
+#define REG_RAW_RELAY_POT_MINUS			139	// Регистр установки реле группы POT-
+#define REG_RAW_RELAY_OUTRELAY			140	// Регистр установки реле группы OutRelay
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

@@ -65,7 +65,7 @@ void INITCFG_ConfigUART()
 }
 //------------------------------------------------
 
-void INITCFG_ÑonfigTimer7()
+void INITCFG_ConfigTimer7()
 {
 	TIM_Clock_En(TIM_7);
 	TIM_Config(TIM7, SYSCLK, TIMER7_uS);
