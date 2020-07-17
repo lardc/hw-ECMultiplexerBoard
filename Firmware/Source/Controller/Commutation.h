@@ -38,10 +38,7 @@ typedef struct __BistableSwitch
 	RegisterPin TurnOffPin;
 } BistableSwitch;
 
-//// Macros
-//
-
-// Пример инициализации для простого реле
+// Инициализация для простых реле
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT1 = {REGISTER_A, BIT0};
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT2 = {REGISTER_A, BIT1};
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT3 = {REGISTER_A, BIT2};
@@ -95,6 +92,7 @@ COMM_RegisterPin COMM_SwitchPotCtrlMinusToCtrlPot2 = {REGISTER_K, BIT5};
 COMM_RegisterPin COMM_SwitchPotCtrlMinusToCtrlPot3 = {REGISTER_K, BIT6};
 COMM_RegisterPin COMM_SwitchPotCtrlMinusToCtrlPot4 = {REGISTER_K, BIT7};
 
+// Инициализация для бистабильных реле
 COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW1 = {{REGISTER_D, BIT1}, {REGISTER_E, BIT0}};
 COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW2 = {{REGISTER_D, BIT2}, {REGISTER_E, BIT1}};
 COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW3 = {{REGISTER_D, BIT3}, {REGISTER_E, BIT2}};

@@ -38,5 +38,6 @@ void DEVPROFILE_ResetScopes(Int16U ResetPosition);
 void DEVPROFILE_InitEPWriteService(pInt16U Indexes, pInt16U Sizes, pInt16U *Counters, pInt16U *Datas);
 Boolean DEVPROFILE_CallbackWriteX(Int16U Endpoint, pInt16U Buffer, Boolean Streamed, Int16U Length,
 		void *EPStateAddress);
-void DEVPROFILE_FillNVPartDefault(void);
+void DEVPROFILE_FillNVPartDefault();
+
 #endif // __DEV_PROFILE_H

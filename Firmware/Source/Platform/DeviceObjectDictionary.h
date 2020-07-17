@@ -54,8 +54,6 @@
 #define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-//
-
 // -----------------------------
 
 // Operation results
