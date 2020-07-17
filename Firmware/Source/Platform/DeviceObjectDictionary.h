@@ -7,12 +7,10 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_SET_RELAY					10	// Коммутация релле
-#define ACT_SET_RELAY_NONE				20 	// Отключить все релле
-#define ACT_SET_RELAY_GROUP_1			21 	// Подключить релле группы 1
-#define ACT_SET_RELAY_GROUP_2			22 	// Подключить релле группы 2
+#define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле
+#define ACT_SET_RELAY_NONE				21 	// Отключить все релле
 
-#define ACT_SET_RELAY_RAW				30 	// Подкючить реле в вручную (REG_RAW)
+#define ACT_SET_RELAY_RAW				30 	// Подкючить реле в ручную (REG_RAW)
 
 #define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
 #define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
@@ -46,6 +44,8 @@
 #define REG_RAW_RELAY_POT_PLUS			138	// Регистр установки реле группы POT+
 #define REG_RAW_RELAY_POT_MINUS			139	// Регистр установки реле группы POT-
 #define REG_RAW_RELAY_OUTRELAY			140	// Регистр установки реле группы OutRelay
+
+#define REG_GROUP_RELAY					150	// Регистр установки предопределенной группы
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

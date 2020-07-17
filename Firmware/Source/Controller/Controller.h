@@ -2,9 +2,11 @@
 #define __CONTROLLER_H
 
 // Include
+//
 #include "stdinc.h"
 
 // Types
+//
 typedef enum __DeviceState
 {
 	DS_None = 0,
@@ -15,10 +17,12 @@ typedef enum __DeviceState
 } DeviceState;
 
 // Variables
+//
 extern volatile Int64U CONTROL_TimeCounter;
 extern Int64U CONTROL_LEDTimeout;
 
 // Functions
+//
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);

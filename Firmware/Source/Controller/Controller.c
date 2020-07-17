@@ -10,7 +10,6 @@
 #include "LowLevel.h"
 #include "SysConfig.h"
 #include "DebugActions.h"
-#include "CommutationTable.h"
 #include "Commutation.h"
 
 // Types
@@ -101,7 +100,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				}
 				break;
 			}
-
+			
 		case ACT_DISABLE_POWER:
 			if(CONTROL_State == DS_Enabled)
 			{
@@ -110,86 +109,139 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
-
+			
 		case ACT_DBG_LED_RED_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLedRed();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLedRed();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_LED_GREEN_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLedGreen();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLedGreen();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_SYNC_1_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineSync1();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineSync1();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_SYNC_2_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineSync2();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineSync2();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_LOCK_1_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineLock1();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineLock1();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_LOCK_2_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineLock2();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineLock2();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
+			break;
+			
 		case ACT_DBG_RESET_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineReset();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineReset();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		case ACT_DBG_OE_IMPULSE:
 			{
-				DBGACT_GenerateImpulseLineOE();
+				if(DataTable[REG_DBG_STATE])
+				{
+					DBGACT_GenerateImpulseLineOE();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
-		case ACT_SET_RELAY:
+			
+		case ACT_SET_RELAY_GROUP:
 			{
-				COMM_SetRelayInMode(COMM_NORMAL_MODE);
+				COMM_ConnectRelayGroup(DataTable[REG_GROUP_RELAY]);
 			}
 			break;
-
+			
 		case ACT_SET_RELAY_NONE:
 			{
 				COMM_DisconnectAllRelay();
 			}
 			break;
-
-		case ACT_SET_RELAY_GROUP_1:
-			{
-				COMM_ConnectGroup(COMM_CONNECT_GROUP_1);
-			}
-			break;
-
-		case ACT_SET_RELAY_GROUP_2:
-			{
-				COMM_ConnectGroup(COMM_CONNECT_GROUP_2);
-			}
-			break;
-
+			
 		case ACT_SET_RELAY_RAW:
 			{
-				COMM_TransferDataRawToNewOutputValues();
+				if(DataTable[REG_DBG_STATE])
+				{
+					COMM_SetRelayFromRAW();
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
 			}
 			break;
-
+			
 		default:
 			return false;
-
+			
 	}
 	return true;
 }
