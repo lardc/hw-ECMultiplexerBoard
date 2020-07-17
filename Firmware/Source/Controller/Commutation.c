@@ -1,10 +1,10 @@
 // Header
 #include "Commutation.h"
-//
+
 // Includes
-//
 #include "Global.h"
 #include "DataTable.h"
+#include "ZwSPI.h"
 
 // Variables
 //
