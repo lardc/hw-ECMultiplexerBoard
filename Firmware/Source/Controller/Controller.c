@@ -23,9 +23,7 @@ static Boolean CycleActive = false;
 
 volatile Int64U CONTROL_TimeCounter = 0;
 
-volatile Int8U RelayByte[11];
-
-// Forward functions
+/// Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
 void CONTROL_SetDeviceState(DeviceState NewState);
