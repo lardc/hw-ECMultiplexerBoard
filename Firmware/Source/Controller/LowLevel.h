@@ -16,6 +16,7 @@ void LL_SetSync1State(bool State);
 void LL_SetSync2State(bool State);
 void LL_SetStateOE(bool State);
 void LL_SetStateReset(bool State);
+void LL_SendAndSaveByteToShiftRegister(uint16_t Data);
 
 bool LL_GetSync1State();
 bool LL_GetSync2State();

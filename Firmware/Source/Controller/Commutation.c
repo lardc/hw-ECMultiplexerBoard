@@ -5,6 +5,7 @@
 #include "Global.h"
 #include "DataTable.h"
 #include "ZwSPI.h"
+#include "LowLevel.h"
 
 // Variables
 //
@@ -26,6 +27,8 @@ void COMM_TransferDataRawToShiftRegistersState();
 void COMM_SetRelayFromRAW();
 void COMM_PrepareFromRAW();
 void COMM_CleanRegisters();
+void COMM_EnableOutShiftRegister();
+void COMM_DisableOutShiftRegister();
 
 // Functions
 //
@@ -135,10 +138,12 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State)
 
 void COMM_ApplyCommutation()
 {
+	COMM_DisableOutShiftRegister();
 	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
-		SPI_WriteByte(SPI1, ShiftRegistersState[i]);
+		LL_SendAndSaveByteToShiftRegister(ShiftRegistersState[i]);
 	}
+	COMM_EnableOutShiftRegister();
 }
 // ----------------------------------------
 
@@ -173,5 +178,16 @@ void COMM_PrepareFromRAW()
 	{
 		ShiftRegistersState[i - REG_RAW_RELAY_POT_CTRL] = DataTable[i];
 	}
+}
+// ----------------------------------------
+void COMM_EnableOutShiftRegister()
+{
+	LL_SetStateOE(FALSE);
+}
+// ----------------------------------------
+
+void COMM_DisableOutShiftRegister()
+{
+	LL_SetStateOE(TRUE);
 }
 // ----------------------------------------

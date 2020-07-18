@@ -22,13 +22,6 @@ void LL_LedRed(bool State)
 {
 	GPIO_SetState(GPIO_LED_EXT_RED, State);
 }
-
-//-----------------------------
-
-void LL_SoftSpiData(bool State)
-{
-	GPIO_SetState(GPIO_DATA, State);
-}
 //-----------------------------
 
 void LL_SetSync1State(bool State)
@@ -69,12 +62,21 @@ void LL_SetStateLock2(bool State)
 
 void LL_SetStateReset(bool State)
 {
-	GPIO_SetState(GPIO_RESET, !State);
+	GPIO_SetState(GPIO_RESET, State);
 }
 //-----------------------------
 
 void LL_SetStateOE(bool State)
 {
-	GPIO_SetState(GPIO_OE, !State);
+	GPIO_SetState(GPIO_OE, State);
 }
 //-----------------------------
+
+void LL_SendAndSaveByteToShiftRegister(uint16_t Data)
+{
+	GPIO_SetState(GPIO_SET, FALSE);
+	SPI_WriteByte(SPI1, Data);
+	GPIO_SetState(GPIO_SET, TRUE);
+}
+//-----------------------------
+
