@@ -33,10 +33,7 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
-void CONTROL_ResetHardware();
-void CONTROL_UpdateRegisterByteRelay();
-void CONTROL_SetRelay(Boolean ResetPolarizedRelay);
-void CONTROL_FullSetRelay();
+
 // Functions
 //
 void CONTROL_Init()
@@ -64,15 +61,9 @@ void CONTROL_ResetToDefaultState()
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
-	CONTROL_ResetHardware();
 	CONTROL_SetDeviceState(DS_None);
 }
-//------------------------------------------
 
-void CONTROL_ResetHardware()
-{
-	
-}
 //------------------------------------------
 
 void CONTROL_Idle()
@@ -249,8 +240,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
-	CONTROL_ResetHardware();
-	
 	CONTROL_SetDeviceState(DS_Fault);
 	DataTable[REG_FAULT_REASON] = Reason;
 }
