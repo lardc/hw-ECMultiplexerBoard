@@ -15,7 +15,7 @@ static uint8_t BistableBits[REGISTERS_NUM] = {0};
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
-void COMM_CleanBistable();
+void COMM_DisableCtrlPulseOfBipolarRelay();
 void COMM_DisconnectAllRelay();
 void COMM_CleanRegisters();
 void COMM_EnableOutShiftRegister();
@@ -37,8 +37,7 @@ void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState)
 
 	CONTROL_DelayMs(500);
 
-	COMM_CleanBistable();
-	COMM_ApplyCommutation();
+	COMM_DisableCtrlPulseOfBipolarRelay();
 }
 
 // ----------------------------------------
@@ -53,7 +52,7 @@ void COMM_DisconnectAllRelay()
 	
 	CONTROL_DelayMs(500);
 	
-	COMM_CleanBistable();
+	COMM_DisableCtrlPulseOfBipolarRelay();
 	COMM_ApplyCommutation();
 }
 // ----------------------------------------
@@ -93,13 +92,14 @@ void COMM_ApplyCommutation()
 }
 // ----------------------------------------
 
-void COMM_CleanBistable()
+void COMM_DisableCtrlPulseOfBipolarRelay()
 {
 	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
-		ShiftRegistersState[i] &= BistableBits[i];
+		ShiftRegistersState[i] &= ~BistableBits[i];
 		BistableBits[i] = 0;
 	}
+	COMM_ApplyCommutation();
 }
 // ----------------------------------------
 
