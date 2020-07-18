@@ -7,6 +7,7 @@
 #include "ZwSPI.h"
 #include "LowLevel.h"
 
+#define SELECT_ALL_RELAY_IN_REGISTER 0xFF
 // Variables
 static uint8_t ShiftRegistersState[REGISTERS_NUM] = {0};
 static uint8_t BistableBits[REGISTERS_NUM] = {0};
@@ -17,10 +18,12 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlPulseOfBipolarRelay();
 void COMM_DisconnectAllRelay();
-void COMM_CleanRegisters();
+void COMM_CleanShiftRegister();
 void COMM_EnableOutShiftRegister();
 void COMM_DisableOutShiftRegister();
 void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState);
+void COMM_TurnOffAllBipolarRelay();
+void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInRegister);
 
 // ----------------------------------------
 void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState)
@@ -35,7 +38,7 @@ void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState)
 	}
 	COMM_ApplyCommutation();
 
-	CONTROL_DelayMs(500);
+	CONTROL_DelayMs(TIME_DELAY_TO_SWITCH_BIPOLAR_RELAY);
 
 	COMM_DisableCtrlPulseOfBipolarRelay();
 }
@@ -43,17 +46,8 @@ void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState)
 // ----------------------------------------
 void COMM_DisconnectAllRelay()
 {
-	COMM_CleanRegisters();
-	ShiftRegistersState[REGISTER_E] = 0xFF;
-	ShiftRegistersState[REGISTER_G] = 0xFF;
-	BistableBits[REGISTER_E] = 0xFF;
-	BistableBits[REGISTER_G] = 0xFF;
-	COMM_ApplyCommutation();
-	
-	CONTROL_DelayMs(500);
-	
-	COMM_DisableCtrlPulseOfBipolarRelay();
-	COMM_ApplyCommutation();
+	COMM_CleanShiftRegister();
+	COMM_TurnOffAllBipolarRelay();
 }
 // ----------------------------------------
 
@@ -91,6 +85,23 @@ void COMM_ApplyCommutation()
 	COMM_EnableOutShiftRegister();
 }
 // ----------------------------------------
+void COMM_TurnOffAllBipolarRelay()
+{
+	COMM_FastWriteToBistableRelay(REGISTER_E, SELECT_ALL_RELAY_IN_REGISTER);
+	COMM_FastWriteToBistableRelay(REGISTER_G, SELECT_ALL_RELAY_IN_REGISTER);
+
+	COMM_DisableCtrlPulseOfBipolarRelay();
+}
+// ----------------------------------------
+
+void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInRegister)
+{
+	ShiftRegistersState[RegisterName] = IndexOfRelayInRegister;
+	BistableBits[RegisterName] = IndexOfRelayInRegister;
+	COMM_ApplyCommutation();
+	CONTROL_DelayMs(TIME_DELAY_TO_SWITCH_BIPOLAR_RELAY);
+}
+// ----------------------------------------
 
 void COMM_DisableCtrlPulseOfBipolarRelay()
 {
@@ -103,7 +114,7 @@ void COMM_DisableCtrlPulseOfBipolarRelay()
 }
 // ----------------------------------------
 
-void COMM_CleanRegisters()
+void COMM_CleanShiftRegister()
 {
 	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
