@@ -11,5 +11,5 @@
 // ¬ременные параметры
 #define TIME_LED_BLINK						500		// ћигание светодиодом (в мс)
 
-#define TIME_DELAY_TO_SWITCH_BIPOLAR_RELAY	10 // ¬рем€ управл€ющего импульса (в мс)
+#define TIME_DELAY_TO_SWITCH_BISTABLE_RELAY	10 // ¬рем€ управл€ющего импульса (в мс)
 #endif //  __GLOBAL_H
