@@ -181,10 +181,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 		case ACT_SET_RELAY_GROUP:
 			{
-				COMM_ConnectRelayGroup(DataTable[REG_GROUP_RELAY]);
+				// Заготовка
 			}
 			break;
-			
+
 		case ACT_SET_RELAY_NONE:
 			{
 				COMM_DisconnectAllRelay();

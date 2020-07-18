@@ -10,8 +10,6 @@
 
 #define REGISTERS_NUM	11
 
-#define REGISTERS_NUM	11
-
 #define REGISTER_A		8
 #define REGISTER_B		9
 #define REGISTER_C		10
