@@ -1,10 +1,10 @@
 // Header
 #include "Commutation.h"
-//
+
 // Includes
-//
 #include "Global.h"
 #include "DataTable.h"
+#include "ZwSPI.h"
 
 // Variables
 //
@@ -135,7 +135,7 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State)
 
 void COMM_ApplyCommutation()
 {
-	for(uint8_t i = 0; i < (REGISTERS_NUM); i++)
+	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
 		SPI_WriteByte(SPI1, ShiftRegistersState[i]);
 	}
