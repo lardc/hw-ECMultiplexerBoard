@@ -9,6 +9,5 @@
 //
 void COMM_DisconnectAllRelay();
 void COMM_ConnectRelayGroup(uint8_t Group);
-void COMM_SetRelayFromRAW();
-
+void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState);
 #endif // __COMMUTATOR_H

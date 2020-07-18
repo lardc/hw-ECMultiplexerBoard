@@ -10,14 +10,16 @@
 #define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле
 #define ACT_SET_RELAY_NONE				21 	// Отключить все релле
 
-#define ACT_SET_RELAY_RAW				30 	// Подкючить реле в ручную (REG_RAW)
-
 #define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
 #define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
 #define ACT_DBG_SYNC_1_IMPULSE			52	// Одиночный импусль цепи SYNC_1
 #define ACT_DBG_SYNC_2_IMPULSE			53	// Одиночный импусль цепи SYNC_2
 #define ACT_DBG_LOCK_1_IMPULSE			54	// Одиночный импусль цепи LOCK1
 #define ACT_DBG_LOCK_2_IMPULSE			55	// Одиночный импусль цепи LOCK2
+#define ACT_DBG_SIMPLE_RELAY_ON 		10	// Включить одно обычное реле
+#define ACT_DBG_SIMPLE_RELAY_OFF 		11	// Отключить одно обычноее реле
+#define ACT_DBG_BISTABLE_RELAY_ON 		12	// Включить одно бистабильное реле
+#define ACT_DBG_BISTABLE_RELAY_OFF		13	// Отключить одно бистабильное реле
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -30,20 +32,10 @@
 // Сохраняемые регистры
 
 // Несохраняемы регистры чтения-записи
-#define REG_DBG_STATE					128	// Регистр режима Отладки
-#define REG_RAW_RELAY_BUS_MINUS_CO		130	// Регистр установки реле группы BUSLV- (Connect)
-#define REG_RAW_RELAY_BUS_MINUS_DISCO	131	// Регистр установки реле группы BUSLV- (Disconnect)
-#define REG_RAW_RELAY_BUS_PLUS_CO		132	// Регистр установки реле группы BUSLV+ (Connect)
-#define REG_RAW_RELAY_BUS_PLUS_DISCO	133	// Регистр установки реле группы BUSLV+ (Disconnect)
-#define REG_RAW_RELAY_POT_CTRL			134	// Регистр установки реле группы POT CTR
-#define REG_RAW_RELAY_CTRL				135	// Регистр установки реле группы CTRL
-#define REG_RAW_RELAY_BUSHV_MINUS		136	// Регистр установки реле группы BUSHV-
-#define REG_RAW_RELAY_BUSHV_PLUS		137	// Регистр установки реле группы BUSHV+
-#define REG_RAW_RELAY_POT_PLUS			138	// Регистр установки реле группы POT+
-#define REG_RAW_RELAY_POT_MINUS			139	// Регистр установки реле группы POT-
-#define REG_RAW_RELAY_OUTRELAY			140	// Регистр установки реле группы OutRelay
+#define REG_GROUP_RELAY					128	// Регистр установки предопределенной группы
 
-#define REG_GROUP_RELAY					150	// Регистр установки предопределенной группы
+#define REG_DBG_STATE					150	// Регистр режима Отладки
+#define REG_DBG_RELAY_INDEX				151	// Регистр номера реле из CommutateTable
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

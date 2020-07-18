@@ -191,19 +191,30 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 			
-		case ACT_SET_RELAY_RAW:
+		case ACT_DBG_SIMPLE_RELAY_ON:
 			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					COMM_SetRelayFromRAW();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
+				COMM_ConnectOneRelay(RELAYTYPE_NORMAL, DataTable[REG_DBG_RELAY_INDEX], true);
 			}
 			break;
-			
+
+		case ACT_DBG_SIMPLE_RELAY_OFF:
+			{
+				COMM_ConnectOneRelay(RELAYTYPE_NORMAL, DataTable[REG_DBG_RELAY_INDEX], false);
+			}
+			break;
+
+		case ACT_DBG_BISTABLE_RELAY_ON:
+			{
+				COMM_ConnectOneRelay(RELAYTYPE_BISTABLE, DataTable[REG_DBG_RELAY_INDEX], true);
+			}
+			break;
+
+		case ACT_DBG_BISTABLE_RELAY_OFF:
+			{
+				COMM_ConnectOneRelay(RELAYTYPE_BISTABLE, DataTable[REG_DBG_RELAY_INDEX], false);
+			}
+			break;
+
 		default:
 			return false;
 			

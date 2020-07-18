@@ -5,6 +5,11 @@
 #include "stdinc.h"
 
 // Definitions
+#define RELAYTYPE_NORMAL	0
+#define RELAYTYPE_BISTABLE	1
+
+#define REGISTERS_NUM	11
+
 #define REGISTERS_NUM	11
 
 #define REGISTER_A		8
