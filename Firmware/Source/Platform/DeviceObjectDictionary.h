@@ -18,8 +18,6 @@
 #define ACT_DBG_SYNC_2_IMPULSE			53	// Одиночный импусль цепи SYNC_2
 #define ACT_DBG_LOCK_1_IMPULSE			54	// Одиночный импусль цепи LOCK1
 #define ACT_DBG_LOCK_2_IMPULSE			55	// Одиночный импусль цепи LOCK2
-#define ACT_DBG_RESET_IMPULSE			56	// Одиночный импусль цепи RESET
-#define ACT_DBG_OE_IMPULSE				57	// Одиночный импусль цепи OE
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH

@@ -57,20 +57,3 @@ void DBGACT_GenerateImpulseLineLock2()
 	LL_SetStateLock2(FALSE);
 }
 //-----------------------------
-
-void DBGACT_GenerateImpulseLineReset()
-{
-	LL_SetStateReset(TRUE);
-	CONTROL_DelayMs(10);
-	LL_SetStateReset(FALSE);
-}
-//-----------------------------
-
-void DBGACT_GenerateImpulseLineOE()
-{
-	LL_SetStateOE(TRUE);
-	CONTROL_DelayMs(10);
-	LL_SetStateOE(FALSE);
-}
-//-----------------------------
-

@@ -179,32 +179,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 			
-		case ACT_DBG_RESET_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineReset();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_OE_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineOE();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
 		case ACT_SET_RELAY_GROUP:
 			{
 				COMM_ConnectRelayGroup(DataTable[REG_GROUP_RELAY]);
