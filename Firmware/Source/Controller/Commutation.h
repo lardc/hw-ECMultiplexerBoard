@@ -8,5 +8,7 @@
 // Functions
 //
 void COMM_DisconnectAllRelay();
-void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState);
+void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState);
+void COMM_SwitchSimpleRelay(uint8_t IndexRelay, bool NewState);
+
 #endif // __COMMUTATOR_H

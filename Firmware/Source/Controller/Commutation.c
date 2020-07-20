@@ -16,32 +16,28 @@ static uint8_t BistableBits[REGISTERS_NUM] = {0};
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
-void COMM_DisableCtrlPulseOfBistableRelay();
+void COMM_DisableCtrlOfBistableRelay();
 void COMM_DisconnectAllRelay();
 void COMM_CleanShiftRegister();
-void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState);
-void COMM_TurnOffAllBistableRelay();
-void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInRegister);
 
-// ----------------------------------------
-void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState)
+// Functions
+void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState)
 {
-	if(!TypeOfRelay)
-	{
-		COMM_SwitchSimpleDevice(*COMM_SimpleRelayArray[IndexRelay], NewState);
-	}
-	else
-	{
-		COMM_SwitchBistableDevice(*COMM_BistableRelayArray[IndexRelay], NewState);
-	}
+	COMM_SwitchBistableDevice(*COMM_BistableRelayArray[IndexRelay], NewState);
+
 	COMM_ApplyCommutation();
-
-	CONTROL_DelayMs(TIME_DELAY_TO_SWITCH_BISTABLE_RELAY);
-
-	COMM_DisableCtrlPulseOfBistableRelay();
+	CONTROL_DelayMs(BISTABLE_SWITCH_DELAY);
+	COMM_DisableCtrlOfBistableRelay();
 }
-
 // ----------------------------------------
+
+void COMM_SwitchSimpleRelay(uint8_t IndexRelay, bool NewState)
+{
+	COMM_SwitchSimpleDevice(*COMM_SimpleRelayArray[IndexRelay], NewState);
+	COMM_ApplyCommutation();
+}
+// ----------------------------------------
+
 void COMM_DisconnectAllRelay()
 {
 	COMM_CleanShiftRegister();
@@ -78,6 +74,7 @@ void COMM_ApplyCommutation()
 	LL_WriteToShiftRegister(ShiftRegistersState, REGISTERS_NUM);
 }
 // ----------------------------------------
+
 void COMM_TurnOffAllBistableRelay()
 {
 	COMM_FastWriteToBistableRelay(REGISTER_E, SELECT_ALL_RELAY_IN_REGISTER);
@@ -92,11 +89,11 @@ void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInR
 	ShiftRegistersState[RegisterName] = IndexOfRelayInRegister;
 	BistableBits[RegisterName] = IndexOfRelayInRegister;
 	COMM_ApplyCommutation();
-	CONTROL_DelayMs(TIME_DELAY_TO_SWITCH_BISTABLE_RELAY);
+	CONTROL_DelayMs(BISTABLE_SWITCH_DELAY);
 }
 // ----------------------------------------
 
-void COMM_DisableCtrlPulseOfBistableRelay()
+void COMM_DisableCtrlOfBistableRelay()
 {
 	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{

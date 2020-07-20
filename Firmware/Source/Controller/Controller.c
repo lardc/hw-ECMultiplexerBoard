@@ -191,25 +191,25 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 		case ACT_DBG_SIMPLE_RELAY_ON:
 			{
-				COMM_ConnectOneRelay(RELAYTYPE_NORMAL, DataTable[REG_DBG_RELAY_INDEX], true);
+				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], true);
 			}
 			break;
 
 		case ACT_DBG_SIMPLE_RELAY_OFF:
 			{
-				COMM_ConnectOneRelay(RELAYTYPE_NORMAL, DataTable[REG_DBG_RELAY_INDEX], false);
+				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], false);
 			}
 			break;
 
 		case ACT_DBG_BISTABLE_RELAY_ON:
 			{
-				COMM_ConnectOneRelay(RELAYTYPE_BISTABLE, DataTable[REG_DBG_RELAY_INDEX], true);
+				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], true);
 			}
 			break;
 
 		case ACT_DBG_BISTABLE_RELAY_OFF:
 			{
-				COMM_ConnectOneRelay(RELAYTYPE_BISTABLE, DataTable[REG_DBG_RELAY_INDEX], false);
+				COMM_SwitchBistableRelayDataTable[REG_DBG_RELAY_INDEX], false);
 			}
 			break;
 
