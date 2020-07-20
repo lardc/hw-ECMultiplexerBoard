@@ -7,6 +7,8 @@
 #include "Global.h"
 
 //Definitions
+#define NO		0
+#define YES		1
 
 // Types
 typedef struct __TableItemConstraint
