@@ -77,6 +77,7 @@ void LL_SendAndSaveByteToShiftRegister(uint16_t Data)
 	GPIO_SetState(GPIO_SET, FALSE);
 	SPI_WriteByte(SPI1, Data);
 	GPIO_SetState(GPIO_SET, TRUE);
+	GPIO_SetState(GPIO_OE, true);
 }
 //-----------------------------
 

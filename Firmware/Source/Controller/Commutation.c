@@ -19,8 +19,6 @@ void COMM_ApplyCommutation();
 void COMM_DisableCtrlPulseOfBistableRelay();
 void COMM_DisconnectAllRelay();
 void COMM_CleanShiftRegister();
-void COMM_EnableOutShiftRegister();
-void COMM_DisableOutShiftRegister();
 void COMM_ConnectOneRelay(bool TypeOfRelay, uint8_t IndexRelay, bool NewState);
 void COMM_TurnOffAllBistableRelay();
 void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInRegister);
@@ -77,12 +75,10 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State)
 
 void COMM_ApplyCommutation()
 {
-	COMM_DisableOutShiftRegister();
 	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
 		LL_SendAndSaveByteToShiftRegister(ShiftRegistersState[i]);
 	}
-	COMM_EnableOutShiftRegister();
 }
 // ----------------------------------------
 void COMM_TurnOffAllBistableRelay()
@@ -120,17 +116,5 @@ void COMM_CleanShiftRegister()
 	{
 		ShiftRegistersState[i] = 0;
 	}
-}
-// ----------------------------------------
-
-void COMM_EnableOutShiftRegister()
-{
-	LL_SetStateOE(FALSE);
-}
-// ----------------------------------------
-
-void COMM_DisableOutShiftRegister()
-{
-	LL_SetStateOE(TRUE);
 }
 // ----------------------------------------
