@@ -66,17 +66,12 @@ void LL_SetStateReset(bool State)
 }
 //-----------------------------
 
-void LL_SetStateOE(bool State)
+void LL_WriteToShiftRegister(uint8_t *Data, uint8_t DataSize)
 {
-	GPIO_SetState(GPIO_OE, State);
-}
-//-----------------------------
-
-void LL_SendAndSaveByteToShiftRegister(uint16_t Data)
-{
-	GPIO_SetState(GPIO_SET, FALSE);
-	SPI_WriteByte(SPI1, Data);
-	GPIO_SetState(GPIO_SET, TRUE);
+	GPIO_SetState(GPIO_SET, false);
+	for(uint8_t i = 0; i < DataSize; i++)
+		SPI_WriteByte(SPI1, Data[i]);
+	GPIO_SetState(GPIO_SET, true);
 	GPIO_SetState(GPIO_OE, true);
 }
 //-----------------------------

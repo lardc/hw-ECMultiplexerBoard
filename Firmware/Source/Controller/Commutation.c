@@ -75,10 +75,7 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State)
 
 void COMM_ApplyCommutation()
 {
-	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
-	{
-		LL_SendAndSaveByteToShiftRegister(ShiftRegistersState[i]);
-	}
+	LL_WriteToShiftRegister(ShiftRegistersState, REGISTERS_NUM);
 }
 // ----------------------------------------
 void COMM_TurnOffAllBistableRelay()
