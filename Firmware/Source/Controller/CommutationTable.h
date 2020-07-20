@@ -5,6 +5,8 @@
 #include "stdinc.h"
 
 // Definitions
+#define BISTABLE_ARRAY_SIZE		12
+
 #define REGISTERS_NUM	11
 
 #define REGISTER_A		8

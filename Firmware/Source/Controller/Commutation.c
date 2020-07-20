@@ -17,7 +17,6 @@ void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
-void COMM_DisconnectAllRelay();
 void COMM_CleanShiftRegister();
 
 // Functions
@@ -38,10 +37,10 @@ void COMM_SwitchSimpleRelay(uint8_t IndexRelay, bool NewState)
 }
 // ----------------------------------------
 
-void COMM_DisconnectAllRelay()
+void COMM_DisconnectSimpleRelays()
 {
 	COMM_CleanShiftRegister();
-	COMM_TurnOffAllBistableRelay();
+	COMM_ApplyCommutation();
 }
 // ----------------------------------------
 
@@ -75,21 +74,10 @@ void COMM_ApplyCommutation()
 }
 // ----------------------------------------
 
-void COMM_TurnOffAllBistableRelay()
+void COMM_DisconnectBistableRelays()
 {
-	COMM_FastWriteToBistableRelay(REGISTER_E, SELECT_ALL_RELAY_IN_REGISTER);
-	COMM_FastWriteToBistableRelay(REGISTER_G, SELECT_ALL_RELAY_IN_REGISTER);
-
-	COMM_DisableCtrlPulseOfBistableRelay();
-}
-// ----------------------------------------
-
-void COMM_FastWriteToBistableRelay(uint8_t RegisterName, uint8_t IndexOfRelayInRegister)
-{
-	ShiftRegistersState[RegisterName] = IndexOfRelayInRegister;
-	BistableBits[RegisterName] = IndexOfRelayInRegister;
-	COMM_ApplyCommutation();
-	CONTROL_DelayMs(BISTABLE_SWITCH_DELAY);
+	for(uint8_t i = 0; i < BISTABLE_ARRAY_SIZE; i++)
+		COMM_SwitchBistableRelay(i, false);
 }
 // ----------------------------------------
 

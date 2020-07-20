@@ -185,7 +185,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SET_RELAY_NONE:
 			{
-				COMM_DisconnectAllRelay();
+				COMM_DisconnectSimpleRelays();
+				COMM_DisconnectBistableRelays();
 			}
 			break;
 			
@@ -209,7 +210,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_DBG_BISTABLE_RELAY_OFF:
 			{
-				COMM_SwitchBistableRelayDataTable[REG_DBG_RELAY_INDEX], false);
+				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], false);
 			}
 			break;
 
