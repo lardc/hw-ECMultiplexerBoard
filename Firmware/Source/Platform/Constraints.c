@@ -163,7 +163,7 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 148
 		{0, 0, 0},																	// 149
 		{NO, YES, NO},																// 150
-		{0, BISTABLE_ARRAY_SIZE - 1, 0},											// 151
+		{0, MAX_NUM_RELAY, 0},														// 151
 		{0, 0, 0},																	// 152
 		{0, 0, 0},																	// 153
 		{0, 0, 0},																	// 154

@@ -7,6 +7,8 @@
 // Definitions
 #define BISTABLE_ARRAY_SIZE		12
 
+#define MAX_NUM_RELAY			45
+
 #define REGISTERS_NUM	11
 
 #define REGISTER_A		8
