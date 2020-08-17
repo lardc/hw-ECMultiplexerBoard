@@ -11,17 +11,17 @@
 
 #define REGISTERS_NUM	11
 
-#define REGISTER_A		8
-#define REGISTER_B		9
-#define REGISTER_C		10
-#define REGISTER_D		2
-#define REGISTER_E		3
-#define REGISTER_F		0
-#define REGISTER_G		1
-#define REGISTER_H		7
-#define REGISTER_I		6
-#define REGISTER_J		5
-#define REGISTER_K		4
+#define REGISTER_A		3
+#define REGISTER_B		2
+#define REGISTER_C		1
+#define REGISTER_D		9
+#define REGISTER_E		8
+#define REGISTER_F		11
+#define REGISTER_G		10
+#define REGISTER_H		4
+#define REGISTER_I		5
+#define REGISTER_J		6
+#define REGISTER_K		7
 
 #define COMM_RegisterPin static const RegisterPin
 #define COMM_BistableSwitch static const BistableSwitch
