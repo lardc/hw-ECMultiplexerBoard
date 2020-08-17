@@ -8,9 +8,13 @@
 #include "LowLevel.h"
 
 #define SELECT_ALL_RELAY_IN_REGISTER 0xFF
+#define SPI_DATA_SIZE_IN_16BIT 6
+
 // Variables
-static uint8_t ShiftRegistersState[REGISTERS_NUM] = {0};
-static uint8_t BistableBits[REGISTERS_NUM] = {0};
+volatile static uint8_t ShiftRegistersState[REGISTERS_NUM + 1] = {0};
+volatile static uint8_t BistableBits[REGISTERS_NUM + 1] = {0};
+
+volatile static uint16_t DataTransfer[6] = {0};
 
 // Forward functions
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
@@ -18,6 +22,7 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
+void COMM_CompareDataTo16Bit();
 
 // Functions
 void COMM_DisconnectAllRelay()
@@ -77,7 +82,10 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State)
 
 void COMM_ApplyCommutation()
 {
-	LL_WriteToShiftRegister(ShiftRegistersState, REGISTERS_NUM);
+	COMM_CompareDataTo16Bit();
+	LL_SetStateReset(FALSE);
+	LL_WriteToShiftRegister(DataTransfer, SPI_DATA_SIZE_IN_16BIT);
+	LL_SetStateReset(TRUE);
 }
 // ----------------------------------------
 
@@ -90,7 +98,7 @@ void COMM_DisconnectBistableRelays()
 
 void COMM_DisableCtrlOfBistableRelay()
 {
-	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
+	for(uint8_t i = 0; i < REGISTERS_NUM + 1; i++)
 	{
 		ShiftRegistersState[i] &= ~BistableBits[i];
 		BistableBits[i] = 0;
@@ -101,9 +109,51 @@ void COMM_DisableCtrlOfBistableRelay()
 
 void COMM_CleanShiftRegister()
 {
-	for(uint8_t i = 0; i < REGISTERS_NUM; i++)
+	for(volatile uint8_t i = 0; i < REGISTERS_NUM; i++)
 	{
 		ShiftRegistersState[i] = 0;
 	}
 }
 // ----------------------------------------
+
+void COMM_CompareDataTo16Bit()
+{
+	union __CompareRelay
+	{
+		struct
+		{
+			uint8_t Low;
+			uint8_t High;
+		} Byte;
+		uint16_t Word;
+	};
+
+	union __CompareRelay CompareRelay;
+
+	CompareRelay.Byte.High = ShiftRegistersState[0];
+	CompareRelay.Byte.Low = ShiftRegistersState[1];
+	DataTransfer[0] = CompareRelay.Word;
+
+	CompareRelay.Byte.High = ShiftRegistersState[2];
+	CompareRelay.Byte.Low = ShiftRegistersState[3];
+	DataTransfer[1] = CompareRelay.Word;
+
+	CompareRelay.Byte.High = ShiftRegistersState[4];
+	CompareRelay.Byte.Low = ShiftRegistersState[5];
+	DataTransfer[2] = CompareRelay.Word;
+
+	CompareRelay.Byte.High = ShiftRegistersState[6];
+	CompareRelay.Byte.Low = ShiftRegistersState[7];
+	DataTransfer[3] = CompareRelay.Word;
+
+	CompareRelay.Byte.High = ShiftRegistersState[8];
+	CompareRelay.Byte.Low = ShiftRegistersState[9];
+	DataTransfer[4] = CompareRelay.Word;
+
+	CompareRelay.Byte.High = ShiftRegistersState[10];
+	CompareRelay.Byte.Low = ShiftRegistersState[11];
+	DataTransfer[5] = CompareRelay.Word;
+
+}
+// ----------------------------------------
+
