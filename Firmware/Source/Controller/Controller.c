@@ -45,6 +45,8 @@ void CONTROL_Init()
 	// —брос значений
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
+
+	COMM_DisconnectAllRelay();
 }
 //------------------------------------------
 
@@ -185,8 +187,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SET_RELAY_NONE:
 			{
-				COMM_DisconnectSimpleRelays();
-				COMM_DisconnectBistableRelays();
+				COMM_DisconnectAllRelay();
 			}
 			break;
 			

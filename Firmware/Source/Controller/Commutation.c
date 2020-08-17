@@ -20,6 +20,13 @@ void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
 
 // Functions
+void COMM_DisconnectAllRelay()
+{
+	COMM_DisconnectSimpleRelays();
+	COMM_DisconnectBistableRelays();
+}
+// ----------------------------------------
+
 void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState)
 {
 	COMM_SwitchBistableDevice(*COMM_BistableRelayArray[IndexRelay], NewState);
