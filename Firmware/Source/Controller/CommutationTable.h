@@ -94,19 +94,19 @@ COMM_RegisterPin COMM_SwitchPotCtrlMinusToCtrlPot3 = {REGISTER_K, BIT6};
 COMM_RegisterPin COMM_SwitchPotCtrlMinusToCtrlPot4 = {REGISTER_K, BIT7};
 
 // Инициализация для бистабильных реле
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW1 = {{REGISTER_D, BIT1}, {REGISTER_E, BIT0}};
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW2 = {{REGISTER_D, BIT2}, {REGISTER_E, BIT1}};
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW3 = {{REGISTER_D, BIT3}, {REGISTER_E, BIT2}};
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW4 = {{REGISTER_D, BIT4}, {REGISTER_E, BIT3}};
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW5 = {{REGISTER_D, BIT5}, {REGISTER_E, BIT4}};
-COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW6 = {{REGISTER_D, BIT6}, {REGISTER_E, BIT5}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW1 = {{REGISTER_E, BIT0}, {REGISTER_D, BIT0}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW2 = {{REGISTER_E, BIT1}, {REGISTER_D, BIT1}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW3 = {{REGISTER_E, BIT2}, {REGISTER_D, BIT2}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW4 = {{REGISTER_E, BIT3}, {REGISTER_D, BIT3}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW5 = {{REGISTER_E, BIT4}, {REGISTER_D, BIT4}};
+COMM_BistableSwitch COMM_SwitchBUSLVPlusToPOW6 = {{REGISTER_E, BIT5}, {REGISTER_D, BIT5}};
 
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW1 = {{REGISTER_F, BIT1}, {REGISTER_G, BIT0}};
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW2 = {{REGISTER_F, BIT2}, {REGISTER_G, BIT1}};
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW3 = {{REGISTER_F, BIT3}, {REGISTER_G, BIT2}};
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW4 = {{REGISTER_F, BIT4}, {REGISTER_G, BIT3}};
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW5 = {{REGISTER_F, BIT5}, {REGISTER_G, BIT4}};
-COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW6 = {{REGISTER_F, BIT6}, {REGISTER_G, BIT5}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW1 = {{REGISTER_G, BIT0}, {REGISTER_F, BIT0}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW2 = {{REGISTER_G, BIT1}, {REGISTER_F, BIT1}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW3 = {{REGISTER_G, BIT2}, {REGISTER_F, BIT2}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW4 = {{REGISTER_G, BIT3}, {REGISTER_F, BIT3}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW5 = {{REGISTER_G, BIT4}, {REGISTER_F, BIT4}};
+COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW6 = {{REGISTER_G, BIT5}, {REGISTER_F, BIT5}};
 
 // Variables
 extern const RegisterPin* const COMM_SimpleRelayArray[];
