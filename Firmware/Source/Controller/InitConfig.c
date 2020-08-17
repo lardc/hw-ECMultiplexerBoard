@@ -2,6 +2,8 @@
 #include "Board.h"
 #include "SysConfig.h"
 #include "BCCIxParams.h"
+#include "LowLevel.h"
+#include "Delay.h"
 
 // Functions
 //
@@ -28,8 +30,6 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_LED_EXT_RED);
 	GPIO_InitPushPullOutput(GPIO_LED_EXT_GREEN);
 	GPIO_InitPushPullOutput(GPIO_SET);
-	GPIO_InitPushPullOutput(GPIO_CLK);
-	GPIO_InitPushPullOutput(GPIO_DATA);
 	GPIO_InitPushPullOutput(GPIO_CTRL_SYNC_1);
 	GPIO_InitPushPullOutput(GPIO_CTRL_SYNC_2);
 	GPIO_InitPushPullOutput(GPIO_LOCK_1);
@@ -42,6 +42,12 @@ void INITCFG_ConfigIO()
 	GPIO_InitAltFunction(GPIO_ALT_CAN_TX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_UART_RX, AltFn_7);
 	GPIO_InitAltFunction(GPIO_ALT_UART_TX, AltFn_7);
+	GPIO_InitAltFunction(GPIO_CLK, AltFn_5);
+	GPIO_InitAltFunction(GPIO_DATA, AltFn_5);
+
+	GPIO_SetState(GPIO_RESET, false);
+	GPIO_SetState(GPIO_SET, true);
+	GPIO_SetState(GPIO_OE, true);
 }
 //------------------------------------------------
 void INITCFG_ConfigSPI()
