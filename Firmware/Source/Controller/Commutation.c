@@ -27,7 +27,6 @@ void COMM_CommutateGroup(uint8_t NumbOfTable);
 bool COMM_ReturnResultConnectGroup();
 bool COMM_ReturnResultChekExistParametrs();
 
-
 // Functions
 // ----------------------------------------
 bool COMM_ReturnResultConnectGroup()
@@ -47,9 +46,11 @@ bool COMM_ReturnResultChekExistParametrs()
 				{
 					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
 					{
-						if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
+						if((DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
+								|| (COMM_Table[i].TypeSignalAsLeakAge == IGNORE))
 						{
-							if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
+							if((DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
+									|| (COMM_Table[i].SignalDirection == IGNORE))
 							{
 								COMM_CommutateGroup(i);
 								return 1;
@@ -67,7 +68,7 @@ bool COMM_ReturnResultChekExistParametrs()
 void COMM_CommutateGroup(uint8_t NumbOfTable)
 {
 	uint64_t Relay = COMM_Table[NumbOfTable].Relay;
-	for(uint8_t i = 0; i < 45 ; i++)
+	for(uint8_t i = 0; i < 45; i++)
 	{
 		if(Relay & 1)
 		{
