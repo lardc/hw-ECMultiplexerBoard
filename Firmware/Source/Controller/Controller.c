@@ -46,6 +46,8 @@ void CONTROL_Init()
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
 
+	COMM_InitTable();			// Создание и заполнение таблиц
+
 	COMM_DisconnectAllRelay();
 }
 //------------------------------------------
@@ -181,7 +183,16 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 		case ACT_SET_RELAY_GROUP:
 			{
-				// Заготовка
+				if(COMM_ReturnResultConnectGroup())
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
+					*pUserError = ERR_NONE;
+				}
+				else
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+					*pUserError = ERR_DEVICE_NOT_READY;
+				}
 			}
 			break;
 

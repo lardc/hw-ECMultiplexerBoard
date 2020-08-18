@@ -9,6 +9,8 @@
 
 #define MAX_NUM_RELAY			45
 
+#define MAX_COUNTER_TABLE		30
+
 #define REGISTERS_NUM	11
 
 #define REGISTER_A		3
@@ -23,8 +25,45 @@
 #define REGISTER_J		6
 #define REGISTER_K		7
 
+#define COMM_MEAS_CURR_LEAK	1
+#define COMM_MEAS_DROP_VOLT	2
+#define COMM_MEAS_IN_VOLT	3
+#define COMM_MEAS_VOLT_BAN	4
+
+#define BODY_A1			1
+#define BODY_I1			2
+#define BODY_I6			3
+#define BODY_B1			4
+#define BODY_B2			5
+#define BODY_B5			6
+#define BODY_V1			7
+#define BODY_V2			8
+#define BODY_V104		9
+#define BODY_V108		10
+#define BODY_L1			11
+#define BODY_L2			12
+#define BODY_D1			13
+#define BODY_D2			14
+#define BODY_D192		15
+
+#define POS_1	1
+#define POS_2	2
+#define POS_3	3
+
+#define CTRL_DC_V		1
+#define CTRL_DC_I		2
+#define CTRL_AC_V		3
+
+#define LEAK_NO	0
+#define LEAK_DC	1
+#define LEAK_AC	2
+
+#define FORVARD	1
+#define REVERS	2
+
 #define COMM_RegisterPin static const RegisterPin
 #define COMM_BistableSwitch static const BistableSwitch
+#define COMM_MainTable static const MeasureTypeTable
 
 // Types
 typedef struct __RegisterPin
@@ -38,6 +77,21 @@ typedef struct __BistableSwitch
 	RegisterPin TurnOnPin;
 	RegisterPin TurnOffPin;
 } BistableSwitch;
+
+typedef struct __MeasureTypeTable
+{
+	uint8_t TypeMeasure;
+	uint8_t TypeBody;
+	uint8_t TypePositionOfBody;
+	uint8_t TypeCtrl;
+	uint8_t TypeSignalAsLeakAge;
+	uint8_t SignalDirection;
+	uint64_t Relay;
+
+} MeasureTypeTable;
+
+MeasureTypeTable COMM_Table[MAX_COUNTER_TABLE];
+
 
 // Инициализация для простых реле
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT1 = {REGISTER_A, BIT0};
@@ -111,5 +165,9 @@ COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW6 = {{REGISTER_G, BIT5}, {REGISTER
 // Variables
 extern const RegisterPin* const COMM_SimpleRelayArray[];
 extern const BistableSwitch* const COMM_BistableRelayArray[];
+
+void COMM_InitTable();
+void COMM_MakeMeasCommutateTable(uint8_t NumbTable, uint8_t TypeMeasure, uint8_t TypeBody, uint8_t TypePositionOfBody,
+		uint8_t TypeCtrl, uint8_t TypeSignalAsLeakAge, uint8_t SignalDirection, uint64_t NumRelay);
 
 #endif // __COMMUTATIONTABLE_H

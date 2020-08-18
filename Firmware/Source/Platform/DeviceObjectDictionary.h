@@ -32,7 +32,12 @@
 // Сохраняемые регистры
 
 // Несохраняемы регистры чтения-записи
-#define REG_GROUP_RELAY					128	// Регистр установки предопределенной группы
+#define REG_TYPE_MEASURE				130	// Тип измерения
+#define REG_TYPE_BODY					131	// Тип корпуса
+#define REG_POSITION_OF_BODY			132	// Позиция
+#define REG_TYPE_SIGNAL_CTRL			132	// Тип управления
+#define REG_TYPE_SIGNAL_AT_LEAKAGE		132	// Тип сигнала при утечке
+#define REG_TYPE_POLARITY				132	// Полярность подключения
 
 #define REG_DBG_STATE					150	// Регистр режима Отладки
 #define REG_DBG_RELAY_INDEX				151	// Регистр номера реле из CommutateTable

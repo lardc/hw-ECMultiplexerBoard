@@ -5,8 +5,11 @@
 #include "stdinc.h"
 #include "CommutationTable.h"
 
+// Variable
+bool COMM_ReturnResultConnectGroup();
+bool COMM_ReturnResultChekExistParametrs();
+
 // Functions
-//
 void COMM_DisconnectSimpleRelays();
 void COMM_DisconnectBistableRelays();
 void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState);

@@ -23,8 +23,70 @@ void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
 void COMM_CompareDataTo16Bit();
+void COMM_CommutateGroup(uint8_t NumbOfTable);
+bool COMM_ReturnResultConnectGroup();
+bool COMM_ReturnResultChekExistParametrs();
+
 
 // Functions
+// ----------------------------------------
+bool COMM_ReturnResultConnectGroup()
+{
+	return (COMM_ReturnResultChekExistParametrs());
+}
+// ----------------------------------------
+bool COMM_ReturnResultChekExistParametrs()
+{
+	for(uint8_t i = 0; i < MAX_COUNTER_TABLE + 1; i++)
+	{
+		if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
+		{
+			if(DataTable[REG_TYPE_BODY] == COMM_Table[i].TypeBody)
+			{
+				if(DataTable[REG_POSITION_OF_BODY] == COMM_Table[i].TypePositionOfBody)
+				{
+					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
+					{
+						if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
+						{
+							if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
+							{
+								COMM_CommutateGroup(i);
+								return 1;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return 0;
+}
+// ----------------------------------------
+
+void COMM_CommutateGroup(uint8_t NumbOfTable)
+{
+	uint64_t Relay = COMM_Table[NumbOfTable].Relay;
+	for(uint8_t i = 0; i < 45 ; i++)
+	{
+		if(Relay & 1)
+		{
+			COMM_SwitchSimpleRelay(i, true);
+		}
+		Relay >>= 1;
+	}
+
+	for(uint8_t i = 0; i < 11; i++)
+	{
+		if(Relay & 1)
+		{
+			COMM_SwitchBistableRelay(i, true);
+		}
+		Relay >>= 1;
+	}
+}
+// ----------------------------------------
+
 void COMM_DisconnectAllRelay()
 {
 	COMM_DisconnectSimpleRelays();
