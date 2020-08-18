@@ -9,7 +9,7 @@
 
 #define MAX_NUM_RELAY			45
 
-#define MAX_COUNTER_TABLE		30
+#define MAX_COUNTER_TABLE		200
 
 #define REGISTERS_NUM	11
 
@@ -54,12 +54,13 @@
 #define CTRL_DC_I		2
 #define CTRL_AC_V		3
 
-#define LEAK_NO	0
+#define IGNORE	0
+
 #define LEAK_DC	1
 #define LEAK_AC	2
 
 #define FORVARD	1
-#define REVERS	2
+#define REVERSE	2
 
 #define COMM_RegisterPin static const RegisterPin
 #define COMM_BistableSwitch static const BistableSwitch
