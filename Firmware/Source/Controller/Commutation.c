@@ -52,6 +52,7 @@ bool COMM_ReturnResultChekExistParametrs()
 							if((DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
 									|| (COMM_Table[i].SignalDirection == IGNORE))
 							{
+								COMM_DisconnectAllRelay();
 								COMM_CommutateGroup(i);
 								return 1;
 							}
