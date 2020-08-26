@@ -143,8 +143,8 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 128
 		{0, 0, 0},																	// 129
 		{0, MAX_TUPE_MEASURE, 0},													// 130
-		{0, MAX_TUPE_BODY, 0},														// 131
-		{0, MAX_TUPE_POS_BODY, 0},													// 132
+		{0, MAX_TUPE_CASE, 0},														// 131
+		{0, MAX_TUPE_POS_CASE, 0},													// 132
 		{0, MAX_TUPE_CTRL, 0},														// 133
 		{0, MAX_TUPE_LEAKAGE, 0},													// 134
 		{0, MAX_TUPE_POLARITY, 0},													// 135

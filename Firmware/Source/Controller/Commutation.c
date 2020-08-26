@@ -37,9 +37,9 @@ bool COMM_ReturnResultChekExistParametrs()
 	{
 		if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
 		{
-			if(DataTable[REG_TYPE_BODY] == COMM_Table[i].TypeBody)
+			if(DataTable[REG_TYPE_CASE] == COMM_Table[i].TypeCase)
 			{
-				if(DataTable[REG_POSITION_OF_BODY] == COMM_Table[i].TypePositionOfBody)
+				if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase)
 				{
 					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
 					{

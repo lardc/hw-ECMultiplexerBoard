@@ -33,8 +33,8 @@
 
 // Несохраняемы регистры чтения-записи
 #define REG_TYPE_MEASURE				130	// Тип измерения
-#define REG_TYPE_BODY					131	// Тип корпуса
-#define REG_POSITION_OF_BODY			132	// Позиция
+#define REG_TYPE_CASE					131	// Тип корпуса
+#define REG_POSITION_OF_CASE			132	// Позиция
 #define REG_TYPE_SIGNAL_CTRL			133	// Тип управления
 #define REG_TYPE_SIGNAL_AT_LEAKAGE		134	// Тип сигнала при утечке
 #define REG_TYPE_POLARITY				135	// Полярность подключения

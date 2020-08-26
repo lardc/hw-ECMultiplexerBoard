@@ -6,8 +6,8 @@
 
 // Definitions
 #define MAX_TUPE_MEASURE		4
-#define MAX_TUPE_BODY			4
-#define MAX_TUPE_POS_BODY		15
+#define MAX_TUPE_CASE			4
+#define MAX_TUPE_POS_CASE		15
 #define MAX_TUPE_CTRL			3
 #define MAX_TUPE_LEAKAGE		2
 #define MAX_TUPE_POLARITY		2
@@ -37,21 +37,21 @@
 #define COMM_MEAS_IN_VOLT	3
 #define COMM_MEAS_VOLT_BAN	4
 
-#define BODY_A1			1
-#define BODY_I1			2
-#define BODY_I6			3
-#define BODY_B1			4
-#define BODY_B2			5
-#define BODY_B5			6
-#define BODY_V1			7
-#define BODY_V2			8
-#define BODY_V104		9
-#define BODY_V108		10
-#define BODY_L1			11
-#define BODY_L2			12
-#define BODY_D1			13
-#define BODY_D2			14
-#define BODY_D192		15
+#define CASE_A1			1
+#define CASE_I1			2
+#define CASE_I6			3
+#define CASE_B1			4
+#define CASE_B2			5
+#define CASE_B5			6
+#define CASE_V1			7
+#define CASE_V2			8
+#define CASE_V104		9
+#define CASE_V108		10
+#define CASE_L1			11
+#define CASE_L2			12
+#define CASE_D1			13
+#define CASE_D2			14
+#define CASE_D192		15
 
 #define POS_1	1
 #define POS_2	2
@@ -89,8 +89,8 @@ typedef struct __BistableSwitch
 typedef struct __MeasureTypeTable
 {
 	uint8_t TypeMeasure;
-	uint8_t TypeBody;
-	uint8_t TypePositionOfBody;
+	uint8_t TypeCase;
+	uint8_t TypePositionOfCase;
 	uint8_t TypeCtrl;
 	uint8_t TypeSignalAsLeakAge;
 	uint8_t SignalDirection;
@@ -175,7 +175,7 @@ extern const RegisterPin* const COMM_SimpleRelayArray[];
 extern const BistableSwitch* const COMM_BistableRelayArray[];
 
 void COMM_InitTable();
-void COMM_MakeMeasCommutateTable(uint8_t NumbTable, uint8_t TypeMeasure, uint8_t TypeBody, uint8_t TypePositionOfBody,
+void COMM_MakeMeasCommutateTable(uint8_t NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
 		uint8_t TypeCtrl, uint8_t TypeSignalAsLeakAge, uint8_t SignalDirection, uint64_t NumRelay);
 
 #endif // __COMMUTATIONTABLE_H
