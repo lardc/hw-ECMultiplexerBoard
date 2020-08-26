@@ -5,6 +5,13 @@
 #include "stdinc.h"
 
 // Definitions
+#define MAX_TUPE_MEASURE		4
+#define MAX_TUPE_BODY			4
+#define MAX_TUPE_POS_BODY		15
+#define MAX_TUPE_CTRL			3
+#define MAX_TUPE_LEAKAGE		2
+#define MAX_TUPE_POLARITY		2
+
 #define BISTABLE_ARRAY_SIZE		12
 
 #define MAX_NUM_RELAY			45
