@@ -36,13 +36,13 @@ void LL_SetSync2State(bool State)
 }
 //-----------------------------
 
-bool LL_GetSync1State()
+bool LL_GetStateSync1()
 {
 	return GPIO_GetState(GPIO_SYNC_1);
 }
 //-----------------------------
 
-bool LL_GetSync2State()
+bool LL_GetStateSync2()
 {
 	return GPIO_GetState(GPIO_SYNC_2);
 }
@@ -79,3 +79,26 @@ void LL_WriteToShiftRegister(volatile uint8_t *Data, uint8_t DataSize)
 }
 //-----------------------------
 
+bool LL_GetStateSens1()
+{
+	return GPIO_GetState(GPIO_SFTY_1);
+}
+//-----------------------------
+
+bool LL_GetStateSens2()
+{
+	return GPIO_GetState(GPIO_SFTY_2);
+}
+//-----------------------------
+
+bool LL_GetStateButtonStart()
+{
+	return GPIO_GetState(GPIO_KEY_START);
+}
+//-----------------------------
+
+bool LL_GetStateButtonStop()
+{
+	return GPIO_GetState(GPIO_KEY_STOP);
+}
+//-----------------------------

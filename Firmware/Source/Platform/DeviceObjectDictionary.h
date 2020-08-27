@@ -16,10 +16,12 @@
 #define ACT_DBG_SYNC_2_IMPULSE			53	// Одиночный импусль цепи SYNC_2
 #define ACT_DBG_LOCK_1_IMPULSE			54	// Одиночный импусль цепи LOCK1
 #define ACT_DBG_LOCK_2_IMPULSE			55	// Одиночный импусль цепи LOCK2
-#define ACT_DBG_SIMPLE_RELAY_ON 		10	// Включить одно обычное реле
-#define ACT_DBG_SIMPLE_RELAY_OFF 		11	// Отключить одно обычноее реле
-#define ACT_DBG_BISTABLE_RELAY_ON 		12	// Включить одно бистабильное реле
-#define ACT_DBG_BISTABLE_RELAY_OFF		13	// Отключить одно бистабильное реле
+#define ACT_DBG_SIMPLE_RELAY_ON 		56	// Включить одно обычное реле
+#define ACT_DBG_SIMPLE_RELAY_OFF 		57	// Отключить одно обычноее реле
+#define ACT_DBG_BISTABLE_RELAY_ON 		58	// Включить одно бистабильное реле
+#define ACT_DBG_BISTABLE_RELAY_OFF		59	// Отключить одно бистабильное реле
+#define ACT_DBG_SAFETY_DISABLE			60	// Отключение датчиков безопасности
+#define ACT_DBG_SAFETY_ENABLE			61	// Включение датчиков безопасности
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -49,6 +51,8 @@
 #define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
+#define REG_STATE_LOCK					198	// Регистр запрета коммутации
+#define REG_STATE_SENS					199	// Регистр состояния датчиков безопасности
 // -----------------------------
 
 // Operation results
@@ -61,6 +65,8 @@
 
 // Problem
 #define PROBLEM_NONE					0
+#define PROBLEM_BUTTON_STOP				1
+#define PROBLEM_SENS					2
 
 //  Warning
 #define WARNING_NONE					0
