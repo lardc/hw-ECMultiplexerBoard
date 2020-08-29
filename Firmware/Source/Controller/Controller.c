@@ -82,7 +82,7 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
-	CONTROL_Logic();
+	//CONTROL_Logic();
 }
 //------------------------------------------
 

@@ -169,9 +169,7 @@ void COMM_DisableCtrlOfBistableRelay()
 
 void COMM_CleanShiftRegister()
 {
-	for(volatile uint8_t i = 0; i < REGISTERS_NUM; i++)
-	{
+	for(uint8_t i = 0; i < REGISTERS_NUM + 1; i++)
 		ShiftRegistersState[i] = 0;
-	}
 }
 // ----------------------------------------
