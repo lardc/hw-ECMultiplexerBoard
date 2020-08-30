@@ -6,8 +6,8 @@
 
 // Definitions
 #define MAX_TUPE_MEASURE		4
-#define MAX_TUPE_CASE			4
-#define MAX_TUPE_POS_CASE		15
+#define MAX_TUPE_CASE			15
+#define MAX_TUPE_POS_CASE		3
 #define MAX_TUPE_CTRL			3
 #define MAX_TUPE_LEAKAGE		2
 #define MAX_TUPE_POLARITY		2
