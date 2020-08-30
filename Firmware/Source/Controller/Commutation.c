@@ -23,6 +23,8 @@ void COMM_CleanShiftRegister();
 void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable);
 bool COMM_ReturnResultConnectGroup();
 bool COMM_ReturnResultChekExistParametrs();
+void COMM_CommutateForTableGroupSimpleRelay(uint64_t RelayMask);
+void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask);
 
 // Functions
 // ----------------------------------------
@@ -65,23 +67,29 @@ bool COMM_ReturnResultChekExistParametrs()
 
 void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable)
 {
-	uint64_t Relay = COMM_Table[NumbOfTable].Relay;
-	for(uint8_t i = 0; i < 45; i++)
-	{
-		if(Relay & 1)
-		{
-			COMM_SwitchSimpleRelay(i, true);
-		}
-		Relay >>= 1;
-	}
+	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay);
+	COMM_CommutateForTableGroupBistablRelay(COMM_Table[NumbOfTable].Relay >> BISTABLE_RELAY_START_BIT);
+}
+// ----------------------------------------
 
-	for(uint8_t i = 0; i < 11; i++)
+void COMM_CommutateForTableGroupSimpleRelay(uint64_t RelayMask)
+{
+	for(uint8_t i = 0; i < SIMPLE_ARRAY_SIZE; i++)
 	{
-		if(Relay & 1)
-		{
+		if(RelayMask & 1)
+			COMM_SwitchSimpleRelay(i, true);
+		RelayMask >>= 1;
+	}
+}
+// ----------------------------------------
+
+void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask)
+{
+	for(uint8_t i = 0; i < BISTABLE_ARRAY_SIZE; i++)
+	{
+		if(RelayMask & 1)
 			COMM_SwitchBistableRelay(i, true);
-		}
-		Relay >>= 1;
+		RelayMask >>= 1;
 	}
 }
 // ----------------------------------------
