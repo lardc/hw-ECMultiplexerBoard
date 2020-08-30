@@ -20,7 +20,7 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
-void COMM_CommutateGroup(uint8_t NumbOfTable);
+void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable);
 bool COMM_ReturnResultConnectGroup();
 bool COMM_ReturnResultChekExistParametrs();
 
@@ -50,7 +50,7 @@ bool COMM_ReturnResultChekExistParametrs()
 									|| (COMM_Table[i].SignalDirection == IGNORE))
 							{
 								COMM_DisconnectAllRelay();
-								COMM_CommutateGroup(i);
+								COMM_CommutateGroupOnTableNumber(i);
 								return 1;
 							}
 						}
@@ -63,7 +63,7 @@ bool COMM_ReturnResultChekExistParametrs()
 }
 // ----------------------------------------
 
-void COMM_CommutateGroup(uint8_t NumbOfTable)
+void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable)
 {
 	uint64_t Relay = COMM_Table[NumbOfTable].Relay;
 	for(uint8_t i = 0; i < 45; i++)

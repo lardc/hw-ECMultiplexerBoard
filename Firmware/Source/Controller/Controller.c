@@ -125,6 +125,14 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 			
+		case ACT_SET_RELAY_TABLE:
+			{
+				COMM_DisconnectAllRelay();
+				COMM_CommutateGroupOnTableNumber(DataTable[REG_NUM_TABLE]);
+			}
+			break;
+
+
 		case ACT_DBG_LED_GREEN_IMPULSE:
 			{
 				if(DataTable[REG_DBG_STATE])

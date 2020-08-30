@@ -16,7 +16,7 @@
 
 #define MAX_NUM_RELAY			45
 
-#define MAX_COUNTER_TABLE		200
+#define MAX_COUNTER_TABLE		155
 
 #define REGISTERS_NUM	11
 
@@ -99,7 +99,6 @@ typedef struct __MeasureTypeTable
 } MeasureTypeTable;
 
 MeasureTypeTable COMM_Table[MAX_COUNTER_TABLE];
-
 
 // Инициализация для простых реле
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT1 = {REGISTER_A, BIT0};

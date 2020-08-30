@@ -7,8 +7,9 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле
+#define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле (на основании корпуса и т.д.)
 #define ACT_SET_RELAY_NONE				21 	// Отключить все релле
+#define ACT_SET_RELAY_TABLE				22 	// Подключить группу реле по номеру таблицы
 
 #define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
 #define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
@@ -40,6 +41,8 @@
 #define REG_TYPE_SIGNAL_CTRL			133	// Тип управления
 #define REG_TYPE_SIGNAL_AT_LEAKAGE		134	// Тип сигнала при утечке
 #define REG_TYPE_POLARITY				135	// Полярность подключения
+
+#define REG_NUM_TABLE					140	// Номер подключаемой таблици
 
 #define REG_DBG_STATE					150	// Регистр режима Отладки
 #define REG_DBG_RELAY_INDEX				151	// Регистр номера реле из CommutateTable
