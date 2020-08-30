@@ -40,9 +40,9 @@ GPIO_PortPinSettingMacro GPIO_ALT_UART_TX	= {GPIOA, Pin_9};
 // ¬ходы
 GPIO_PortPinSettingMacro GPIO_SYNC_1		= {GPIOB, Pin_4};
 GPIO_PortPinSettingMacro GPIO_SYNC_2		= {GPIOB, Pin_5};
-GPIO_PortPinSettingMacro GPIO_SFTY_1		= {GPIOB, Pin_6};
-GPIO_PortPinSettingMacro GPIO_SFTY_2		= {GPIOB, Pin_7};
-GPIO_PortPinSettingMacro GPIO_KEY_START		= {GPIOB, Pin_8};
-GPIO_PortPinSettingMacro GPIO_KEY_STOP		= {GPIOB, Pin_9};
+GPIO_PortPinSettingMacro GPIO_SFTY_2		= {GPIOB, Pin_6};
+GPIO_PortPinSettingMacro GPIO_SFTY_1		= {GPIOB, Pin_7};
+GPIO_PortPinSettingMacro GPIO_KEY_STOP		= {GPIOB, Pin_8};
+GPIO_PortPinSettingMacro GPIO_KEY_START		= {GPIOB, Pin_9};
 
 #endif // __BOARD_H
