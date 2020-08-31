@@ -14,12 +14,6 @@
 #include "Safety.h"
 #include "Diagnostic.h"
 
-#define CTRL_GET_STATE_LOCK			DataTable[REG_STATE_LOCK]
-#define CTRL_SET_STATE_LOCK			DataTable[REG_STATE_LOCK] = TRUE
-#define CTRL_SET_STATE_UNLOCK		DataTable[REG_STATE_LOCK] = FALSE
-#define CTRL_SET_STATE_SENS_ALARM	DataTable[REG_STATE_SENS] = TRUE
-#define CTRL_SET_STATE_SENS_CLEAR	DataTable[REG_STATE_SENS] = FALSE
-
 // Types
 //
 typedef void (*FUNC_AsyncDelegate)();
@@ -39,7 +33,8 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
-void CONTROL_Logic();
+void SFTY_CheckSafety();
+void SFTY_DisconnectAndSetStopState();
 
 // Functions
 //
@@ -65,12 +60,10 @@ void CONTROL_ResetToDefaultState()
 {
 	DataTable[REG_FAULT_REASON] = DF_NONE;
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
-	DataTable[REG_WARNING] = WARNING_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+	DataTable[REG_BUTTON_START] = BUTT_START_IS_UNPRESSED;
 
-	DataTable[REG_STATE_LOCK] = TRUE;
-	
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
@@ -83,7 +76,7 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
-	//CONTROL_Logic();
+	SFTY_CheckSafety();
 }
 //------------------------------------------
 
@@ -95,32 +88,56 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	{
 		case ACT_ENABLE_POWER:
 			{
-				if(CONTROL_State == DS_None)
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+				if((CONTROL_State == DS_None) || (CONTROL_State == DS_Disabled))
 				{
-					CONTROL_SetDeviceState(DS_Enabled);
+					COMM_DisconnectAllRelay();
+					if(SafetyState.SafetyIsActive)
+						CONTROL_SetDeviceState(DS_SafetyEnabled);
+					else
+						CONTROL_SetDeviceState(DS_Enabled);
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
 				}
 				else if(CONTROL_State == DS_Enabled)
 				{
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 					*pUserError = ERR_OPERATION_BLOCKED;
 				}
 				break;
 			}
 			
 		case ACT_DISABLE_POWER:
-			if((CONTROL_State == DS_None) || (CONTROL_State == DS_Enabled) || (CONTROL_State == DS_ReadyCommutate))
+			DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+			if((CONTROL_State == DS_None) || (CONTROL_State == DS_Enabled) || (CONTROL_State == DS_SafetyEnabled)
+					|| (CONTROL_State == DS_SafetyDanger))
 			{
 				COMM_DisconnectAllRelay();
-				CONTROL_SetDeviceState(DS_None);
+				CONTROL_SetDeviceState(DS_Disabled);
+				DataTable[REG_OP_RESULT] = OPRESULT_OK;
+			}
+			else
+			{
+				if((CONTROL_State == DS_Disabled))
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
+				}
+				else
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+				}
 			}
 			
 		case ACT_SET_RELAY_NONE:
 			{
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
 				COMM_DisconnectAllRelay();
+				DataTable[REG_OP_RESULT] = OPRESULT_OK;
 			}
 			break;
 
 		case ACT_SET_RELAY_GROUP:
 			{
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
 				if(COMM_ReturnResultConnectGroup())
 				{
 					DataTable[REG_OP_RESULT] = OPRESULT_OK;
@@ -139,50 +156,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			
 	}
 	return true;
-}
-//-----------------------------------------------
-
-void CONTROL_Logic()
-{
-	SFTY_ReadStateSafety();
-
-	if(SFTY_GET_STATE_BUTTON_STOP)
-	{
-		CTRL_SET_STATE_LOCK;
-		DataTable[REG_PROBLEM] = PROBLEM_BUTTON_STOP;
-		COMM_DisconnectAllRelay();
-	}
-	else
-	{
-		CTRL_SET_STATE_UNLOCK;
-		if(SFTY_GET_STATE_BUTTON_START)
-		{
-			if(SFTY_GET_STATUS)
-			{
-				SFTY_EnableInterrupt();
-				SFTY_ReadStateSafety();
-
-				if(SFTY_GET_STATE_SENS1 || SFTY_GET_STATE_SENS2)
-				{
-					COMM_DisconnectAllRelay();
-					CTRL_SET_STATE_SENS_ALARM;
-					return;
-				}
-			}
-			CTRL_SET_STATE_SENS_CLEAR;
-			if(CTRL_GET_STATE_LOCK)
-			{
-				if(COMM_ReturnResultConnectGroup())
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_OK;
-				}
-				else
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
-				}
-			}
-		}
-	}
 }
 //-----------------------------------------------
 

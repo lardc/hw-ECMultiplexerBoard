@@ -51,11 +51,9 @@
 #define REG_DEV_STATE					192	// Регистр состояния
 #define REG_FAULT_REASON				193	// Регистр Fault
 #define REG_DISABLE_REASON				194	// Регистр Disable
-#define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-#define REG_STATE_LOCK					198	// Регистр запрета коммутации
-#define REG_STATE_SENS					199	// Регистр состояния датчиков безопасности
+#define REG_BUTTON_START				199	// Регистр состояния кнопки старт
 // -----------------------------
 
 // Operation results
@@ -80,5 +78,9 @@
 #define ERR_OPERATION_BLOCKED			2	//  Операция не может быть выполнена в текущем состоянии устройства
 #define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD					4	//  Неправильный ключ
+
+// Start button state
+#define BUTT_START_IS_UNPRESSED			0
+#define BUTT_START_IS_PRESSED			1
 
 #endif //  __DEV_OBJ_DIC_H

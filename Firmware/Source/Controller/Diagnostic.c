@@ -11,7 +11,9 @@
 #include "Safety.h"
 #include "Commutation.h"
 
+extern volatile DeviceState CONTROL_State;
 // Functions
+
 bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 {
 	switch (ActionID)
@@ -67,13 +69,20 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 
 		case ACT_DBG_SAFETY_DISABLE:
 			{
-				SFTY_SET_DISABLE;
+				if(CONTROL_State == DS_None)
+				{
+					SFTY_SwitchInterruptState(false);
+				}
+				else
+				{
+					*pUserError = ERR_OPERATION_BLOCKED;
+				}
 			}
 			break;
 
 		case ACT_DBG_SAFETY_ENABLE:
 			{
-				SFTY_SET_ENABLE;
+				SFTY_SwitchInterruptState(true);
 			}
 			break;
 
