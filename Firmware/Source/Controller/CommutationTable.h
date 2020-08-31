@@ -6,31 +6,34 @@
 
 // Definitions
 #define MAX_TUPE_MEASURE		4
-#define MAX_TUPE_CASE			4
-#define MAX_TUPE_POS_CASE		15
+#define MAX_TUPE_CASE			15
+#define MAX_TUPE_POS_CASE		3
 #define MAX_TUPE_CTRL			3
 #define MAX_TUPE_LEAKAGE		2
 #define MAX_TUPE_POLARITY		2
 
 #define BISTABLE_ARRAY_SIZE		12
+#define SIMPLE_ARRAY_SIZE		46
+
+#define BISTABLE_RELAY_START_BIT	SIMPLE_ARRAY_SIZE
 
 #define MAX_NUM_RELAY			45
 
-#define MAX_COUNTER_TABLE		200
+#define MAX_COUNTER_TABLE		155
 
 #define REGISTERS_NUM	11
 
-#define REGISTER_A		3
-#define REGISTER_B		2
-#define REGISTER_C		1
-#define REGISTER_D		9
-#define REGISTER_E		8
-#define REGISTER_F		11
-#define REGISTER_G		10
-#define REGISTER_H		4
-#define REGISTER_I		5
-#define REGISTER_J		6
-#define REGISTER_K		7
+#define REGISTER_A		2
+#define REGISTER_B		1
+#define REGISTER_C		0
+#define REGISTER_D		8
+#define REGISTER_E		7
+#define REGISTER_F		10
+#define REGISTER_G		9
+#define REGISTER_H		3
+#define REGISTER_I		4
+#define REGISTER_J		5
+#define REGISTER_K		6
 
 #define COMM_MEAS_CURR_LEAK	1
 #define COMM_MEAS_DROP_VOLT	2
@@ -99,7 +102,6 @@ typedef struct __MeasureTypeTable
 } MeasureTypeTable;
 
 MeasureTypeTable COMM_Table[MAX_COUNTER_TABLE];
-
 
 // Инициализация для простых реле
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT1 = {REGISTER_A, BIT0};

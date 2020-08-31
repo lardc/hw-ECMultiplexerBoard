@@ -11,6 +11,13 @@
 #include "SysConfig.h"
 #include "DebugActions.h"
 #include "Commutation.h"
+#include "Safety.h"
+
+#define CTRL_GET_STATE_LOCK			DataTable[REG_STATE_LOCK]
+#define CTRL_SET_STATE_LOCK			DataTable[REG_STATE_LOCK] = TRUE
+#define CTRL_SET_STATE_UNLOCK		DataTable[REG_STATE_LOCK] = FALSE
+#define CTRL_SET_STATE_SENS_ALARM	DataTable[REG_STATE_SENS] = TRUE
+#define CTRL_SET_STATE_SENS_CLEAR	DataTable[REG_STATE_SENS] = FALSE
 
 // Types
 //
@@ -31,6 +38,7 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
+void CONTROL_Logic();
 
 // Functions
 //
@@ -59,6 +67,8 @@ void CONTROL_ResetToDefaultState()
 	DataTable[REG_WARNING] = WARNING_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+
+	DataTable[REG_STATE_LOCK] = TRUE;
 	
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
@@ -72,6 +82,7 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
+	//CONTROL_Logic();
 }
 //------------------------------------------
 
@@ -87,21 +98,19 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				{
 					CONTROL_SetDeviceState(DS_Enabled);
 				}
-				else if(CONTROL_State != DS_Enabled)
+				else if(CONTROL_State == DS_Enabled)
 				{
-					*pUserError = ERR_DEVICE_NOT_READY;
+					*pUserError = ERR_OPERATION_BLOCKED;
 				}
 				break;
 			}
 			
 		case ACT_DISABLE_POWER:
-			if(CONTROL_State == DS_Enabled)
+			if((CONTROL_State == DS_None) || (CONTROL_State == DS_Enabled) || (CONTROL_State == DS_ReadyCommutate))
 			{
+				COMM_DisconnectAllRelay();
 				CONTROL_SetDeviceState(DS_None);
 			}
-			else
-				*pUserError = ERR_OPERATION_BLOCKED;
-			break;
 			
 		case ACT_DBG_LED_RED_IMPULSE:
 			{
@@ -116,6 +125,14 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 			
+		case ACT_SET_RELAY_TABLE:
+			{
+				COMM_DisconnectAllRelay();
+				COMM_CommutateGroupOnTableNumber(DataTable[REG_NUM_TABLE]);
+			}
+			break;
+
+
 		case ACT_DBG_LED_GREEN_IMPULSE:
 			{
 				if(DataTable[REG_DBG_STATE])
@@ -226,11 +243,81 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 
+		case ACT_DBG_SAFETY_DISABLE:
+			{
+				if(DataTable[REG_DBG_STATE])
+				{
+					SFTY_SET_DISABLE;
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
+			}
+			break;
+
+		case ACT_DBG_SAFETY_ENABLE:
+			{
+				if(DataTable[REG_DBG_STATE])
+				{
+					SFTY_SET_ENABLE;
+				}
+				else
+				{
+					*pUserError = ERR_CONFIGURATION_LOCKED;
+				}
+			}
+			break;
+
 		default:
 			return false;
 			
 	}
 	return true;
+}
+//-----------------------------------------------
+
+void CONTROL_Logic()
+{
+	SFTY_ReadStateSafety();
+
+	if(SFTY_GET_STATE_BUTTON_STOP)
+	{
+		CTRL_SET_STATE_LOCK;
+		DataTable[REG_PROBLEM] = PROBLEM_BUTTON_STOP;
+		COMM_DisconnectAllRelay();
+	}
+	else
+	{
+		CTRL_SET_STATE_UNLOCK;
+		if(SFTY_GET_STATE_BUTTON_START)
+		{
+			if(SFTY_GET_STATUS)
+			{
+				SFTY_EnableInterrupt();
+				SFTY_ReadStateSafety();
+
+				if(SFTY_GET_STATE_SENS1 || SFTY_GET_STATE_SENS2)
+				{
+					COMM_DisconnectAllRelay();
+					CTRL_SET_STATE_SENS_ALARM;
+					return;
+				}
+			}
+			CTRL_SET_STATE_SENS_CLEAR;
+			if(CTRL_GET_STATE_LOCK)
+			{
+				if(COMM_ReturnResultConnectGroup())
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
+				}
+				else
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+				}
+			}
+		}
+	}
 }
 //-----------------------------------------------
 

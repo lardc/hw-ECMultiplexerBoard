@@ -15,8 +15,17 @@ Boolean INITCFG_ConfigSystemClock()
 
 void INITCFG_ConfigInterrupt()
 {
-	EXTI_Config(EXTI_PA, EXTI_8, RISE_TRIG, 0);
+	EXTI_Config(EXTI_PB, EXTI_6, RISE_TRIG, 0);	// GPIO_SFTY_2
+	EXTI_EnableInterrupt(EXTI4_IRQn, 0, true);
+
+	EXTI_Config(EXTI_PB, EXTI_7, RISE_TRIG, 0);	// GPIO_SFTY_1
+	EXTI_EnableInterrupt(EXTI4_IRQn, 0, true);
+
+	EXTI_Config(EXTI_PB, EXTI_8, RISE_TRIG, 0);	// GPIO_KEY_STOP
 	EXTI_EnableInterrupt(EXTI3_IRQn, 0, true);
+
+//	EXTI_Config(EXTI_PB, EXTI_9, RISE_TRIG, 0);	// GPIO_KEY_START
+//	EXTI_EnableInterrupt(EXTI4_IRQn, 0, true);
 }
 //------------------------------------------------
 
@@ -45,6 +54,15 @@ void INITCFG_ConfigIO()
 	GPIO_InitAltFunction(GPIO_CLK, AltFn_5);
 	GPIO_InitAltFunction(GPIO_DATA, AltFn_5);
 
+	// Входы
+	GPIO_InitInput(GPIO_SYNC_1, NoPull);
+	GPIO_InitInput(GPIO_SYNC_2, NoPull);
+	GPIO_InitInput(GPIO_SFTY_1, Pull_Up);
+	GPIO_InitInput(GPIO_SFTY_2, Pull_Up);
+	GPIO_InitInput(GPIO_KEY_START, Pull_Up);
+	GPIO_InitInput(GPIO_KEY_STOP, Pull_Up);
+
+	// Начальные состояние выходов
 	GPIO_SetState(GPIO_RESET, false);
 	GPIO_SetState(GPIO_SET, true);
 	GPIO_SetState(GPIO_OE, true);
@@ -52,7 +70,7 @@ void INITCFG_ConfigIO()
 //------------------------------------------------
 void INITCFG_ConfigSPI()
 {
-	SPI_Init(SPI1, SPI_CR1_BR, FALSE);
+	SPI_Init8b(SPI1, SPI_CR1_BR, FALSE);
 }
 
 //------------------------------------------------
