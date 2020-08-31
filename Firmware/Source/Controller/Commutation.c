@@ -15,16 +15,20 @@ volatile static uint8_t ShiftRegistersState[REGISTERS_NUM + 1] = {0};
 volatile static uint8_t BistableBits[REGISTERS_NUM + 1] = {0};
 
 // Forward functions
+bool COMM_ReturnResultConnectGroup();
+bool COMM_ReturnResultChekExistParametrs();
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
 void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable);
-bool COMM_ReturnResultConnectGroup();
-bool COMM_ReturnResultChekExistParametrs();
 void COMM_CommutateForTableGroupSimpleRelay(uint64_t RelayMask);
 void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask);
+void COMM_DisconnectAllRelay();
+void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState);
+void COMM_DisconnectBistableRelays();
+void COMM_DisconnectSimpleRelays();
 
 // Functions
 // ----------------------------------------

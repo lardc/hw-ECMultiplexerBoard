@@ -66,6 +66,11 @@ void INITCFG_ConfigIO()
 	GPIO_SetState(GPIO_RESET, false);
 	GPIO_SetState(GPIO_SET, true);
 	GPIO_SetState(GPIO_OE, true);
+
+/*	GPIO_SetState(GPIO_LED_EXT_RED, true);
+	GPIO_SetState(GPIO_LED_EXT_GREEN, true);
+	GPIO_SetState(GPIO_LOCK_1, true);
+	GPIO_SetState(GPIO_LOCK_2, true);*/
 }
 //------------------------------------------------
 void INITCFG_ConfigSPI()

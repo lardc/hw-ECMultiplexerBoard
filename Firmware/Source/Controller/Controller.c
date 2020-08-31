@@ -12,6 +12,7 @@
 #include "DebugActions.h"
 #include "Commutation.h"
 #include "Safety.h"
+#include "Diagnostic.h"
 
 #define CTRL_GET_STATE_LOCK			DataTable[REG_STATE_LOCK]
 #define CTRL_SET_STATE_LOCK			DataTable[REG_STATE_LOCK] = TRUE
@@ -112,92 +113,12 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				CONTROL_SetDeviceState(DS_None);
 			}
 			
-		case ACT_DBG_LED_RED_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLedRed();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_SET_RELAY_TABLE:
+		case ACT_SET_RELAY_NONE:
 			{
 				COMM_DisconnectAllRelay();
-				COMM_CommutateGroupOnTableNumber(DataTable[REG_NUM_TABLE]);
 			}
 			break;
 
-
-		case ACT_DBG_LED_GREEN_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLedGreen();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_SYNC_1_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineSync1();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_SYNC_2_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineSync2();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_LOCK_1_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineLock1();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_LOCK_2_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineLock2();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
 		case ACT_SET_RELAY_GROUP:
 			{
 				if(COMM_ReturnResultConnectGroup())
@@ -213,64 +134,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 
-		case ACT_SET_RELAY_NONE:
-			{
-				COMM_DisconnectAllRelay();
-			}
-			break;
-			
-		case ACT_DBG_SIMPLE_RELAY_ON:
-			{
-				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], true);
-			}
-			break;
-
-		case ACT_DBG_SIMPLE_RELAY_OFF:
-			{
-				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], false);
-			}
-			break;
-
-		case ACT_DBG_BISTABLE_RELAY_ON:
-			{
-				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], true);
-			}
-			break;
-
-		case ACT_DBG_BISTABLE_RELAY_OFF:
-			{
-				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], false);
-			}
-			break;
-
-		case ACT_DBG_SAFETY_DISABLE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					SFTY_SET_DISABLE;
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-
-		case ACT_DBG_SAFETY_ENABLE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					SFTY_SET_ENABLE;
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-
 		default:
-			return false;
+			return DIAG_HandleDiagnosticAction(ActionID, pUserError);
 			
 	}
 	return true;
