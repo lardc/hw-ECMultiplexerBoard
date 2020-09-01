@@ -16,15 +16,15 @@ void ITRPT_SaveActiveStateButtonStart();
 // Functions
 void EXTI9_5_IRQHandler()
 {
-	if(EXTI_FlagCheck(EXTI_6))	// SEN1
+	if(EXTI_FlagCheck(EXTI_6))	// SEN2
 	{
-		ITRPT_Sen1();
+		ITRPT_Sen2();
 		EXTI_FlagReset(EXTI_6);
 	}
 
-	if(EXTI_FlagCheck(EXTI_7))	// SEN2
+	if(EXTI_FlagCheck(EXTI_7))	// SEN1
 	{
-		ITRPT_Sen2();
+		ITRPT_Sen1();
 		EXTI_FlagReset(EXTI_7);
 	}
 
@@ -44,24 +44,24 @@ void EXTI9_5_IRQHandler()
 
 void ITRPT_Sen1()
 {
-	SafetyState.StateSensor.One = !LL_GetStateSens1();
+	SafetyState.StateSensor.One = 1;
 }
 //------------------------------------------
 
 void ITRPT_Sen2()
 {
-	SafetyState.StateSensor.Two = !LL_GetStateSens2();
+	SafetyState.StateSensor.Two = 1;
 }
 //------------------------------------------
 
 void ITRPT_SaveActiveStateButtonStop()
 {
-	SafetyState.StateButton.Stop = !LL_GetStateButtonStop();
+	SafetyState.StateButton.Stop = 1;
 }
 //------------------------------------------
 
 void ITRPT_SaveActiveStateButtonStart()
 {
-	SafetyState.StateButton.Start = !LL_GetStateButtonStart();
+	SafetyState.StateButton.Start = 1;
 }
 //------------------------------------------

@@ -3,6 +3,11 @@
 
 #include "stdinc.h"
 
+#define SFTY_SET_STATE_SENS1 SafetyState.StateSensor.One
+#define SFTY_SET_STATE_SENS2 SafetyState.StateSensor.Two
+#define SFTY_SET_STATE_BUTTON_STOP SafetyState.StateButton.Stop
+#define SFTY_SET_STATE_BUTTON_START SafetyState.StateButton.Start
+
 #define SFTY_GET_STATE_SENS1 SafetyState.StateSensor.One
 #define SFTY_GET_STATE_SENS2 SafetyState.StateSensor.Two
 #define SFTY_GET_STATE_BUTTON_STOP SafetyState.StateButton.Stop
@@ -10,6 +15,11 @@
 #define SFTY_GET_STATUS SafetyState.SafetyIsActive
 #define SFTY_SET_ENABLE SafetyState.SafetyIsActive = 1
 #define SFTY_SET_DISABLE SafetyState.SafetyIsActive = 0
+
+#define SFTY_CLR_STATE_SENS1		SafetyState.StateSensor.One = 0
+#define SFTY_CLR_STATE_SENS2		SafetyState.StateSensor.Two = 0
+#define SFTY_CLR_STATE_BUTTON_STOP	SafetyState.StateButton.Stop = 0
+#define SFTY_CLR_STATE_BUTTON_START	SafetyState.StateButton.Start = 0
 
 typedef struct __Buttons
 {

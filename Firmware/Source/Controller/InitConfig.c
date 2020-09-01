@@ -15,16 +15,7 @@ Boolean INITCFG_ConfigSystemClock()
 
 void INITCFG_ConfigInterrupt()
 {
-	EXTI_Config(EXTI_PB, EXTI_6, BOTH_TRIG, 0);	// GPIO_SFTY_2
-	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
-
-	EXTI_Config(EXTI_PB, EXTI_7, BOTH_TRIG, 0);	// GPIO_SFTY_1
-	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
-
 	EXTI_Config(EXTI_PB, EXTI_8, BOTH_TRIG, 0);	// GPIO_KEY_STOP
-	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
-
-	EXTI_Config(EXTI_PB, EXTI_9, BOTH_TRIG, 0);	// GPIO_KEY_START
 	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
 }
 //------------------------------------------------

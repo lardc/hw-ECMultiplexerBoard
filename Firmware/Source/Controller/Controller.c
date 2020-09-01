@@ -93,12 +93,19 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				{
 					COMM_DisconnectAllRelay();
 					if(SafetyState.SafetyIsActive)
+					{
+						SFTY_SwitchInterruptState(true);
 						CONTROL_SetDeviceState(DS_SafetyEnabled);
+					}
 					else
+					{
+						SFTY_SwitchInterruptState(false);
 						CONTROL_SetDeviceState(DS_Enabled);
+					}
+
 					DataTable[REG_OP_RESULT] = OPRESULT_OK;
 				}
-				else if(CONTROL_State == DS_Enabled)
+				else
 				{
 					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -112,6 +119,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 					|| (CONTROL_State == DS_SafetyDanger))
 			{
 				COMM_DisconnectAllRelay();
+				SFTY_SwitchInterruptState(false);
 				CONTROL_SetDeviceState(DS_Disabled);
 				DataTable[REG_OP_RESULT] = OPRESULT_OK;
 			}
@@ -127,6 +135,12 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				}
 			}
 			
+		case ACT_FAULT_CLEAR:
+			{
+				CONTROL_ResetToDefaultState();
+			}
+			break;
+
 		case ACT_SET_RELAY_NONE:
 			{
 				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
