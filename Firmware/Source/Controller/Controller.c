@@ -11,6 +11,9 @@
 #include "SysConfig.h"
 #include "DebugActions.h"
 #include "Commutation.h"
+#include "Safety.h"
+#include "Diagnostic.h"
+#include "BCCIxParams.h"
 
 // Types
 //
@@ -31,6 +34,8 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
+void SFTY_CheckSafety();
+void SFTY_DisconnectAndSetStopState();
 
 // Functions
 //
@@ -40,11 +45,16 @@ void CONTROL_Init()
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
 	DT_Init(EPROMService, false);
+	DT_SaveFirmwareInfo(CAN_SLAVE_NID, 0);
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	// Сброс значений
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
+
+	COMM_InitTable();			// Создание и заполнение таблиц
+
+	COMM_DisconnectAllRelay();
 }
 //------------------------------------------
 
@@ -52,10 +62,10 @@ void CONTROL_ResetToDefaultState()
 {
 	DataTable[REG_FAULT_REASON] = DF_NONE;
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
-	DataTable[REG_WARNING] = WARNING_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-	
+	DataTable[REG_BUTTON_START] = BUTT_START_IS_UNPRESSED;
+
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
@@ -68,6 +78,7 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
+	SFTY_CheckSafety();
 }
 //------------------------------------------
 
@@ -79,143 +90,85 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	{
 		case ACT_ENABLE_POWER:
 			{
-				if(CONTROL_State == DS_None)
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+				if((CONTROL_State == DS_None) || (CONTROL_State == DS_Disabled))
 				{
-					CONTROL_SetDeviceState(DS_Enabled);
+					COMM_DisconnectAllRelay();
+					if(SafetyState.SafetyIsActive)
+					{
+						SFTY_SwitchInterruptState(true);
+						CONTROL_SetDeviceState(DS_SafetyEnabled);
+					}
+					else
+					{
+						SFTY_SwitchInterruptState(false);
+						CONTROL_SetDeviceState(DS_Enabled);
+					}
+
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
 				}
-				else if(CONTROL_State != DS_Enabled)
+				else
 				{
-					*pUserError = ERR_DEVICE_NOT_READY;
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+					*pUserError = ERR_OPERATION_BLOCKED;
 				}
 				break;
 			}
 			
 		case ACT_DISABLE_POWER:
-			if(CONTROL_State == DS_Enabled)
+			DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+			if((CONTROL_State == DS_None) || (CONTROL_State == DS_Enabled) || (CONTROL_State == DS_SafetyEnabled)
+					|| (CONTROL_State == DS_SafetyDanger))
 			{
-				CONTROL_SetDeviceState(DS_None);
+				COMM_DisconnectAllRelay();
+				SFTY_SwitchInterruptState(false);
+				CONTROL_SetDeviceState(DS_Disabled);
+				DataTable[REG_OP_RESULT] = OPRESULT_OK;
 			}
 			else
-				*pUserError = ERR_OPERATION_BLOCKED;
-			break;
-			
-		case ACT_DBG_LED_RED_IMPULSE:
 			{
-				if(DataTable[REG_DBG_STATE])
+				if((CONTROL_State == DS_Disabled))
 				{
-					DBGACT_GenerateImpulseLedRed();
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
 				}
 				else
 				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 				}
 			}
-			break;
 			
-		case ACT_DBG_LED_GREEN_IMPULSE:
+		case ACT_FAULT_CLEAR:
 			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLedGreen();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_SYNC_1_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineSync1();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_SYNC_2_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineSync2();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_LOCK_1_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineLock1();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_DBG_LOCK_2_IMPULSE:
-			{
-				if(DataTable[REG_DBG_STATE])
-				{
-					DBGACT_GenerateImpulseLineLock2();
-				}
-				else
-				{
-					*pUserError = ERR_CONFIGURATION_LOCKED;
-				}
-			}
-			break;
-			
-		case ACT_SET_RELAY_GROUP:
-			{
-				// Заготовка
+				CONTROL_ResetToDefaultState();
 			}
 			break;
 
 		case ACT_SET_RELAY_NONE:
 			{
-				COMM_DisconnectSimpleRelays();
-				COMM_DisconnectBistableRelays();
-			}
-			break;
-			
-		case ACT_DBG_SIMPLE_RELAY_ON:
-			{
-				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], true);
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+				COMM_DisconnectAllRelay();
+				DataTable[REG_OP_RESULT] = OPRESULT_OK;
 			}
 			break;
 
-		case ACT_DBG_SIMPLE_RELAY_OFF:
+		case ACT_SET_RELAY_GROUP:
 			{
-				COMM_SwitchSimpleRelay(DataTable[REG_DBG_RELAY_INDEX], false);
-			}
-			break;
-
-		case ACT_DBG_BISTABLE_RELAY_ON:
-			{
-				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], true);
-			}
-			break;
-
-		case ACT_DBG_BISTABLE_RELAY_OFF:
-			{
-				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], false);
+				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
+				if(COMM_ReturnResultConnectGroup())
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_OK;
+					*pUserError = ERR_NONE;
+				}
+				else
+				{
+					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+					*pUserError = ERR_DEVICE_NOT_READY;
+				}
 			}
 			break;
 
 		default:
-			return false;
+			return DIAG_HandleDiagnosticAction(ActionID, pUserError);
 			
 	}
 	return true;

@@ -15,8 +15,12 @@ void LL_SoftSpiData(bool State);
 void LL_SetSync1State(bool State);
 void LL_SetSync2State(bool State);
 void LL_SetStateReset(bool State);
-void LL_WriteToShiftRegister(uint8_t *Data, uint8_t DataSize);
-bool LL_GetSync1State();
-bool LL_GetSync2State();
+void LL_WriteToShiftRegister(volatile uint8_t *Data, uint8_t DataSize);
+bool LL_GetStateSync1();
+bool LL_GetStateSync2();
+bool LL_GetStateSens1();
+bool LL_GetStateSens2();
+bool LL_GetStateButtonStart();
+bool LL_GetStateButtonStop();
 
 #endif //__LOWLEVEL_H

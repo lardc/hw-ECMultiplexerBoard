@@ -13,7 +13,8 @@ typedef enum __DeviceState
 	DS_Fault = 1,
 	DS_Disabled = 2,
 	DS_Enabled = 3,
-	DS_InProcess = 4
+	DS_SafetyEnabled = 4,
+	DS_SafetyDanger = 5
 } DeviceState;
 
 // Variables
@@ -26,7 +27,6 @@ extern Int64U CONTROL_LEDTimeout;
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);
-
-void CONTROL_FullSetRelay();
+void CONTROL_SetDeviceState(DeviceState NewState);
 
 #endif // __CONTROLLER_H
