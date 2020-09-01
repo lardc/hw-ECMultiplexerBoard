@@ -13,6 +13,7 @@
 #include "Commutation.h"
 #include "Safety.h"
 #include "Diagnostic.h"
+#include "BCCIxParams.h"
 
 // Types
 //
@@ -44,6 +45,7 @@ void CONTROL_Init()
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
 	DT_Init(EPROMService, false);
+	DT_SaveFirmwareInfo(CAN_SLAVE_NID, 0);
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	// Сброс значений
