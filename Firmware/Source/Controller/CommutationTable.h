@@ -39,6 +39,7 @@
 #define COMM_MEAS_DROP_VOLT	2
 #define COMM_MEAS_IN_VOLT	3
 #define COMM_MEAS_VOLT_BAN	4
+#define COMM_MEAS_NO		10
 
 #define CASE_A1			1
 #define CASE_I1			2
