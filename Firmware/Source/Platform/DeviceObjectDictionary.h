@@ -54,6 +54,7 @@
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
 #define REG_BUTTON_START				199	// Регистр состояния кнопки старт
+#define REG_LAST_TABLE					200	// Номер последней включеной таблицы
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)

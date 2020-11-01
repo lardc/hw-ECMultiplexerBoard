@@ -57,6 +57,7 @@ bool COMM_ReturnResultChekExistParametrs()
 							{
 								COMM_DisconnectAllRelay();
 								COMM_CommutateGroupOnTableNumber(i);
+								DataTable[REG_LAST_TABLE] = i;
 								return 1;
 							}
 						}
@@ -65,6 +66,7 @@ bool COMM_ReturnResultChekExistParametrs()
 			}
 		}
 	}
+	DataTable[REG_LAST_TABLE] = 0;
 	return 0;
 }
 // ----------------------------------------
