@@ -5,13 +5,6 @@
 #include "stdinc.h"
 
 // Definitions
-#define MAX_TUPE_MEASURE		4
-#define MAX_TUPE_CASE			15
-#define MAX_TUPE_POS_CASE		3
-#define MAX_TUPE_CTRL			3
-#define MAX_TUPE_LEAKAGE		2
-#define MAX_TUPE_POLARITY		2
-
 #define BISTABLE_ARRAY_SIZE		12
 #define SIMPLE_ARRAY_SIZE		46
 
@@ -35,11 +28,11 @@
 #define REGISTER_J		5
 #define REGISTER_K		6
 
+#define COMM_MEAS_NO		0
 #define COMM_MEAS_CURR_LEAK	1
 #define COMM_MEAS_DROP_VOLT	2
 #define COMM_MEAS_IN_VOLT	3
 #define COMM_MEAS_VOLT_BAN	4
-#define COMM_MEAS_NO		10
 
 #define CASE_A1			1
 #define CASE_I1			2
@@ -62,8 +55,7 @@
 #define POS_3	3
 
 #define CTRL_DC_V		1
-#define CTRL_DC_I		2
-#define CTRL_AC_V		3
+#define CTRL_AC_V		2
 
 #define IGNORE	0
 
