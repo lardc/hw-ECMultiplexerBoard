@@ -80,7 +80,6 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
-	SFTY_CheckSafety();
 }
 //------------------------------------------
 
@@ -95,16 +94,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				if(CONTROL_State == DS_None)
 				{
 					COMM_DisconnectAllRelay();
-					if(SafetyState.SafetyIsActive)
-					{
-						SFTY_SwitchInterruptState(true);
-						CONTROL_SetDeviceState(DS_SafetyEnabled);
-					}
-					else
-					{
-						SFTY_SwitchInterruptState(false);
-						CONTROL_SetDeviceState(DS_Ready);
-					}
+					CONTROL_SetDeviceState(DS_Ready);
 				}
 				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_OPERATION_BLOCKED;
