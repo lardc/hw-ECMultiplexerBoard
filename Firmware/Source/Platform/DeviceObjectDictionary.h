@@ -7,9 +7,7 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле (на основании корпуса и т.д.)
-#define ACT_SET_RELAY_NONE				21 	// Отключить все релле
-#define ACT_SET_RELAY_TABLE				22 	// Подключить группу реле по номеру таблицы
+#define ACT_SET_RELAY_TABLE				10 	// Подключить группу реле по номеру таблицы
 
 #define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
 #define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
@@ -23,6 +21,9 @@
 #define ACT_DBG_BISTABLE_RELAY_OFF		59	// Отключить одно бистабильное реле
 #define ACT_DBG_SAFETY_DISABLE			60	// Отключение датчиков безопасности
 #define ACT_DBG_SAFETY_ENABLE			61	// Включение датчиков безопасности
+
+#define ACT_SET_RELAY_GROUP				100	// Подключить группу реле (на основании корпуса и т.д.)
+#define ACT_SET_RELAY_NONE				101	// Отключить все релле
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -84,6 +85,7 @@
 #define ERR_OPERATION_BLOCKED			2	//  Операция не может быть выполнена в текущем состоянии устройства
 #define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD					4	//  Неправильный ключ
+#define ERR_BAD_CONFIG					5	//  Неверная конфигурация
 
 // Start button state
 #define BUTT_START_IS_UNPRESSED			0

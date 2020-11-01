@@ -122,14 +122,22 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 
-		case ACT_SET_RELAY_NONE:
-			COMM_DisconnectAllRelay();
-			break;
-
 		case ACT_SET_RELAY_GROUP:
 			{
-				if(COMM_ReturnResultConnectGroup())
-					*pUserError = ERR_NONE;
+				if(CONTROL_State == DS_Ready)
+				{
+					if(!COMM_ReturnResultConnectGroup())
+						*pUserError = ERR_BAD_CONFIG;
+				}
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SET_RELAY_NONE:
+			{
+				if(CONTROL_State == DS_Ready)
+					COMM_DisconnectAllRelay();
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
