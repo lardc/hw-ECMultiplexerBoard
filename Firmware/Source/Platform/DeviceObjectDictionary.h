@@ -54,8 +54,12 @@
 #define REG_DISABLE_REASON				194	// Регистр Disable
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-#define REG_BUTTON_START				199	// Регистр состояния кнопки старт
-#define REG_LAST_TABLE					200	// Номер последней включеной таблицы
+#define REG_SUB_STATE					198	// Регистр вспомогательного состояния
+
+#define REG_BUTTON_START				210	// Регистр состояния кнопки старт
+#define REG_BUTTON_STOP					211	// Регистр состояния кнопки стоп
+
+#define REG_LAST_TABLE					250	// Номер последней включеной таблицы
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)

@@ -52,12 +52,12 @@ void SFTY_CheckSafety()
 					else
 					{
 						DataTable[REG_PROBLEM] = PROBLEM_NONE;
-						CONTROL_SetDeviceState(DS_SafetyEnabled);
+						CONTROL_SetDeviceState(DS_SafetyEnabled, 0);
 					}
 				}
 				else
 				{
-					CONTROL_SetDeviceState(DS_Ready);
+					CONTROL_SetDeviceState(DS_Ready, 0);
 				}
 
 				SFTY_CLR_STATE_BUTTON_START;
@@ -69,11 +69,11 @@ void SFTY_CheckSafety()
 				{
 					if(SFTY_GET_STATUS)
 					{
-						CONTROL_SetDeviceState(DS_SafetyEnabled);
+						CONTROL_SetDeviceState(DS_SafetyEnabled, 0);
 					}
 					else
 					{
-						CONTROL_SetDeviceState(DS_Ready);
+						CONTROL_SetDeviceState(DS_Ready, 0);
 					}
 				}
 				SFTY_CLR_STATE_SENS1;
@@ -87,7 +87,7 @@ void SFTY_CheckSafety()
 
 void SFTY_DisconnectAndSetStopState()
 {
-	CONTROL_SetDeviceState(DS_SafetyDanger);
+	CONTROL_SetDeviceState(DS_SafetyDanger, 0);
 	DataTable[REG_PROBLEM] = PROBLEM_BUTTON_STOP;
 	SafetyState.StateButton.Stop = false;
 	COMM_DisconnectAllRelay();
@@ -96,7 +96,7 @@ void SFTY_DisconnectAndSetStopState()
 
 void SFTY_SetSensState()
 {
-	CONTROL_SetDeviceState(DS_SafetyDanger);
+	CONTROL_SetDeviceState(DS_SafetyDanger, 0);
 	DataTable[REG_PROBLEM] = PROBLEM_SENS;
 }
 //-----------------------------------------------

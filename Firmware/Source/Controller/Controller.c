@@ -22,20 +22,21 @@ typedef void (*FUNC_AsyncDelegate)();
 // Variables
 //
 volatile DeviceState CONTROL_State = DS_None;
+DeviceSubState CONTROL_SubState = DSS_None;
 static Boolean CycleActive = false;
 
 volatile Int64U CONTROL_TimeCounter = 0;
 
-/// Forward functions
+// Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
-void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void SFTY_CheckSafety();
 void SFTY_DisconnectAndSetStopState();
+void CONTROL_ProcessSwitch();
 
 // Functions
 //
@@ -72,14 +73,44 @@ void CONTROL_ResetToDefaultState()
 	COMM_DisconnectAllRelay();
 	SFTY_SwitchInterruptState(false);
 
-	CONTROL_SetDeviceState(DS_None);
+	CONTROL_SetDeviceState(DS_None, DSS_None);
 }
 //------------------------------------------
 
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
+	CONTROL_ProcessSwitch();
 	CONTROL_UpdateWatchDog();
+}
+//------------------------------------------
+
+void CONTROL_ProcessSwitch()
+{
+	static Int64U Timeout = 0;
+
+	if(CONTROL_State == DS_InProcess)
+	{
+		switch (CONTROL_SubState)
+		{
+			case DSS_SwitchStart:
+				{
+					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
+					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchWait);
+				}
+				break;
+
+			case DSS_SwitchWait:
+				{
+					if(CONTROL_TimeCounter > Timeout)
+						CONTROL_SetDeviceState(DS_Ready, DSS_None);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
 }
 //------------------------------------------
 
@@ -94,7 +125,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				if(CONTROL_State == DS_None)
 				{
 					COMM_DisconnectAllRelay();
-					CONTROL_SetDeviceState(DS_Ready);
+					CONTROL_SetDeviceState(DS_Ready, DSS_None);
 				}
 				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -116,7 +147,9 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_Ready)
 				{
-					if(!COMM_ReturnResultConnectGroup())
+					if(COMM_ReturnResultConnectGroup())
+						CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+					else
 						*pUserError = ERR_BAD_CONFIG;
 				}
 				else
@@ -127,7 +160,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_SET_RELAY_NONE:
 			{
 				if(CONTROL_State == DS_Ready)
+				{
 					COMM_DisconnectAllRelay();
+					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
@@ -143,15 +179,18 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
-	CONTROL_SetDeviceState(DS_Fault);
+	CONTROL_SetDeviceState(DS_Fault, DSS_None);
 	DataTable[REG_FAULT_REASON] = Reason;
 }
 //------------------------------------------
 
-void CONTROL_SetDeviceState(DeviceState NewState)
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
+
+	CONTROL_SubState = NewSubState;
+	DataTable[REG_SUB_STATE] = NewSubState;
 }
 //------------------------------------------
 
