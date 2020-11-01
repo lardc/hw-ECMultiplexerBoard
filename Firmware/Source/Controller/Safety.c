@@ -57,7 +57,7 @@ void SFTY_CheckSafety()
 				}
 				else
 				{
-					CONTROL_SetDeviceState(DS_Enabled);
+					CONTROL_SetDeviceState(DS_Ready);
 				}
 
 				SFTY_CLR_STATE_BUTTON_START;
@@ -73,7 +73,7 @@ void SFTY_CheckSafety()
 					}
 					else
 					{
-						CONTROL_SetDeviceState(DS_Enabled);
+						CONTROL_SetDeviceState(DS_Ready);
 					}
 				}
 				SFTY_CLR_STATE_SENS1;
