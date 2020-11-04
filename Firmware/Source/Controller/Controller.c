@@ -53,8 +53,8 @@ void CONTROL_Init()
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
 
-	COMM_InitTable();			// Создание и заполнение таблиц
-
+	// Создание и заполнение таблиц
+	DataTable[REG_COMM_TABLE_SIZE] = COMM_InitTable();
 	COMM_DisconnectAllRelay();
 }
 //------------------------------------------
