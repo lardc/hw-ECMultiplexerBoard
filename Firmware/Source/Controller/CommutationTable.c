@@ -141,15 +141,15 @@ const BistableSwitch* const COMM_BistableRelayArray[] = {&COMM_SwitchBUSLVPlusTo
 MeasureTypeTable COMM_Table[MAX_COUNTER_TABLE] = {0};
 
 // Forward functions
-void COMM_MakeMeasCommutateTable(uint8_t *NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
+void COMM_MakeMeasCommutateTable(uint16_t *NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
 		uint8_t TypeCtrl, uint8_t TypeSignalAsLeakAge, uint8_t SignalDirection, uint64_t NumRelay);
 
 // Functions
-void COMM_InitTable()
+uint16_t COMM_InitTable()
 {
-	uint8_t Counter = 0;
+	uint16_t Counter = 0;
 
-//MEAS_CURR_LEAK
+	// Ток утечки
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_CURR_LEAK, CASE_A1, POS_1, CTRL_DC_V, LEAK_DC, DIRECT, COMM_BUSHVPlusToPOW1 | COMM_BUSHVMinusToPOW2 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_CURR_LEAK, CASE_A1, POS_1, CTRL_DC_V, LEAK_DC, REVERSE, COMM_BUSHVPlusToPOW2 | COMM_BUSHVMinusToPOW1 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 
@@ -202,7 +202,7 @@ void COMM_InitTable()
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_CURR_LEAK, CASE_D192, POS_1, CTRL_DC_V, LEAK_DC, DIRECT, COMM_BUSHVPlusToPOW5 | COMM_BUSHVMinusToPOW6 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_CURR_LEAK, CASE_D192, POS_1, CTRL_DC_V, LEAK_DC, REVERSE, COMM_BUSHVPlusToPOW6 | COMM_BUSHVMinusToPOW5 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 
-	// MEAS_DROP_VOLT
+	// Падение напряжения
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_DROP_VOLT, CASE_A1, POS_1, CTRL_DC_V, IGNORE, DIRECT, COMM_BUSLVPlusToPOW1 | COMM_BUSLVMinusToPOW2 | COMM_POTPlusToPOT1 | COMM_POTMinusToPOT2 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_DROP_VOLT, CASE_A1, POS_1, CTRL_DC_V, IGNORE, REVERSE, COMM_BUSLVPlusToPOW2 | COMM_BUSLVMinusToPOW1 | COMM_POTPlusToPOT2 | COMM_POTMinusToPOT1 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 
@@ -255,7 +255,7 @@ void COMM_InitTable()
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_DROP_VOLT, CASE_D192, POS_1, CTRL_DC_V, IGNORE, DIRECT, COMM_BUSLVPlusToPOW5 | COMM_BUSLVMinusToPOW6 | COMM_POTPlusToPOT5 | COMM_POTMinusToPOT6 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_DROP_VOLT, CASE_D192, POS_1, CTRL_DC_V, IGNORE, REVERSE, COMM_BUSLVPlusToPOW6 | COMM_BUSLVMinusToPOW5 | COMM_POTPlusToPOT6 | COMM_POTMinusToPOT5 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 
-//	MEAS_IN_VOLT
+	// Напряжение управления
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_IN_VOLT, CASE_A1, POS_1, CTRL_DC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_IN_VOLT, CASE_I1, POS_1, CTRL_DC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
@@ -288,7 +288,7 @@ void COMM_InitTable()
 
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_IN_VOLT, CASE_D192, POS_1, CTRL_DC_V, IGNORE, IGNORE,  COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 
-// MEAS_VOLT_BAN
+	// Напряжение запрета
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_VOLT_BAN, CASE_A1, POS_1, CTRL_DC_V, IGNORE, DIRECT, COMM_BUSLVPlusToPOW1 | COMM_BUSLVMinusToPOW2 | COMM_POTPlusToPOT1 | COMM_POTMinusToPOT2 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_VOLT_BAN, CASE_A1, POS_1, CTRL_DC_V, IGNORE, REVERSE, COMM_BUSLVPlusToPOW2 | COMM_BUSLVMinusToPOW1 | COMM_POTPlusToPOT2 | COMM_POTMinusToPOT1 | COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
 
@@ -340,9 +340,35 @@ void COMM_InitTable()
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_VOLT_BAN, CASE_D192, POS_2, CTRL_DC_V, IGNORE, REVERSE, COMM_BUSLVPlusToPOW4 | COMM_BUSLVMinusToPOW3 | COMM_POTPlusToPOT4 | COMM_POTMinusToPOT3 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_VOLT_BAN, CASE_D192, POS_1, CTRL_DC_V, IGNORE, DIRECT, COMM_BUSLVPlusToPOW5 | COMM_BUSLVMinusToPOW6 | COMM_POTPlusToPOT5 | COMM_POTMinusToPOT6 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
 	COMM_MakeMeasCommutateTable(&Counter, COMM_MEAS_VOLT_BAN, CASE_D192, POS_1, CTRL_DC_V, IGNORE, REVERSE, COMM_BUSLVPlusToPOW6 | COMM_BUSLVMinusToPOW5 | COMM_POTPlusToPOT6 | COMM_POTMinusToPOT5 | COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
+
+	// Калибровка утечки (DC)
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_1, IGNORE, LEAK_DC, DIRECT, COMM_BUSHVPlusToPOW1 | COMM_BUSHVMinusToPOW2);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_1, IGNORE, LEAK_DC, REVERSE, COMM_BUSHVPlusToPOW2 | COMM_BUSHVMinusToPOW1);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_2, IGNORE, LEAK_DC, DIRECT, COMM_BUSHVPlusToPOW3 | COMM_BUSHVMinusToPOW4);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_2, IGNORE, LEAK_DC, REVERSE, COMM_BUSHVPlusToPOW4 | COMM_BUSHVMinusToPOW3);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_3, IGNORE, LEAK_DC, DIRECT, COMM_BUSHVPlusToPOW5 | COMM_BUSHVMinusToPOW6);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_3, IGNORE, LEAK_DC, REVERSE, COMM_BUSHVPlusToPOW6 | COMM_BUSHVMinusToPOW5);
+
+	// Калибровка утечки (AC)
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_1, IGNORE, LEAK_AC, DIRECT, COMM_BUSLVPlusToPOW1 | COMM_BUSLVMinusToPOW2);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_1, IGNORE, LEAK_AC, REVERSE, COMM_BUSLVPlusToPOW2 | COMM_BUSLVMinusToPOW1);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_2, IGNORE, LEAK_AC, DIRECT, COMM_BUSLVPlusToPOW3 | COMM_BUSLVMinusToPOW4);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_2, IGNORE, LEAK_AC, REVERSE, COMM_BUSLVPlusToPOW4 | COMM_BUSLVMinusToPOW3);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_3, IGNORE, LEAK_AC, DIRECT, COMM_BUSLVPlusToPOW5 | COMM_BUSLVMinusToPOW6);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_LEAKAGE, IGNORE, POS_3, IGNORE, LEAK_AC, REVERSE, COMM_BUSLVPlusToPOW6 | COMM_BUSLVMinusToPOW5);
+
+	// Калибровка управления (DC)
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_CONTROL, IGNORE, POS_1, CTRL_DC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_CONTROL, IGNORE, POS_2, CTRL_DC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl3 | COMM_Ctrl2ToCtrl4 | COMM_PotCtrlPlusToCtrlPot3 | COMM_PotCtrlMinusToCtrlPot4);
+
+	// Калибровка управления (AC)
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_CONTROL, IGNORE, POS_1, CTRL_AC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl2 | COMM_Ctrl2ToCtrl1 | COMM_PotCtrlPlusToCtrlPot2 | COMM_PotCtrlMinusToCtrlPot1);
+	COMM_MakeMeasCommutateTable(&Counter, COMM_CALIBRATE_CONTROL, IGNORE, POS_2, CTRL_AC_V, IGNORE, IGNORE, COMM_Ctrl1ToCtrl3 | COMM_Ctrl2ToCtrl4 | COMM_PotCtrlPlusToCtrlPot3 | COMM_PotCtrlMinusToCtrlPot4);
+
+	return Counter;
 }
 
-void COMM_MakeMeasCommutateTable(uint8_t *NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
+void COMM_MakeMeasCommutateTable(uint16_t *NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
 		uint8_t TypeCtrl, uint8_t TypeSignalAsLeakAge, uint8_t SignalDirection, uint64_t NumRelay)
 {
 	COMM_Table[*NumbTable].TypeMeasure = TypeMeasure;

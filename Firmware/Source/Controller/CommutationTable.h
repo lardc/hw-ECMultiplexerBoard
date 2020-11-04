@@ -28,11 +28,12 @@
 #define REGISTER_J		5
 #define REGISTER_K		6
 
-#define COMM_MEAS_NO		0
 #define COMM_MEAS_CURR_LEAK	1
 #define COMM_MEAS_DROP_VOLT	2
 #define COMM_MEAS_IN_VOLT	3
 #define COMM_MEAS_VOLT_BAN	4
+#define COMM_CALIBRATE_LEAKAGE		5
+#define COMM_CALIBRATE_CONTROL		6
 
 #define CASE_A1			1
 #define CASE_I1			2
@@ -170,6 +171,6 @@ COMM_BistableSwitch COMM_SwitchBUSLVMinusToPOW6 = {{REGISTER_G, BIT5}, {REGISTER
 extern const RegisterPin* const COMM_SimpleRelayArray[];
 extern const BistableSwitch* const COMM_BistableRelayArray[];
 
-void COMM_InitTable();
+uint16_t COMM_InitTable();
 
 #endif // __COMMUTATIONTABLE_H
