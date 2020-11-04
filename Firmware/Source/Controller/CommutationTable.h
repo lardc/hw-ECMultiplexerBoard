@@ -62,7 +62,7 @@
 #define LEAK_DC	1
 #define LEAK_AC	2
 
-#define FORVARD	1
+#define DIRECT	1
 #define REVERSE	2
 
 #define COMM_RegisterPin static const RegisterPin
