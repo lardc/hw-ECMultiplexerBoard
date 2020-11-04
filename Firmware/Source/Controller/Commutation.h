@@ -6,8 +6,7 @@
 #include "CommutationTable.h"
 
 // Variable
-bool COMM_ReturnResultConnectGroup();
-bool COMM_ReturnResultChekExistParametrs();
+bool COMM_ReturnResultConnectGroup(bool *FastSwitch);
 
 // Functions
 void COMM_DisconnectSimpleRelays();

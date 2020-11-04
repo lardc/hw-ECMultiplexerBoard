@@ -13,10 +13,9 @@
 // Variables
 volatile static uint8_t ShiftRegistersState[REGISTERS_NUM + 1] = {0};
 volatile static uint8_t BistableBits[REGISTERS_NUM + 1] = {0};
+static uint16_t SavedCommutation = MAX_COUNTER_TABLE;
 
 // Forward functions
-bool COMM_ReturnResultConnectGroup();
-bool COMM_ReturnResultChekExistParametrs();
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
@@ -31,13 +30,7 @@ void COMM_DisconnectBistableRelays();
 void COMM_DisconnectSimpleRelays();
 
 // Functions
-bool COMM_ReturnResultConnectGroup()
-{
-	return (COMM_ReturnResultChekExistParametrs());
-}
-// ----------------------------------------
-
-bool COMM_ReturnResultChekExistParametrs()
+bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 {
 	for(uint8_t i = 0; i < MAX_COUNTER_TABLE; i++)
 	{
@@ -49,9 +42,15 @@ bool COMM_ReturnResultChekExistParametrs()
 							if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge || COMM_Table[i].TypeSignalAsLeakAge == IGNORE)
 								if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection || COMM_Table[i].SignalDirection == IGNORE)
 								{
-									COMM_DisconnectAllRelay();
-									COMM_CommutateGroupOnTableNumber(i);
-									DataTable[REG_LAST_TABLE] = i;
+									if(i == SavedCommutation)
+										*FastSwitch = true;
+									else
+									{
+										*FastSwitch = false;
+										COMM_CommutateGroupOnTableNumber(i);
+										SavedCommutation = i;
+										DataTable[REG_LAST_TABLE] = i;
+									}
 									return true;
 								}
 	}
@@ -92,6 +91,8 @@ void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask)
 
 void COMM_DisconnectAllRelay()
 {
+	SavedCommutation = MAX_COUNTER_TABLE;
+
 	COMM_DisconnectSimpleRelays();
 	COMM_DisconnectBistableRelays();
 }

@@ -123,10 +123,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_ENABLE_POWER:
 			{
 				if(CONTROL_State == DS_None)
-				{
-					COMM_DisconnectAllRelay();
 					CONTROL_SetDeviceState(DS_Ready, DSS_None);
-				}
 				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_OPERATION_BLOCKED;
 			}
@@ -147,8 +144,12 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_Ready)
 				{
-					if(COMM_ReturnResultConnectGroup())
-						CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+					bool FastSwitch;
+					if(COMM_ReturnResultConnectGroup(&FastSwitch))
+					{
+						if(!FastSwitch)
+							CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+					}
 					else
 						*pUserError = ERR_BAD_CONFIG;
 				}
