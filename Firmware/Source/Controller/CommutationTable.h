@@ -12,7 +12,7 @@
 
 #define MAX_NUM_RELAY			45
 
-#define MAX_COUNTER_TABLE		155
+#define MAX_COUNTER_TABLE		200
 
 #define REGISTERS_NUM	11
 
@@ -91,10 +91,11 @@ typedef struct __MeasureTypeTable
 	uint8_t TypeSignalAsLeakAge;
 	uint8_t SignalDirection;
 	uint64_t Relay;
+	bool Active;
 
 } MeasureTypeTable;
 
-MeasureTypeTable COMM_Table[MAX_COUNTER_TABLE];
+extern MeasureTypeTable COMM_Table[];
 
 // Инициализация для простых реле
 COMM_RegisterPin COMM_SwitchPOTPlusToPOT1 = {REGISTER_A, BIT0};
@@ -170,7 +171,5 @@ extern const RegisterPin* const COMM_SimpleRelayArray[];
 extern const BistableSwitch* const COMM_BistableRelayArray[];
 
 void COMM_InitTable();
-void COMM_MakeMeasCommutateTable(uint8_t NumbTable, uint8_t TypeMeasure, uint8_t TypeCase, uint8_t TypePositionOfCase,
-		uint8_t TypeCtrl, uint8_t TypeSignalAsLeakAge, uint8_t SignalDirection, uint64_t NumRelay);
 
 #endif // __COMMUTATIONTABLE_H

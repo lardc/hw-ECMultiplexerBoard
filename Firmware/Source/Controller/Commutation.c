@@ -31,43 +31,37 @@ void COMM_DisconnectBistableRelays();
 void COMM_DisconnectSimpleRelays();
 
 // Functions
-// ----------------------------------------
 bool COMM_ReturnResultConnectGroup()
 {
 	return (COMM_ReturnResultChekExistParametrs());
 }
 // ----------------------------------------
+
 bool COMM_ReturnResultChekExistParametrs()
 {
-	for(uint8_t i = 0; i < MAX_COUNTER_TABLE + 1; i++)
+	for(uint8_t i = 0; i < MAX_COUNTER_TABLE; i++)
 	{
-		if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
-		{
-			if(DataTable[REG_TYPE_CASE] == COMM_Table[i].TypeCase)
-			{
-				if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase)
-				{
-					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
-					{
-						if((DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
-								|| (COMM_Table[i].TypeSignalAsLeakAge == IGNORE))
-						{
-							if((DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
-									|| (COMM_Table[i].SignalDirection == IGNORE))
+		if(COMM_Table[i].Active)
+			if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
+				if(DataTable[REG_TYPE_CASE] == COMM_Table[i].TypeCase)
+					if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase)
+						if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
+							if((DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
+									|| (COMM_Table[i].TypeSignalAsLeakAge == IGNORE))
 							{
-								COMM_DisconnectAllRelay();
-								COMM_CommutateGroupOnTableNumber(i);
-								DataTable[REG_LAST_TABLE] = i;
-								return 1;
+								if((DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
+										|| (COMM_Table[i].SignalDirection == IGNORE))
+								{
+									COMM_DisconnectAllRelay();
+									COMM_CommutateGroupOnTableNumber(i);
+									DataTable[REG_LAST_TABLE] = i;
+									return true;
+								}
 							}
-						}
-					}
-				}
-			}
-		}
 	}
+
 	DataTable[REG_LAST_TABLE] = 0;
-	return 0;
+	return false;
 }
 // ----------------------------------------
 
