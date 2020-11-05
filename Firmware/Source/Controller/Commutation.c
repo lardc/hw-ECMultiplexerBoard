@@ -46,6 +46,9 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 										*FastSwitch = true;
 									else
 									{
+										if(SavedCommutation != MAX_COUNTER_TABLE)
+											COMM_DisconnectAllRelay();
+
 										*FastSwitch = false;
 										COMM_CommutateGroupOnTableNumber(i);
 										SavedCommutation = i;
