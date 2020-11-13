@@ -147,7 +147,7 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{POS_1, POS_3, POS_1},														// 132
 		{CTRL_DC_V, CTRL_AC_V, CTRL_DC_V},											// 133
 		{LEAK_DC, LEAK_AC, LEAK_DC},												// 134
-		{DIRECT, REVERSE, DIRECT},												// 135
+		{DIRECT, REVERSE, DIRECT},													// 135
 		{0, 0, 0},																	// 136
 		{0, 0, 0},																	// 137
 		{0, 0, 0},																	// 138
