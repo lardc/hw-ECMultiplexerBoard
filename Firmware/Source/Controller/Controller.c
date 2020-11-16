@@ -155,6 +155,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 						LL_LedRed(true);
 						if(!FastSwitch)
 							CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+						SafetyActive = DataTable[REG_ENABLE_SAFETY];
 					}
 					else
 						*pUserError = ERR_BAD_CONFIG;
@@ -168,30 +169,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
 					CONTROL_StopAndDisconnect(false);
-				else
-					*pUserError = ERR_DEVICE_NOT_READY;
-			}
-			break;
-
-		case ACT_SAFETY_ACTIVATE:
-			{
-				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
-				{
-					SafetyActive = true;
-					CONTROL_SetDeviceState(DS_Ready, DSS_None);
-				}
-				else
-					*pUserError = ERR_DEVICE_NOT_READY;
-			}
-			break;
-
-		case ACT_SAFETY_DEACTIVATE:
-			{
-				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
-				{
-					SafetyActive = false;
-					CONTROL_SetDeviceState(DS_Ready, DSS_None);
-				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}

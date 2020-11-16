@@ -42,6 +42,7 @@
 #define REG_TYPE_SIGNAL_CTRL			133	// Тип управления
 #define REG_TYPE_SIGNAL_AT_LEAKAGE		134	// Тип сигнала при утечке
 #define REG_TYPE_POLARITY				135	// Полярность подключения
+#define REG_ENABLE_SAFETY				136	// Разрешение контура безопасности при включённой коммутации
 
 #define REG_NUM_TABLE					140	// Номер подключаемой таблици
 
