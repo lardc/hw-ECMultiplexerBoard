@@ -6,6 +6,7 @@
 #include "DataTable.h"
 #include "ZwSPI.h"
 #include "LowLevel.h"
+#include "Delay.h"
 
 #define SELECT_ALL_RELAY_IN_REGISTER 0xFF
 #define SPI_DATA_SIZE_IN_16BIT 6
@@ -106,7 +107,7 @@ void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState)
 	COMM_SwitchBistableDevice(*COMM_BistableRelayArray[IndexRelay], NewState);
 
 	COMM_ApplyCommutation();
-	CONTROL_DelayMs(BISTABLE_SWITCH_DELAY);
+	DELAY_MS(BISTABLE_SWITCH_DELAY);
 	COMM_DisableCtrlOfBistableRelay();
 }
 // ----------------------------------------

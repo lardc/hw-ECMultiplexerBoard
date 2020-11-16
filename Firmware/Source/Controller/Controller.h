@@ -35,7 +35,6 @@ extern Int64U CONTROL_LEDTimeout;
 //
 void CONTROL_Init();
 void CONTROL_Idle();
-void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState);
 
 #endif // __CONTROLLER_H

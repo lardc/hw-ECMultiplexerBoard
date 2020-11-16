@@ -31,7 +31,6 @@ volatile Int64U CONTROL_TimeCounter = 0;
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
 void CONTROL_SwitchToFault(Int16U Reason);
-void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void SFTY_CheckSafety();
@@ -82,6 +81,11 @@ void CONTROL_Idle()
 	DEVPROFILE_ProcessRequests();
 	CONTROL_ProcessSwitch();
 	CONTROL_UpdateWatchDog();
+
+	DataTable[230] = LL_GetStateSens1();
+	DataTable[231] = LL_GetStateSens2();
+	DataTable[232] = LL_GetStateButtonStart();
+	DataTable[233] = LL_GetStateButtonStop();
 }
 //------------------------------------------
 
@@ -192,14 +196,6 @@ void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 
 	CONTROL_SubState = NewSubState;
 	DataTable[REG_SUB_STATE] = NewSubState;
-}
-//------------------------------------------
-
-void CONTROL_DelayMs(uint32_t Delay)
-{
-	uint64_t Counter = (uint64_t)CONTROL_TimeCounter + Delay;
-	while(Counter > CONTROL_TimeCounter)
-		CONTROL_UpdateWatchDog();
 }
 //------------------------------------------
 
