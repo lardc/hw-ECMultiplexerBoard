@@ -23,7 +23,7 @@ typedef void (*FUNC_AsyncDelegate)();
 //
 volatile DeviceState CONTROL_State = DS_None;
 DeviceSubState CONTROL_SubState = DSS_None;
-static Boolean CycleActive = false;
+static Boolean CycleActive = false, SafetyActive = false;
 volatile Int64U CONTROL_TimeCounter = 0;
 
 // Forward functions
@@ -36,6 +36,7 @@ void SFTY_CheckSafety();
 void SFTY_DisconnectAndSetStopState();
 void CONTROL_ProcessSwitch();
 void CONTROL_HandleButtonsAndSensors();
+void CONTROL_StopAndDisconnect();
 
 // Functions
 //
@@ -165,11 +166,25 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_SET_RELAY_NONE:
 			{
 				if(CONTROL_State == DS_Ready)
-				{
-					LL_LedRed(false);
-					COMM_DisconnectAllRelay();
-					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
-				}
+					CONTROL_StopAndDisconnect();
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SAFETY_ACTIVATE:
+			{
+				if(CONTROL_State == DS_Ready)
+					SafetyActive = true;
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SAFETY_DEACTIVATE:
+			{
+				if(CONTROL_State == DS_Ready)
+					SafetyActive = false;
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
@@ -183,6 +198,15 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 }
 //------------------------------------------
 
+void CONTROL_StopAndDisconnect()
+{
+	SafetyActive = false;
+	LL_LedRed(false);
+	COMM_DisconnectAllRelay();
+	CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+}
+//------------------------------------------
+
 void CONTROL_SwitchToFault(Int16U Reason)
 {
 	CONTROL_SetDeviceState(DS_Fault, DSS_None);
@@ -193,7 +217,10 @@ void CONTROL_SwitchToFault(Int16U Reason)
 void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
 	if(NewState == DS_None)
+	{
 		LL_LedGreen(false);
+		SafetyActive = false;
+	}
 
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
@@ -218,5 +245,10 @@ void CONTROL_HandleButtonsAndSensors()
 	DataTable[REG_BUTTON_STOP] = (Stop = LL_GetStateButtonStop());
 	DataTable[REG_TOP_SENSOR] = (TopSensor = LL_GetStateSens1());
 	DataTable[REG_BOTTOM_SENSOR] = (BottomSensor = LL_GetStateSens2());
+
+	if(SafetyActive && (Stop || TopSensor || BottomSensor))
+	{
+		CONTROL_StopAndDisconnect();
+	}
 }
 //------------------------------------------

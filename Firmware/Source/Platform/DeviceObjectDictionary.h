@@ -24,6 +24,8 @@
 
 #define ACT_SET_RELAY_GROUP				100	// Подключить группу реле (на основании корпуса и т.д.)
 #define ACT_SET_RELAY_NONE				101	// Отключить все релле
+#define ACT_SAFETY_ACTIVATE				102	// Включить мониторинг датчиков безопасности
+#define ACT_SAFETY_DEACTIVATE			103	// Отключить мониторинг датчиков безопасности
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
