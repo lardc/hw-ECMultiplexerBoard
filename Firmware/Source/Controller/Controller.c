@@ -35,7 +35,7 @@ void SFTY_CheckSafety();
 void SFTY_DisconnectAndSetStopState();
 void CONTROL_ProcessSwitch();
 void CONTROL_HandleButtonsAndSensors();
-void CONTROL_StopAndDisconnect();
+void CONTROL_StopAndDisconnect(bool IsSafetyReason);
 
 // Functions
 //
@@ -124,7 +124,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	{
 		case ACT_ENABLE_POWER:
 			{
-				if(CONTROL_State == DS_None)
+				if(CONTROL_State == DS_None || CONTROL_State == DS_SafetyTrig)
 				{
 					LL_LedGreen(true);
 					CONTROL_SetDeviceState(DS_Ready, DSS_None);
@@ -147,7 +147,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SET_RELAY_GROUP:
 			{
-				if(CONTROL_State == DS_Ready)
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
 				{
 					bool FastSwitch;
 					if(COMM_ReturnResultConnectGroup(&FastSwitch))
@@ -166,8 +166,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SET_RELAY_NONE:
 			{
-				if(CONTROL_State == DS_Ready)
-					CONTROL_StopAndDisconnect();
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
+					CONTROL_StopAndDisconnect(false);
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
@@ -175,8 +175,11 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SAFETY_ACTIVATE:
 			{
-				if(CONTROL_State == DS_Ready)
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
+				{
 					SafetyActive = true;
+					CONTROL_SetDeviceState(DS_Ready, DSS_None);
+				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
@@ -184,8 +187,11 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_SAFETY_DEACTIVATE:
 			{
-				if(CONTROL_State == DS_Ready)
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
+				{
 					SafetyActive = false;
+					CONTROL_SetDeviceState(DS_Ready, DSS_None);
+				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			}
@@ -199,12 +205,16 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 }
 //------------------------------------------
 
-void CONTROL_StopAndDisconnect()
+void CONTROL_StopAndDisconnect(bool IsSafetyReason)
 {
 	SafetyActive = false;
 	LL_LedRed(false);
 	COMM_DisconnectAllRelay();
-	CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+
+	if(IsSafetyReason)
+		CONTROL_SetDeviceState(DS_SafetyTrig, DSS_None);
+	else
+		CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
 }
 //------------------------------------------
 
@@ -249,7 +259,7 @@ void CONTROL_HandleButtonsAndSensors()
 
 	if(SafetyActive && (Stop || TopSensor || BottomSensor))
 	{
-		CONTROL_StopAndDisconnect();
+		CONTROL_StopAndDisconnect(true);
 	}
 }
 //------------------------------------------
