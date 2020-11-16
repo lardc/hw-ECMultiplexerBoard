@@ -389,9 +389,9 @@ uint16_t COMM_InitTable()
 	COMM_MakeMeasCommutateTable(175, COMM_CALIBRATE_AC_LEAKAGE, IGNORE, POS_3, IGNORE, LEAK_AC, REVERSE, COMM_BUSLVPlusToPOW6 | COMM_BUSLVMinusToPOW5);
 
 
-	// Калибровка управления (AC)
-	COMM_MakeMeasCommutateTable(176, COMM_CALIBRATE_AC_CONTROL, IGNORE, POS_1, IGNORE, IGNORE, IGNORE, COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2 | COMM_PotCtrlPlusToCtrlPot1 | COMM_PotCtrlMinusToCtrlPot2);
-	COMM_MakeMeasCommutateTable(177, COMM_CALIBRATE_AC_CONTROL, IGNORE, POS_2, IGNORE, IGNORE, IGNORE, COMM_Ctrl1ToCtrl3 | COMM_Ctrl2ToCtrl4 | COMM_PotCtrlPlusToCtrlPot3 | COMM_PotCtrlMinusToCtrlPot4);
+	// Калибровка управления AC
+	COMM_MakeMeasCommutateTable(176, COMM_CALIBRATE_AC_CONTROL, IGNORE, POS_1, IGNORE, IGNORE, IGNORE, COMM_Ctrl1ToCtrl1 | COMM_Ctrl2ToCtrl2);
+	COMM_MakeMeasCommutateTable(177, COMM_CALIBRATE_AC_CONTROL, IGNORE, POS_2, IGNORE, IGNORE, IGNORE, COMM_Ctrl1ToCtrl3 | COMM_Ctrl2ToCtrl4);
 
 
 	// Калибровка источника тока
