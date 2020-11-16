@@ -123,7 +123,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_ENABLE_POWER:
 			{
 				if(CONTROL_State == DS_None)
+				{
+					LL_LedGreen(true);
 					CONTROL_SetDeviceState(DS_Ready, DSS_None);
+				}
 				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_OPERATION_BLOCKED;
 			}
@@ -147,6 +150,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 					bool FastSwitch;
 					if(COMM_ReturnResultConnectGroup(&FastSwitch))
 					{
+						LL_LedRed(true);
 						if(!FastSwitch)
 							CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
 					}
@@ -162,6 +166,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if(CONTROL_State == DS_Ready)
 				{
+					LL_LedRed(false);
 					COMM_DisconnectAllRelay();
 					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
 				}
@@ -187,6 +192,9 @@ void CONTROL_SwitchToFault(Int16U Reason)
 
 void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
+	if(NewState == DS_None)
+		LL_LedGreen(false);
+
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
 
