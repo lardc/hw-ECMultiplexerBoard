@@ -13,13 +13,6 @@ Boolean INITCFG_ConfigSystemClock()
 }
 //------------------------------------------------
 
-void INITCFG_ConfigInterrupt()
-{
-	EXTI_Config(EXTI_PB, EXTI_8, BOTH_TRIG, 0);	// GPIO_KEY_STOP
-	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
-}
-//------------------------------------------------
-
 void INITCFG_ConfigIO()
 {
 	// Включение тактирования портов

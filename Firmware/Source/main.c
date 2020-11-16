@@ -16,9 +16,6 @@ int main()
 	
 	// Настройка SPI
 	INITCFG_ConfigSPI();
-
-	// Настройка внешних прерываний
-	INITCFG_ConfigInterrupt();
 	
 	// Настройка CAN
 	INITCFG_ConfigCAN();
