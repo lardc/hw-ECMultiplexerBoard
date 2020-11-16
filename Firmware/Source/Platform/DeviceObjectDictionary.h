@@ -19,8 +19,6 @@
 #define ACT_DBG_SIMPLE_RELAY_OFF 		57	// Отключить одно обычноее реле
 #define ACT_DBG_BISTABLE_RELAY_ON 		58	// Включить одно бистабильное реле
 #define ACT_DBG_BISTABLE_RELAY_OFF		59	// Отключить одно бистабильное реле
-#define ACT_DBG_SAFETY_DISABLE			60	// Отключение датчиков безопасности
-#define ACT_DBG_SAFETY_ENABLE			61	// Включение датчиков безопасности
 
 #define ACT_SET_RELAY_GROUP				100	// Подключить группу реле (на основании корпуса и т.д.)
 #define ACT_SET_RELAY_NONE				101	// Отключить все релле
@@ -82,8 +80,6 @@
 
 // Problem
 #define PROBLEM_NONE					0
-#define PROBLEM_BUTTON_STOP				1
-#define PROBLEM_SENS					2
 
 //  Warning
 #define WARNING_NONE					0
@@ -95,9 +91,5 @@
 #define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD					4	//  Неправильный ключ
 #define ERR_BAD_CONFIG					5	//  Неверная конфигурация
-
-// Start button state
-#define BUTT_START_IS_UNPRESSED			0
-#define BUTT_START_IS_PRESSED			1
 
 #endif //  __DEV_OBJ_DIC_H

@@ -11,7 +11,6 @@
 #include "SysConfig.h"
 #include "DebugActions.h"
 #include "Commutation.h"
-#include "Safety.h"
 #include "Diagnostic.h"
 #include "BCCIxParams.h"
 
@@ -65,13 +64,15 @@ void CONTROL_ResetToDefaultState()
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-	DataTable[REG_BUTTON_START] = BUTT_START_IS_UNPRESSED;
+	DataTable[REG_BUTTON_START] = 0;
+	DataTable[REG_BUTTON_STOP] = 0;
+	DataTable[REG_TOP_SENSOR] = 0;
+	DataTable[REG_BOTTOM_SENSOR] = 0;
 
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
 	COMM_DisconnectAllRelay();
-	SFTY_SwitchInterruptState(false);
 
 	CONTROL_SetDeviceState(DS_None, DSS_None);
 }
