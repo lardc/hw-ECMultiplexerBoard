@@ -234,7 +234,7 @@ void CONTROL_HandleButtonsAndSensors()
 	DataTable[REG_TOP_SENSOR] = (TopSensor = LL_GetStateSens1());
 	DataTable[REG_BOTTOM_SENSOR] = (BottomSensor = LL_GetStateSens2());
 
-	if(SafetyActive && (!Stop || !TopSensor || !BottomSensor))
+	if(SafetyActive && (Stop || !TopSensor || !BottomSensor))
 		CONTROL_StopAndDisconnect(true);
 }
 //------------------------------------------
