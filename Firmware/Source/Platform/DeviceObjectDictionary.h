@@ -58,6 +58,8 @@
 
 #define REG_BUTTON_START				210	// Регистр состояния кнопки старт
 #define REG_BUTTON_STOP					211	// Регистр состояния кнопки стоп
+#define REG_TOP_SENSOR					212	// Регистр состояния верхнего датчика
+#define REG_BOTTOM_SENSOR				213	// Регистр состояния нижнего датчика
 
 #define REG_LAST_TABLE					250	// Номер последней включеной таблицы
 #define REG_COMM_TABLE_SIZE				251	// Размер таблицы коммутации

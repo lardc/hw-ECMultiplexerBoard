@@ -24,7 +24,6 @@ typedef void (*FUNC_AsyncDelegate)();
 volatile DeviceState CONTROL_State = DS_None;
 DeviceSubState CONTROL_SubState = DSS_None;
 static Boolean CycleActive = false;
-
 volatile Int64U CONTROL_TimeCounter = 0;
 
 // Forward functions
@@ -36,6 +35,7 @@ void CONTROL_ResetToDefaultState();
 void SFTY_CheckSafety();
 void SFTY_DisconnectAndSetStopState();
 void CONTROL_ProcessSwitch();
+void CONTROL_HandleButtonsAndSensors();
 
 // Functions
 //
@@ -80,12 +80,8 @@ void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
 	CONTROL_ProcessSwitch();
+	CONTROL_HandleButtonsAndSensors();
 	CONTROL_UpdateWatchDog();
-
-	DataTable[230] = LL_GetStateSens1();
-	DataTable[231] = LL_GetStateSens2();
-	DataTable[232] = LL_GetStateButtonStart();
-	DataTable[233] = LL_GetStateButtonStop();
 }
 //------------------------------------------
 
@@ -206,3 +202,13 @@ void CONTROL_UpdateWatchDog()
 }
 //------------------------------------------
 
+void CONTROL_HandleButtonsAndSensors()
+{
+	bool Stop, TopSensor, BottomSensor;
+
+	DataTable[REG_BUTTON_START] = LL_GetStateButtonStart();
+	DataTable[REG_BUTTON_STOP] = (Stop = LL_GetStateButtonStop());
+	DataTable[REG_TOP_SENSOR] = (TopSensor = LL_GetStateSens1());
+	DataTable[REG_BOTTOM_SENSOR] = (BottomSensor = LL_GetStateSens2());
+}
+//------------------------------------------
