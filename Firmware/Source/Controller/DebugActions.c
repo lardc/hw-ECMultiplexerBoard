@@ -28,17 +28,17 @@ void DBGACT_GenerateImpulseLedGreen()
 
 void DBGACT_GenerateImpulseLineSync1()
 {
-	LL_SetSync1State(TRUE);
-	DELAY_MS(10);
 	LL_SetSync1State(FALSE);
+	DELAY_MS(10);
+	LL_SetSync1State(TRUE);
 }
 //-----------------------------
 
 void DBGACT_GenerateImpulseLineSync2()
 {
-	LL_SetSync2State(TRUE);
-	DELAY_MS(10);
 	LL_SetSync2State(FALSE);
+	DELAY_MS(10);
+	LL_SetSync2State(TRUE);
 }
 //-----------------------------
 
