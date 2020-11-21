@@ -7,6 +7,7 @@
 
 // Variable
 bool COMM_ReturnResultConnectGroup(bool *FastSwitch);
+bool COMM_HVFastSwitch();
 
 // Functions
 void COMM_DisconnectSimpleRelays();

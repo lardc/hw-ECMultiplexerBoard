@@ -11,6 +11,7 @@
 // Временные параметры
 #define TIME_LED_BLINK						500		// Мигание светодиодом (в мс)
 #define BISTABLE_SWITCH_DELAY				15		// Время управляющего импульса (в мс)
-#define TIME_TRANSIENT_DELAY				100		// Время на раскоммутацию (в мс)
+#define TIME_TRANSIENT_DELAY				100		// Время на коммутацию (в мс)
+#define TIME_TRANSIENT_FAST_DELAY			30		// Время на быструю коммутацию (в мс)
 
 #endif //  __GLOBAL_H

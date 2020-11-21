@@ -21,7 +21,8 @@ typedef enum __DeviceSubState
 {
 	DSS_None = 0,
 	DSS_SwitchStart = 1,
-	DSS_SwitchWait = 2
+	DSS_SwitchStartFast = 2,
+	DSS_SwitchWait = 3
 } DeviceSubState;
 
 // Variables

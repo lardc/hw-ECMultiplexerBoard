@@ -96,8 +96,10 @@ void CONTROL_ProcessSwitch()
 		switch (CONTROL_SubState)
 		{
 			case DSS_SwitchStart:
+			case DSS_SwitchStartFast:
 				{
-					Timeout = CONTROL_TimeCounter + TIME_TRANSIENT_DELAY;
+					Timeout = CONTROL_TimeCounter +
+							((CONTROL_SubState == DSS_SwitchStart) ? TIME_TRANSIENT_DELAY : TIME_TRANSIENT_FAST_DELAY);
 					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchWait);
 				}
 				break;
@@ -159,6 +161,20 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 					}
 					else
 						*pUserError = ERR_BAD_CONFIG;
+				}
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SET_RELAY_GROUP_FAST_HV:
+			{
+				if(CONTROL_State == DS_Ready)
+				{
+					if(COMM_HVFastSwitch())
+						CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStartFast);
+					else
+						*pUserError = ERR_OPERATION_BLOCKED;
 				}
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;

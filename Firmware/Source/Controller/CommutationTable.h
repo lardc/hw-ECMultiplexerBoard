@@ -72,6 +72,25 @@
 #define DIRECT	1
 #define REVERSE	2
 
+#define COMM_BUSHVPlusToPOW1 				(uint64_t) 1 << 18
+#define COMM_BUSHVPlusToPOW2 				(uint64_t) 1 << 19
+#define COMM_BUSHVPlusToPOW3 				(uint64_t) 1 << 20
+#define COMM_BUSHVPlusToPOW4 				(uint64_t) 1 << 21
+#define COMM_BUSHVPlusToPOW5 				(uint64_t) 1 << 22
+#define COMM_BUSHVPlusToPOW6 				(uint64_t) 1 << 23
+
+#define COMM_BUSHVMinusToPOW1				(uint64_t) 1 << 24
+#define COMM_BUSHVMinusToPOW2				(uint64_t) 1 << 25
+#define COMM_BUSHVMinusToPOW3				(uint64_t) 1 << 26
+#define COMM_BUSHVMinusToPOW4				(uint64_t) 1 << 27
+#define COMM_BUSHVMinusToPOW5				(uint64_t) 1 << 28
+#define COMM_BUSHVMinusToPOW6				(uint64_t) 1 << 29
+
+#define COMM_BUSHV (COMM_BUSHVPlusToPOW1 | COMM_BUSHVPlusToPOW2 | COMM_BUSHVPlusToPOW3 |\
+					COMM_BUSHVPlusToPOW4 | COMM_BUSHVPlusToPOW5 | COMM_BUSHVPlusToPOW6 |\
+					COMM_BUSHVMinusToPOW1 | COMM_BUSHVMinusToPOW2 | COMM_BUSHVMinusToPOW3 |\
+					COMM_BUSHVMinusToPOW4 | COMM_BUSHVMinusToPOW5 | COMM_BUSHVMinusToPOW6)
+
 #define COMM_RegisterPin static const RegisterPin
 #define COMM_BistableSwitch static const BistableSwitch
 #define COMM_MainTable static const MeasureTypeTable

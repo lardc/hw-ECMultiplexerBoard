@@ -66,8 +66,20 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 
 void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable)
 {
-	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay);
+	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay & ~COMM_BUSHV);
 	COMM_CommutateForTableGroupBistablRelay(COMM_Table[NumbOfTable].Relay >> BISTABLE_RELAY_START_BIT);
+}
+// ----------------------------------------
+
+bool COMM_HVFastSwitch()
+{
+	if(SavedCommutation == MAX_COUNTER_TABLE)
+		return false;
+	else
+	{
+		COMM_CommutateForTableGroupSimpleRelay(COMM_Table[SavedCommutation].Relay & COMM_BUSHV);
+		return true;
+	}
 }
 // ----------------------------------------
 

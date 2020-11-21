@@ -22,20 +22,6 @@
 #define COMM_POTMinusToPOT5 				(uint64_t) 1 << 10 | COMM_POTOutToPOT5
 #define COMM_POTMinusToPOT6 				(uint64_t) 1 << 11 | COMM_POTOutToPOT6
 
-#define COMM_BUSHVPlusToPOW1 				(uint64_t) 1 << 18
-#define COMM_BUSHVPlusToPOW2 				(uint64_t) 1 << 19
-#define COMM_BUSHVPlusToPOW3 				(uint64_t) 1 << 20
-#define COMM_BUSHVPlusToPOW4 				(uint64_t) 1 << 21
-#define COMM_BUSHVPlusToPOW5 				(uint64_t) 1 << 22
-#define COMM_BUSHVPlusToPOW6 				(uint64_t) 1 << 23
-
-#define COMM_BUSHVMinusToPOW1				(uint64_t) 1 << 24
-#define COMM_BUSHVMinusToPOW2				(uint64_t) 1 << 25
-#define COMM_BUSHVMinusToPOW3				(uint64_t) 1 << 26
-#define COMM_BUSHVMinusToPOW4				(uint64_t) 1 << 27
-#define COMM_BUSHVMinusToPOW5				(uint64_t) 1 << 28
-#define COMM_BUSHVMinusToPOW6				(uint64_t) 1 << 29
-
 #define COMM_Ctrl1ToCtrl1 					(uint64_t) 1 << 30
 #define COMM_Ctrl1ToCtrl2 					(uint64_t) 1 << 31
 #define COMM_Ctrl1ToCtrl3 					(uint64_t) 1 << 32
