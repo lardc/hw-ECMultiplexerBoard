@@ -111,7 +111,6 @@ typedef struct __BistableSwitch
 typedef struct __MeasureTypeTable
 {
 	uint8_t TypeMeasure;
-	uint8_t TypeCase;
 	uint8_t TypePositionOfCase;
 	uint8_t TypeCtrl;
 	uint8_t TypeSignalAsLeakAge;

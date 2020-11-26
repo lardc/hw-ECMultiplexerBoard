@@ -37,7 +37,6 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 	{
 		if(COMM_Table[i].Active)
 			if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
-				if(DataTable[REG_TYPE_CASE] == COMM_Table[i].TypeCase || COMM_Table[i].TypeCase == IGNORE)
 					if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase || COMM_Table[i].TypePositionOfCase == IGNORE)
 						if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl || COMM_Table[i].TypeCtrl == IGNORE)
 							if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge || COMM_Table[i].TypeSignalAsLeakAge == IGNORE)
