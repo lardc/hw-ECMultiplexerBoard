@@ -61,16 +61,17 @@
 #define POS_2	2
 #define POS_3	3
 
-#define CTRL_DC_V		1
-#define CTRL_AC_V		2
+#define CTRL_DC_V					1
+#define CTRL_AC_V					2
+#define CTRL_DC_V_REVERSE  			3
 
 #define IGNORE	0
 
 #define LEAK_DC	1
 #define LEAK_AC	2
 
-#define DIRECT	1
-#define REVERSE	2
+#define PWR_DIRECT	1
+#define PWR_REVERSE	2
 
 #define COMM_BUSHVPlusToPOW1 				(uint64_t) 1 << 18
 #define COMM_BUSHVPlusToPOW2 				(uint64_t) 1 << 19
