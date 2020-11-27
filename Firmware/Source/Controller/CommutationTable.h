@@ -5,33 +5,33 @@
 #include "stdinc.h"
 
 // Definitions
-#define BISTABLE_ARRAY_SIZE		12
-#define SIMPLE_ARRAY_SIZE		46
+#define BISTABLE_ARRAY_SIZE			12
+#define SIMPLE_ARRAY_SIZE			46
 
 #define BISTABLE_RELAY_START_BIT	SIMPLE_ARRAY_SIZE
 
-#define MAX_NUM_RELAY			45
+#define MAX_NUM_RELAY				45
 
-#define MAX_COUNTER_TABLE		200
+#define MAX_COUNTER_TABLE			200
 
-#define REGISTERS_NUM	11
+#define REGISTERS_NUM				11
 
-#define REGISTER_A		2
-#define REGISTER_B		1
-#define REGISTER_C		0
-#define REGISTER_D		8
-#define REGISTER_E		7
-#define REGISTER_F		10
-#define REGISTER_G		9
-#define REGISTER_H		3
-#define REGISTER_I		4
-#define REGISTER_J		5
-#define REGISTER_K		6
+#define REGISTER_A					2
+#define REGISTER_B					1
+#define REGISTER_C					0
+#define REGISTER_D					8
+#define REGISTER_E					7
+#define REGISTER_F					10
+#define REGISTER_G					9
+#define REGISTER_H					3
+#define REGISTER_I					4
+#define REGISTER_J					5
+#define REGISTER_K					6
 
-#define COMM_MEAS_CURR_LEAK	1
-#define COMM_MEAS_DROP_VOLT	2
-#define COMM_MEAS_IN_VOLT	3
-#define COMM_MEAS_VOLT_BAN	4
+#define COMM_MEAS_CURR_LEAK			1
+#define COMM_MEAS_DROP_VOLT			2
+#define COMM_MEAS_IN_VOLT			3
+#define COMM_MEAS_VOLT_BAN			4
 
 #define COMM_CALIBRATE_DC_CONTROL	5
 #define COMM_CALIBRATE_PS1			6
@@ -41,51 +41,51 @@
 #define COMM_CALIBRATE_AC_CONTROL	10
 #define COMM_CALIBRATE_CURRENT		11
 
-#define CASE_A1			1
-#define CASE_I1			2
-#define CASE_I6			3
-#define CASE_B1			4
-#define CASE_B2			5
-#define CASE_B5			6
-#define CASE_V1			7
-#define CASE_V2			8
-#define CASE_V104		9
-#define CASE_V108		10
-#define CASE_L1			11
-#define CASE_L2			12
-#define CASE_D1			13
-#define CASE_D2			14
-#define CASE_D192		15
+#define CASE_A1						1
+#define CASE_I1						2
+#define CASE_I6						3
+#define CASE_B1						4
+#define CASE_B2						5
+#define CASE_B5						6
+#define CASE_V1						7
+#define CASE_V2						8
+#define CASE_V104					9
+#define CASE_V108					10
+#define CASE_L1						11
+#define CASE_L2						12
+#define CASE_D1						13
+#define CASE_D2						14
+#define CASE_D192					15
 
-#define POS_1	1
-#define POS_2	2
-#define POS_3	3
+#define POS_1						1
+#define POS_2						2
+#define POS_3						3
 
 #define CTRL_DC_V					1
 #define CTRL_AC_V					2
 #define CTRL_DC_V_REVERSE  			3
 
-#define IGNORE	0
+#define IGNORE						0
 
-#define LEAK_DC	1
-#define LEAK_AC	2
+#define LEAK_DC						1
+#define LEAK_AC						2
 
-#define PWR_DIRECT	1
-#define PWR_REVERSE	2
+#define PWR_DIRECT					1
+#define PWR_REVERSE					2
 
-#define COMM_BUSHVPlusToPOW1 				(uint64_t) 1 << 18
-#define COMM_BUSHVPlusToPOW2 				(uint64_t) 1 << 19
-#define COMM_BUSHVPlusToPOW3 				(uint64_t) 1 << 20
-#define COMM_BUSHVPlusToPOW4 				(uint64_t) 1 << 21
-#define COMM_BUSHVPlusToPOW5 				(uint64_t) 1 << 22
-#define COMM_BUSHVPlusToPOW6 				(uint64_t) 1 << 23
+#define COMM_BUSHVPlusToPOW1 		(uint64_t) 1 << 18
+#define COMM_BUSHVPlusToPOW2 		(uint64_t) 1 << 19
+#define COMM_BUSHVPlusToPOW3 		(uint64_t) 1 << 20
+#define COMM_BUSHVPlusToPOW4 		(uint64_t) 1 << 21
+#define COMM_BUSHVPlusToPOW5 		(uint64_t) 1 << 22
+#define COMM_BUSHVPlusToPOW6 		(uint64_t) 1 << 23
 
-#define COMM_BUSHVMinusToPOW1				(uint64_t) 1 << 24
-#define COMM_BUSHVMinusToPOW2				(uint64_t) 1 << 25
-#define COMM_BUSHVMinusToPOW3				(uint64_t) 1 << 26
-#define COMM_BUSHVMinusToPOW4				(uint64_t) 1 << 27
-#define COMM_BUSHVMinusToPOW5				(uint64_t) 1 << 28
-#define COMM_BUSHVMinusToPOW6				(uint64_t) 1 << 29
+#define COMM_BUSHVMinusToPOW1		(uint64_t) 1 << 24
+#define COMM_BUSHVMinusToPOW2		(uint64_t) 1 << 25
+#define COMM_BUSHVMinusToPOW3		(uint64_t) 1 << 26
+#define COMM_BUSHVMinusToPOW4		(uint64_t) 1 << 27
+#define COMM_BUSHVMinusToPOW5		(uint64_t) 1 << 28
+#define COMM_BUSHVMinusToPOW6		(uint64_t) 1 << 29
 
 #define COMM_BUSHV (COMM_BUSHVPlusToPOW1 | COMM_BUSHVPlusToPOW2 | COMM_BUSHVPlusToPOW3 |\
 					COMM_BUSHVPlusToPOW4 | COMM_BUSHVPlusToPOW5 | COMM_BUSHVPlusToPOW6 |\
