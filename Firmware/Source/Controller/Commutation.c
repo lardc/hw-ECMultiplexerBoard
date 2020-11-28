@@ -37,25 +37,25 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 	{
 		if(COMM_Table[i].Active)
 			if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
-					if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase || COMM_Table[i].TypePositionOfCase == IGNORE)
-						if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl || COMM_Table[i].TypeCtrl == IGNORE)
-							if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge || COMM_Table[i].TypeSignalAsLeakAge == IGNORE)
-								if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection || COMM_Table[i].SignalDirection == IGNORE)
+				if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase || COMM_Table[i].TypePositionOfCase == IGNORE)
+					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl || COMM_Table[i].TypeCtrl == IGNORE)
+						if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge || COMM_Table[i].TypeSignalAsLeakAge == IGNORE)
+							if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection || COMM_Table[i].SignalDirection == IGNORE)
+							{
+								if(i == SavedCommutation)
+									*FastSwitch = true;
+								else
 								{
-									if(i == SavedCommutation)
-										*FastSwitch = true;
-									else
-									{
-										if(SavedCommutation != MAX_COUNTER_TABLE)
-											COMM_DisconnectAllRelay();
+									if(SavedCommutation != MAX_COUNTER_TABLE)
+										COMM_DisconnectAllRelay();
 
-										*FastSwitch = false;
-										COMM_CommutateGroupOnTableNumber(i);
-										SavedCommutation = i;
-										DataTable[REG_LAST_TABLE] = i;
-									}
-									return true;
+									*FastSwitch = false;
+									COMM_CommutateGroupOnTableNumber(i);
+									SavedCommutation = i;
+									DataTable[REG_LAST_TABLE] = i;
 								}
+								return true;
+							}
 	}
 
 	DataTable[REG_LAST_TABLE] = 0;
