@@ -33,7 +33,7 @@ void COMM_DisconnectSimpleRelays();
 // Functions
 bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 {
-	for(uint8_t i = 0; i < MAX_COUNTER_TABLE; i++)
+	for(int16_t i = MAX_COUNTER_TABLE - 1; i >= 0; i--)
 	{
 		if(COMM_Table[i].Active)
 			if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
