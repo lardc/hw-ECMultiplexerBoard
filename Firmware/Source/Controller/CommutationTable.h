@@ -12,7 +12,7 @@
 
 #define MAX_NUM_RELAY				45
 
-#define MAX_COUNTER_TABLE			200
+#define MAX_COUNTER_TABLE			220
 
 #define REGISTERS_NUM				11
 
