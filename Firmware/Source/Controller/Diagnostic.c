@@ -8,7 +8,6 @@
 #include "Delay.h"
 #include "Controller.h"
 #include "DebugActions.h"
-#include "Safety.h"
 #include "Commutation.h"
 
 extern volatile DeviceState CONTROL_State;
@@ -18,7 +17,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 {
 	switch (ActionID)
 	{
-
 		case ACT_DBG_SYNC_1_IMPULSE:
 			{
 				DBGACT_GenerateImpulseLineSync1();
@@ -64,25 +62,6 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 		case ACT_DBG_BISTABLE_RELAY_OFF:
 			{
 				COMM_SwitchBistableRelay(DataTable[REG_DBG_RELAY_INDEX], false);
-			}
-			break;
-
-		case ACT_DBG_SAFETY_DISABLE:
-			{
-				if(CONTROL_State == DS_None)
-				{
-					SFTY_SwitchInterruptState(false);
-				}
-				else
-				{
-					*pUserError = ERR_OPERATION_BLOCKED;
-				}
-			}
-			break;
-
-		case ACT_DBG_SAFETY_ENABLE:
-			{
-				SFTY_SwitchInterruptState(true);
 			}
 			break;
 

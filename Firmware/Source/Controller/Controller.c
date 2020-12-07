@@ -11,7 +11,6 @@
 #include "SysConfig.h"
 #include "DebugActions.h"
 #include "Commutation.h"
-#include "Safety.h"
 #include "Diagnostic.h"
 #include "BCCIxParams.h"
 
@@ -22,20 +21,21 @@ typedef void (*FUNC_AsyncDelegate)();
 // Variables
 //
 volatile DeviceState CONTROL_State = DS_None;
-static Boolean CycleActive = false;
-
+DeviceSubState CONTROL_SubState = DSS_None;
+static Boolean CycleActive = false, SafetyActive = false;
 volatile Int64U CONTROL_TimeCounter = 0;
 
-/// Forward functions
+// Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
-void CONTROL_SetDeviceState(DeviceState NewState);
 void CONTROL_SwitchToFault(Int16U Reason);
-void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void SFTY_CheckSafety();
 void SFTY_DisconnectAndSetStopState();
+void CONTROL_ProcessSwitch();
+void CONTROL_HandleButtonsAndSensors();
+void CONTROL_StopAndDisconnect(bool IsSafetyReason);
 
 // Functions
 //
@@ -52,8 +52,8 @@ void CONTROL_Init()
 	DEVPROFILE_ResetControlSection();
 	CONTROL_ResetToDefaultState();
 
-	COMM_InitTable();			// Создание и заполнение таблиц
-
+	// Создание и заполнение таблиц
+	DataTable[REG_COMM_TABLE_SIZE] = COMM_InitTable();
 	COMM_DisconnectAllRelay();
 }
 //------------------------------------------
@@ -64,21 +64,57 @@ void CONTROL_ResetToDefaultState()
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-	DataTable[REG_BUTTON_START] = BUTT_START_IS_UNPRESSED;
+	DataTable[REG_BUTTON_START] = 0;
+	DataTable[REG_BUTTON_STOP] = 0;
+	DataTable[REG_TOP_SENSOR] = 0;
+	DataTable[REG_BOTTOM_SENSOR] = 0;
 
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
-	CONTROL_SetDeviceState(DS_None);
-}
+	COMM_DisconnectAllRelay();
 
+	CONTROL_SetDeviceState(DS_None, DSS_None);
+}
 //------------------------------------------
 
 void CONTROL_Idle()
 {
 	DEVPROFILE_ProcessRequests();
+	CONTROL_ProcessSwitch();
+	CONTROL_HandleButtonsAndSensors();
 	CONTROL_UpdateWatchDog();
-	SFTY_CheckSafety();
+}
+//------------------------------------------
+
+void CONTROL_ProcessSwitch()
+{
+	static Int64U Timeout = 0;
+
+	if(CONTROL_State == DS_InProcess)
+	{
+		switch (CONTROL_SubState)
+		{
+			case DSS_SwitchStart:
+			case DSS_SwitchStartFast:
+				{
+					Timeout = CONTROL_TimeCounter +
+							((CONTROL_SubState == DSS_SwitchStart) ? TIME_TRANSIENT_DELAY : TIME_TRANSIENT_FAST_DELAY);
+					CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchWait);
+				}
+				break;
+
+			case DSS_SwitchWait:
+				{
+					if(CONTROL_TimeCounter > Timeout)
+						CONTROL_SetDeviceState(DS_Ready, DSS_None);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
 }
 //------------------------------------------
 
@@ -90,80 +126,67 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	{
 		case ACT_ENABLE_POWER:
 			{
-				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-				if((CONTROL_State == DS_None) || (CONTROL_State == DS_Disabled))
+				if(CONTROL_State == DS_None || CONTROL_State == DS_SafetyTrig)
 				{
-					COMM_DisconnectAllRelay();
-					if(SafetyState.SafetyIsActive)
-					{
-						SFTY_SwitchInterruptState(true);
-						CONTROL_SetDeviceState(DS_SafetyEnabled);
-					}
-					else
-					{
-						SFTY_SwitchInterruptState(false);
-						CONTROL_SetDeviceState(DS_Enabled);
-					}
-
-					DataTable[REG_OP_RESULT] = OPRESULT_OK;
+					LL_LedGreen(true);
+					CONTROL_SetDeviceState(DS_Ready, DSS_None);
 				}
-				else
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+				else if(CONTROL_State != DS_Ready)
 					*pUserError = ERR_OPERATION_BLOCKED;
-				}
-				break;
 			}
+			break;
 			
 		case ACT_DISABLE_POWER:
-			DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-			if((CONTROL_State == DS_None) || (CONTROL_State == DS_Enabled) || (CONTROL_State == DS_SafetyEnabled)
-					|| (CONTROL_State == DS_SafetyDanger))
-			{
-				COMM_DisconnectAllRelay();
-				SFTY_SwitchInterruptState(false);
-				CONTROL_SetDeviceState(DS_Disabled);
-				DataTable[REG_OP_RESULT] = OPRESULT_OK;
-			}
-			else
-			{
-				if((CONTROL_State == DS_Disabled))
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_OK;
-				}
-				else
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
-				}
-			}
+			CONTROL_ResetToDefaultState();
+			break;
 			
 		case ACT_FAULT_CLEAR:
 			{
-				CONTROL_ResetToDefaultState();
-			}
-			break;
-
-		case ACT_SET_RELAY_NONE:
-			{
-				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-				COMM_DisconnectAllRelay();
-				DataTable[REG_OP_RESULT] = OPRESULT_OK;
+				if(CONTROL_State == DS_Fault)
+					CONTROL_ResetToDefaultState();
 			}
 			break;
 
 		case ACT_SET_RELAY_GROUP:
 			{
-				DataTable[REG_OP_RESULT] = OPRESULT_NONE;
-				if(COMM_ReturnResultConnectGroup())
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
 				{
-					DataTable[REG_OP_RESULT] = OPRESULT_OK;
-					*pUserError = ERR_NONE;
+					bool FastSwitch;
+					if(COMM_ReturnResultConnectGroup(&FastSwitch))
+					{
+						LL_LedRed(true);
+						if(!FastSwitch)
+							CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+						SafetyActive = DataTable[REG_ENABLE_SAFETY];
+					}
+					else
+						*pUserError = ERR_BAD_CONFIG;
 				}
 				else
-				{
-					DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SET_RELAY_GROUP_FAST_HV:
+			{
+				if(CONTROL_State == DS_Ready)
+				{
+					if(COMM_HVFastSwitch())
+						CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStartFast);
+					else
+						*pUserError = ERR_OPERATION_BLOCKED;
 				}
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			}
+			break;
+
+		case ACT_SET_RELAY_NONE:
+			{
+				if(CONTROL_State == DS_Ready || CONTROL_State == DS_SafetyTrig)
+					CONTROL_StopAndDisconnect(false);
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
 			}
 			break;
 
@@ -173,27 +196,41 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	}
 	return true;
 }
-//-----------------------------------------------
+//------------------------------------------
+
+void CONTROL_StopAndDisconnect(bool IsSafetyReason)
+{
+	SafetyActive = false;
+	LL_LedRed(false);
+	COMM_DisconnectAllRelay();
+
+	if(IsSafetyReason)
+		CONTROL_SetDeviceState(DS_SafetyTrig, DSS_None);
+	else
+		CONTROL_SetDeviceState(DS_InProcess, DSS_SwitchStart);
+}
+//------------------------------------------
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
-	CONTROL_SetDeviceState(DS_Fault);
+	CONTROL_SetDeviceState(DS_Fault, DSS_None);
 	DataTable[REG_FAULT_REASON] = Reason;
 }
 //------------------------------------------
 
-void CONTROL_SetDeviceState(DeviceState NewState)
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
+	if(NewState == DS_None)
+	{
+		LL_LedGreen(false);
+		SafetyActive = false;
+	}
+
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
-}
-//------------------------------------------
 
-void CONTROL_DelayMs(uint32_t Delay)
-{
-	uint64_t Counter = (uint64_t)CONTROL_TimeCounter + Delay;
-	while(Counter > CONTROL_TimeCounter)
-		CONTROL_UpdateWatchDog();
+	CONTROL_SubState = NewSubState;
+	DataTable[REG_SUB_STATE] = NewSubState;
 }
 //------------------------------------------
 
@@ -204,3 +241,16 @@ void CONTROL_UpdateWatchDog()
 }
 //------------------------------------------
 
+void CONTROL_HandleButtonsAndSensors()
+{
+	bool Stop, TopSensor, BottomSensor;
+
+	DataTable[REG_BUTTON_START] = LL_GetStateButtonStart();
+	DataTable[REG_BUTTON_STOP] = (Stop = LL_GetStateButtonStop());
+	DataTable[REG_TOP_SENSOR] = (TopSensor = LL_GetStateSens1());
+	DataTable[REG_BOTTOM_SENSOR] = (BottomSensor = LL_GetStateSens2());
+
+	if(SafetyActive && (Stop || !TopSensor || !BottomSensor))
+		CONTROL_StopAndDisconnect(true);
+}
+//------------------------------------------

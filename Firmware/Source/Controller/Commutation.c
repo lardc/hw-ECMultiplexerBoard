@@ -6,6 +6,7 @@
 #include "DataTable.h"
 #include "ZwSPI.h"
 #include "LowLevel.h"
+#include "Delay.h"
 
 #define SELECT_ALL_RELAY_IN_REGISTER 0xFF
 #define SPI_DATA_SIZE_IN_16BIT 6
@@ -13,10 +14,9 @@
 // Variables
 volatile static uint8_t ShiftRegistersState[REGISTERS_NUM + 1] = {0};
 volatile static uint8_t BistableBits[REGISTERS_NUM + 1] = {0};
+static uint16_t SavedCommutation = MAX_COUNTER_TABLE;
 
 // Forward functions
-bool COMM_ReturnResultConnectGroup();
-bool COMM_ReturnResultChekExistParametrs();
 void COMM_SwitchSimpleDevice(RegisterPin Device, bool State);
 void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
@@ -31,50 +31,55 @@ void COMM_DisconnectBistableRelays();
 void COMM_DisconnectSimpleRelays();
 
 // Functions
-// ----------------------------------------
-bool COMM_ReturnResultConnectGroup()
+bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 {
-	return (COMM_ReturnResultChekExistParametrs());
-}
-// ----------------------------------------
-bool COMM_ReturnResultChekExistParametrs()
-{
-	for(uint8_t i = 0; i < MAX_COUNTER_TABLE + 1; i++)
+	for(int16_t i = MAX_COUNTER_TABLE - 1; i >= 0; i--)
 	{
-		if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
-		{
-			if(DataTable[REG_TYPE_CASE] == COMM_Table[i].TypeCase)
-			{
-				if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase)
-				{
-					if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl)
-					{
-						if((DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge)
-								|| (COMM_Table[i].TypeSignalAsLeakAge == IGNORE))
-						{
-							if((DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection)
-									|| (COMM_Table[i].SignalDirection == IGNORE))
-							{
-								COMM_DisconnectAllRelay();
-								COMM_CommutateGroupOnTableNumber(i);
-								DataTable[REG_LAST_TABLE] = i;
-								return 1;
-							}
-						}
-					}
-				}
-			}
-		}
+		if(COMM_Table[i].Active)
+			if(DataTable[REG_TYPE_MEASURE] == COMM_Table[i].TypeMeasure)
+				if(DataTable[REG_TYPE_CASE] == COMM_Table[i].Case || COMM_Table[i].Case == IGNORE)
+					if(DataTable[REG_POSITION_OF_CASE] == COMM_Table[i].TypePositionOfCase || COMM_Table[i].TypePositionOfCase == IGNORE)
+						if(DataTable[REG_TYPE_SIGNAL_CTRL] == COMM_Table[i].TypeCtrl || COMM_Table[i].TypeCtrl == IGNORE)
+							if(DataTable[REG_TYPE_SIGNAL_AT_LEAKAGE] == COMM_Table[i].TypeSignalAsLeakAge || COMM_Table[i].TypeSignalAsLeakAge == IGNORE)
+								if(DataTable[REG_TYPE_POLARITY] == COMM_Table[i].SignalDirection || COMM_Table[i].SignalDirection == IGNORE)
+								{
+									if(i == SavedCommutation)
+										*FastSwitch = true;
+									else
+									{
+										if(SavedCommutation != MAX_COUNTER_TABLE)
+											COMM_DisconnectAllRelay();
+
+										*FastSwitch = false;
+										COMM_CommutateGroupOnTableNumber(i);
+										SavedCommutation = i;
+										DataTable[REG_LAST_TABLE] = i;
+									}
+									return true;
+								}
 	}
+
 	DataTable[REG_LAST_TABLE] = 0;
-	return 0;
+	return false;
 }
 // ----------------------------------------
 
 void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable)
 {
-	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay);
+	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay & ~COMM_BUSHV);
 	COMM_CommutateForTableGroupBistablRelay(COMM_Table[NumbOfTable].Relay >> BISTABLE_RELAY_START_BIT);
+}
+// ----------------------------------------
+
+bool COMM_HVFastSwitch()
+{
+	if(SavedCommutation == MAX_COUNTER_TABLE)
+		return false;
+	else
+	{
+		COMM_CommutateForTableGroupSimpleRelay(COMM_Table[SavedCommutation].Relay & COMM_BUSHV);
+		return true;
+	}
 }
 // ----------------------------------------
 
@@ -102,6 +107,8 @@ void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask)
 
 void COMM_DisconnectAllRelay()
 {
+	SavedCommutation = MAX_COUNTER_TABLE;
+
 	COMM_DisconnectSimpleRelays();
 	COMM_DisconnectBistableRelays();
 }
@@ -112,7 +119,7 @@ void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState)
 	COMM_SwitchBistableDevice(*COMM_BistableRelayArray[IndexRelay], NewState);
 
 	COMM_ApplyCommutation();
-	CONTROL_DelayMs(BISTABLE_SWITCH_DELAY);
+	DELAY_MS(BISTABLE_SWITCH_DELAY);
 	COMM_DisableCtrlOfBistableRelay();
 }
 // ----------------------------------------

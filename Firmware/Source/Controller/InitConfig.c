@@ -13,13 +13,6 @@ Boolean INITCFG_ConfigSystemClock()
 }
 //------------------------------------------------
 
-void INITCFG_ConfigInterrupt()
-{
-	EXTI_Config(EXTI_PB, EXTI_8, BOTH_TRIG, 0);	// GPIO_KEY_STOP
-	EXTI_EnableInterrupt(EXTI9_5_IRQn, 0, true);
-}
-//------------------------------------------------
-
 void INITCFG_ConfigIO()
 {
 	// Включение тактирования портов
@@ -57,19 +50,15 @@ void INITCFG_ConfigIO()
 	GPIO_SetState(GPIO_RESET, false);
 	GPIO_SetState(GPIO_SET, true);
 	GPIO_SetState(GPIO_OE, true);
-
-/*	GPIO_SetState(GPIO_LED_EXT_RED, true);
-	GPIO_SetState(GPIO_LED_EXT_GREEN, true);
-	GPIO_SetState(GPIO_LOCK_1, true);
-	GPIO_SetState(GPIO_LOCK_2, true);*/
 }
 //------------------------------------------------
+
 void INITCFG_ConfigSPI()
 {
 	SPI_Init8b(SPI1, SPI_CR1_BR, FALSE);
 }
-
 //------------------------------------------------
+
 void INITCFG_ConfigCAN()
 {
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);

@@ -7,9 +7,7 @@
 #define ACT_FAULT_CLEAR					3	// Очистка fault
 #define ACT_WARNING_CLEAR				4	// Очистка warning
 
-#define ACT_SET_RELAY_GROUP				20 	// Подключить группу реле (на основании корпуса и т.д.)
-#define ACT_SET_RELAY_NONE				21 	// Отключить все релле
-#define ACT_SET_RELAY_TABLE				22 	// Подключить группу реле по номеру таблицы
+#define ACT_SET_RELAY_TABLE				10 	// Подключить группу реле по номеру таблицы
 
 #define ACT_DBG_LED_RED_IMPULSE			50	// Одиночный импусль цепи красного индикатора
 #define ACT_DBG_LED_GREEN_IMPULSE		51	// Одиночный импусль цепи зелёного индикатора
@@ -21,8 +19,10 @@
 #define ACT_DBG_SIMPLE_RELAY_OFF 		57	// Отключить одно обычноее реле
 #define ACT_DBG_BISTABLE_RELAY_ON 		58	// Включить одно бистабильное реле
 #define ACT_DBG_BISTABLE_RELAY_OFF		59	// Отключить одно бистабильное реле
-#define ACT_DBG_SAFETY_DISABLE			60	// Отключение датчиков безопасности
-#define ACT_DBG_SAFETY_ENABLE			61	// Включение датчиков безопасности
+
+#define ACT_SET_RELAY_GROUP				100	// Подключить группу реле (на основании корпуса и т.д.)
+#define ACT_SET_RELAY_NONE				101	// Отключить все релле
+#define ACT_SET_RELAY_GROUP_FAST_HV		102	// Быстрое подключение высоковольтных реле
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -41,6 +41,7 @@
 #define REG_TYPE_SIGNAL_CTRL			133	// Тип управления
 #define REG_TYPE_SIGNAL_AT_LEAKAGE		134	// Тип сигнала при утечке
 #define REG_TYPE_POLARITY				135	// Полярность подключения
+#define REG_ENABLE_SAFETY				136	// Разрешение контура безопасности при включённой коммутации
 
 #define REG_NUM_TABLE					140	// Номер подключаемой таблици
 
@@ -53,8 +54,15 @@
 #define REG_DISABLE_REASON				194	// Регистр Disable
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-#define REG_BUTTON_START				199	// Регистр состояния кнопки старт
-#define REG_LAST_TABLE					200	// Номер последней включеной таблицы
+#define REG_SUB_STATE					198	// Регистр вспомогательного состояния
+
+#define REG_BUTTON_START				210	// Регистр состояния кнопки старт
+#define REG_BUTTON_STOP					211	// Регистр состояния кнопки стоп
+#define REG_TOP_SENSOR					212	// Регистр состояния верхнего датчика
+#define REG_BOTTOM_SENSOR				213	// Регистр состояния нижнего датчика
+
+#define REG_LAST_TABLE					250	// Номер последней включеной таблицы
+#define REG_COMM_TABLE_SIZE				251	// Размер таблицы коммутации
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
@@ -72,8 +80,6 @@
 
 // Problem
 #define PROBLEM_NONE					0
-#define PROBLEM_BUTTON_STOP				1
-#define PROBLEM_SENS					2
 
 //  Warning
 #define WARNING_NONE					0
@@ -84,9 +90,6 @@
 #define ERR_OPERATION_BLOCKED			2	//  Операция не может быть выполнена в текущем состоянии устройства
 #define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD					4	//  Неправильный ключ
-
-// Start button state
-#define BUTT_START_IS_UNPRESSED			0
-#define BUTT_START_IS_PRESSED			1
+#define ERR_BAD_CONFIG					5	//  Неверная конфигурация
 
 #endif //  __DEV_OBJ_DIC_H
