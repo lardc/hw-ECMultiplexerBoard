@@ -15,6 +15,6 @@ void COMM_DisconnectBistableRelays();
 void COMM_SwitchBistableRelay(uint8_t IndexRelay, bool NewState);
 void COMM_SwitchSimpleRelay(uint8_t IndexRelay, bool NewState);
 void COMM_DisconnectAllRelay();
-void COMM_CommutateGroupOnTableNumber(uint8_t NumbOfTable);
+void COMM_CommutateGroupOnTableNumber(uint16_t NumbOfTable);
 
 #endif // __COMMUTATOR_H
