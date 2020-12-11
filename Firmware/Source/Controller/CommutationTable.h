@@ -12,7 +12,7 @@
 
 #define MAX_NUM_RELAY				45
 
-#define MAX_COUNTER_TABLE			220
+#define MAX_COUNTER_TABLE			300
 
 #define REGISTERS_NUM				11
 
@@ -46,16 +46,17 @@
 #define CASE_I6						3
 #define CASE_B1						4
 #define CASE_B2						5
-#define CASE_B5						6
-#define CASE_V1						7
-#define CASE_V2						8
-#define CASE_V104					9
+#define CASE_B3						6
+#define CASE_B5						7
+#define CASE_V1						8
+#define CASE_V2						9
 #define CASE_V108					10
 #define CASE_L1						11
 #define CASE_L2						12
 #define CASE_D1						13
 #define CASE_D2						14
 #define CASE_D192					15
+#define CASE_V104					16
 
 #define POS_1						1
 #define POS_2						2
