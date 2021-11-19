@@ -57,6 +57,11 @@
 #define CASE_D2						14
 #define CASE_D192					15
 #define CASE_V104					16
+#define CASE_I12					17
+#define CASE_T1						18
+#define CASE_E2k					19
+#define CASE_A6						20
+#define CASE_B1a					21
 
 #define POS_1						1
 #define POS_2						2
