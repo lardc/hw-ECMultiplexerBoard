@@ -143,7 +143,7 @@ const TableItemConstraint VConstraint[DATA_TABLE_WP_START - DATA_TABLE_WR_START]
 		{0, 0, 0},																	// 128
 		{0, 0, 0},																	// 129
 		{COMM_MEAS_CURR_LEAK, COMM_CALIBRATE_CURRENT, COMM_MEAS_CURR_LEAK},			// 130
-		{CASE_A1, CASE_V104, CASE_A1},												// 131
+		{CASE_A1, CASE_B1a, CASE_A1},												// 131
 		{POS_1, POS_3, POS_1},														// 132
 		{CTRL_DC_V, CTRL_DC_V_REVERSE, CTRL_DC_V},									// 133
 		{LEAK_DC, LEAK_AC, LEAK_DC},												// 134
