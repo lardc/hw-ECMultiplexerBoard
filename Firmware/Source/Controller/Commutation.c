@@ -22,7 +22,6 @@ void COMM_SwitchBistableDevice(BistableSwitch Device, bool State);
 void COMM_ApplyCommutation();
 void COMM_DisableCtrlOfBistableRelay();
 void COMM_CleanShiftRegister();
-void COMM_CommutateGroupOnTableNumber(uint16_t NumbOfTable);
 void COMM_CommutateForTableGroupSimpleRelay(uint64_t RelayMask);
 void COMM_CommutateForTableGroupBistablRelay(uint64_t RelayMask);
 void COMM_DisconnectAllRelay();
@@ -51,7 +50,7 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 											COMM_DisconnectAllRelay();
 
 										*FastSwitch = false;
-										COMM_CommutateGroupOnTableNumber(i);
+										COMM_CommutateGroupOnTableNumber(i, false);
 										SavedCommutation = i;
 										DataTable[REG_LAST_TABLE] = i;
 									}
@@ -64,10 +63,16 @@ bool COMM_ReturnResultConnectGroup(bool *FastSwitch)
 }
 // ----------------------------------------
 
-void COMM_CommutateGroupOnTableNumber(uint16_t NumbOfTable)
+void COMM_CommutateGroupOnTableNumber(uint16_t NumbOfTable, bool IsDiag)
 {
 	COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay & ~COMM_BUSHV);
 	COMM_CommutateForTableGroupBistablRelay(COMM_Table[NumbOfTable].Relay >> BISTABLE_RELAY_START_BIT);
+
+	if(IsDiag)
+	{
+		DELAY_US(20000);
+		COMM_CommutateForTableGroupSimpleRelay(COMM_Table[SavedCommutation].Relay & COMM_BUSHV);
+	}
 }
 // ----------------------------------------
 

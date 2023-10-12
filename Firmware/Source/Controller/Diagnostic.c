@@ -80,7 +80,7 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 		case ACT_SET_RELAY_TABLE:
 			{
 				COMM_DisconnectAllRelay();
-				COMM_CommutateGroupOnTableNumber(DataTable[REG_NUM_TABLE]);
+				COMM_CommutateGroupOnTableNumber(DataTable[REG_NUM_TABLE], true);
 			}
 			break;
 
