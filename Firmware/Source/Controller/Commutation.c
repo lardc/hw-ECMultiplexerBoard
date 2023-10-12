@@ -71,7 +71,7 @@ void COMM_CommutateGroupOnTableNumber(uint16_t NumbOfTable, bool IsDiag)
 	if(IsDiag)
 	{
 		DELAY_US(20000);
-		COMM_CommutateForTableGroupSimpleRelay(COMM_Table[SavedCommutation].Relay & COMM_BUSHV);
+		COMM_CommutateForTableGroupSimpleRelay(COMM_Table[NumbOfTable].Relay & COMM_BUSHV);
 	}
 }
 // ----------------------------------------
